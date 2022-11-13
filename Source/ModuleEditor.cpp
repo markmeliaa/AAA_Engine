@@ -258,7 +258,12 @@ void ModuleEditor::DrawConfig(bool& config_w)
 
 	if (ImGui::BeginMenu("Options"))
 	{
-		if (ImGui::MenuItem("TBD"))
+		if (ImGui::MenuItem("TBD 1"))
+		{
+
+		}
+
+		if (ImGui::MenuItem("TBD 2"))
 		{
 
 		}
