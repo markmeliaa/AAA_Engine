@@ -123,4 +123,5 @@ bool ModuleRender::CleanUp()
 
 void ModuleRender::WindowResized(unsigned width, unsigned height)
 {
+	//App->window->SetWindowSize(width, height);
 }

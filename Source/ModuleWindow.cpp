@@ -102,7 +102,7 @@ void ModuleWindow::SetWindowSize(int width, int height)
 	setCurrentWidth(width);
 	setCurrentHeight(height);
 
-	App->camera->aspect = width / height;
+	App->camera->aspect = static_cast<float>(width) / static_cast<float>(height);
 }
 
 void ModuleWindow::SetWindowResizable(bool resize) const

@@ -3,6 +3,7 @@
 #include "Globals.h"
 
 #include "lib/MathGeoLib/Geometry/Frustum.h"
+#include "lib/MathGeoLib/Math/float3x3.h"
 
 class ModuleCamera : public Module
 {
@@ -17,11 +18,11 @@ public:
 	update_status PostUpdate() override;
 	bool CleanUp() override;
 
-	double aspect = 0;
+	float aspect = 0;
 	float4x4 model, view, proj;
+	float3x3 rotationDeltaMatrix;
 
 private:
-	Frustum frustum;
-
 	void SetUpFrustum();
+	Frustum frustum;
 };

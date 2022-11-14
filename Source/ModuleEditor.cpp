@@ -163,7 +163,7 @@ void ModuleEditor::DrawMainMenu(bool& demo_w) const
 		if (ImGui::BeginMenu("File"))
 		{
 			if (ImGui::MenuItem("TBD"))
-				App->RequestBrowser("https://github.com/markmeliaa/AAA__Engine");
+				App->RequestBrowser("https://github.com/markmeliaa/AAA_Engine");
 
 			ImGui::EndMenu();
 		}
@@ -171,7 +171,7 @@ void ModuleEditor::DrawMainMenu(bool& demo_w) const
 		if (ImGui::BeginMenu("Edit"))
 		{
 			if (ImGui::MenuItem("TBD"))
-				App->RequestBrowser("https://github.com/markmeliaa/AAA__Engine");
+				App->RequestBrowser("https://github.com/markmeliaa/AAA_Engine");
 
 			ImGui::EndMenu();
 		}
@@ -187,13 +187,13 @@ void ModuleEditor::DrawMainMenu(bool& demo_w) const
 			*/
 
 			if (ImGui::MenuItem("Documentation"))
-				App->RequestBrowser("https://github.com/markmeliaa/AAA__Engine/wiki");
+				App->RequestBrowser("https://github.com/markmeliaa/AAA_Engine/wiki");
 
 			if (ImGui::MenuItem("Download Latest"))
-				App->RequestBrowser("https://github.com/markmeliaa/AAA__Engine/releases");
+				App->RequestBrowser("https://github.com/markmeliaa/AAA_Engine/releases");
 
 			if (ImGui::MenuItem("Report a Bug"))
-				App->RequestBrowser("https://github.com/markmeliaa/AAA__Engine/issues");
+				App->RequestBrowser("https://github.com/markmeliaa/AAA_Engine/issues");
 
 			ImGui::EndMenu();
 		}

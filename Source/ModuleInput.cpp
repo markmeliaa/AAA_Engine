@@ -4,6 +4,7 @@
 #include "ModuleRender.h"
 #include "ModuleWindow.h"
 #include "ModuleEditor.h"
+#include "ModuleCamera.h"
 
 #include "lib/SDL/include/SDL.h"
 #include "lib/imgui-docking/imgui.h"
@@ -63,6 +64,11 @@ update_status ModuleInput::Update()
 	{
 		//App->CleanUp();
 		return UPDATE_STOP;
+	}
+
+	if (keyboard[SDL_SCANCODE_RIGHT])
+	{
+		//return UPDATE_STOP;
 	}
 
 	ImGui_ImplSDL2_ProcessEvent(&sdlEvent);
