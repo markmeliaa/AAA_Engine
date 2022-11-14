@@ -194,6 +194,7 @@
     <ClCompile Include="lib\MathGeoLib\Math\SSEMath.cpp" />
     <ClCompile Include="lib\MathGeoLib\Math\TransformOps.cpp" />
     <ClCompile Include="lib\MathGeoLib\Time\Clock.cpp" />
+    <ClCompile Include="ModuleCamera.cpp" />
     <ClCompile Include="ModuleDebugDraw.cpp" />
     <ClCompile Include="ModuleEditor.cpp" />
     <ClCompile Include="log.cpp" />
@@ -294,6 +295,7 @@
     <ClInclude Include="lib\MathGeoLib\Math\TransformOps.h" />
     <ClInclude Include="lib\MathGeoLib\Math\vec2d.h" />
     <ClInclude Include="lib\MathGeoLib\Time\Clock.h" />
+    <ClInclude Include="ModuleCamera.h" />
     <ClInclude Include="ModuleDebugDraw.h" />
     <ClInclude Include="ModuleEditor.h" />
     <ClInclude Include="Module.h" />
