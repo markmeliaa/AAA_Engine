@@ -2,6 +2,7 @@
 #include "Application.h"
 #include "ModuleWindow.h"
 #include "ModuleEditor.h"
+#include "ModuleCamera.h"
 
 ModuleWindow::ModuleWindow()
 {
@@ -100,6 +101,8 @@ void ModuleWindow::SetWindowSize(int width, int height)
 	SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED_DISPLAY(display_index), SDL_WINDOWPOS_CENTERED_DISPLAY(display_index));
 	setCurrentWidth(width);
 	setCurrentHeight(height);
+
+	App->camera->aspect = width / height;
 }
 
 void ModuleWindow::SetWindowResizable(bool resize) const

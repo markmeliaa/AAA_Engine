@@ -1,8 +1,6 @@
 #pragma once
-
 #include "Module.h"
 #include "Globals.h"
-#include "lib/MathGeoLib/Geometry/Frustum.h"
 
 class ModuleRenderExercise : public Module
 {
@@ -21,8 +19,6 @@ public:
 
 private:
 	unsigned int vbo = 0;
-	Frustum frustum;
-	float4x4 model, view, proj;
 	double aspect = 0;
 
 	unsigned CreateProgram(unsigned vtx_shader, unsigned frg_shader);

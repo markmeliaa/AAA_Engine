@@ -3,13 +3,13 @@
 #include "ModuleDebugDraw.h"
 #include "ModuleRenderExercise.h"
 #include "ModuleEditor.h"
+#include "ModuleCamera.h"
 
 #include "lib/glew-2.1.0/include/GL/glew.h"
 #include "lib/DirectXTex/DirectXTex/DirectXTex.h"
 
 ModuleRenderExercise::ModuleRenderExercise()
 {
-	aspect = BASE_SCREEN_WIDTH / BASE_SCREEN_HEIGHT;
 }
 
 ModuleRenderExercise::~ModuleRenderExercise()
@@ -31,12 +31,6 @@ bool ModuleRenderExercise::Start()
 	App->editor->log.emplace_back("Creating triangle vertex buffer object");
 	vbo = CreateQuadVBO();
 
-	SetUpFrustum();
-
-	proj = frustum.ProjectionMatrix();
-	model = float4x4::FromTRS(float3(2.0f, 0.0f, 0.0f), float4x4::RotateZ(pi / 4.0f), float3(2.0f, 1.0f, 0.0f));
-	view = frustum.ViewMatrix();
-
 	return true;
 }
 
@@ -49,7 +43,7 @@ update_status ModuleRenderExercise::Update()
 {
 	RenderTriangleVBO(vbo, program);
 	
-	App->draw->Draw(view, proj, BASE_SCREEN_WIDTH, BASE_SCREEN_HEIGHT);
+	App->draw->Draw(App->camera->view, App->camera->proj, BASE_SCREEN_WIDTH, BASE_SCREEN_HEIGHT);
 
 	return UPDATE_CONTINUE;
 }
@@ -123,9 +117,9 @@ void ModuleRenderExercise::RenderTriangleVBO(unsigned vbo, unsigned program)
 {
 	// TODO: retrieve model view and projection
 	glUseProgram(program);
-	glUniformMatrix4fv(1, 1, GL_TRUE, &proj[0][0]);
-	glUniformMatrix4fv(2, 1, GL_TRUE, &view[0][0]);	
-	glUniformMatrix4fv(3, 1, GL_TRUE, &model[0][0]);
+	glUniformMatrix4fv(1, 1, GL_TRUE, &App->camera->proj[0][0]);
+	glUniformMatrix4fv(2, 1, GL_TRUE, &App->camera->view[0][0]);	
+	glUniformMatrix4fv(3, 1, GL_TRUE, &App->camera->model[0][0]);
 
 	// TODO: bind buffer and vertex attributes
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -144,15 +138,4 @@ void ModuleRenderExercise::RenderTriangleVBO(unsigned vbo, unsigned program)
 void ModuleRenderExercise::DestroyVBO(unsigned vbo)
 {
 	glDeleteBuffers(1, &vbo);
-}
-
-void ModuleRenderExercise::SetUpFrustum()
-{
-	frustum.SetKind(FrustumSpaceGL, FrustumRightHanded);
-	frustum.SetViewPlaneDistances(0.1f, 100.0f);
-	frustum.SetHorizontalFovAndAspectRatio(DEGTORAD * 90.0f, 1.3f);
-
-	frustum.SetPos(float3(0.0f, 4.0f, 8.0f));
-	frustum.SetFront(-float3::unitZ);
-	frustum.SetUp(float3::unitY);
 }

@@ -2,6 +2,8 @@
 #include "Module.h"
 #include "Globals.h"
 
+#include "lib/MathGeoLib/Geometry/Frustum.h"
+
 class ModuleCamera : public Module
 {
 public:
@@ -15,6 +17,11 @@ public:
 	update_status PostUpdate() override;
 	bool CleanUp() override;
 
-private:
+	double aspect = 0;
+	float4x4 model, view, proj;
 
+private:
+	Frustum frustum;
+
+	void SetUpFrustum();
 };
