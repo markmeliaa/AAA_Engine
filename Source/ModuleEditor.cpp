@@ -20,7 +20,6 @@
 
 ModuleEditor::ModuleEditor()
 {
-	scroll_log = true;
 }
 
 ModuleEditor::~ModuleEditor()
@@ -126,7 +125,7 @@ update_status ModuleEditor::Update()
 
 	DrawMainMenu(demo_w);
 
-	DrawLog(log_w, scroll_log);
+	DrawLog(log_w);
 
 	DrawAbout(about_w);
 
@@ -202,7 +201,7 @@ void ModuleEditor::DrawMainMenu(bool& demo_w) const
 	}
 }
 
-void ModuleEditor::DrawLog(bool& log_w, bool& scroll) const
+void ModuleEditor::DrawLog(bool& log_w) const
 {
 	ImGui::SetNextWindowSize(ImVec2(550, 200), ImGuiCond_Always);
 	ImGui::SetNextWindowPos(ImVec2(0, App->window->getCurrentHeight() - 200), ImGuiCond_Always);
@@ -212,10 +211,9 @@ void ModuleEditor::DrawLog(bool& log_w, bool& scroll) const
 	for (int i = 0; i < log.size(); i++)
 	{
 		ImGui::TextUnformatted(log[i]);
-		if (scroll)
+		if (ImGui::GetScrollY() >= ImGui::GetScrollMaxY())
 			ImGui::SetScrollHereY(1.0f);
 	}
-	scroll = false;
 
 	ImGui::End();
 }

@@ -62,11 +62,15 @@ update_status ModuleInput::Update()
 	// Exit with ESC
 	if (keyboard[SDL_SCANCODE_ESCAPE])
 	{
-		//App->CleanUp();
 		return UPDATE_STOP;
 	}
 
 	if (keyboard[SDL_SCANCODE_RIGHT])
+	{
+		//return UPDATE_STOP;
+	}
+
+	if (keyboard[SDL_SCANCODE_LEFT])
 	{
 		//return UPDATE_STOP;
 	}

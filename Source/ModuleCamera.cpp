@@ -24,6 +24,24 @@ bool ModuleCamera::Init()
 	model = float4x4::FromTRS(float3(2.0f, 0.0f, 0.0f), float4x4::RotateZ(pi / 4.0f), float3(2.0f, 1.0f, 0.0f));
 	view = frustum.ViewMatrix();
 
+	//Send the frustum projection matrix to OpenGL direct mode would be:
+	float4x4 projectionGL = frustum.ProjectionMatrix().Transposed(); // < --Important to transpose!
+	glMatrixMode(GL_PROJECTION);
+	glLoadMatrixf(*projectionGL.v);
+
+	//Send the frustum view matrix to OpenGL direct mode would be:
+	float4x4 viewGL = float4x4(frustum.ViewMatrix()).Transposed();
+	glMatrixMode(GL_MODELVIEW);
+	glLoadMatrixf(*viewGL.v);
+
+	rotationDeltaMatrix.SetRow(0, 1.0f, 0.0f, 0.0f);
+	rotationDeltaMatrix.SetRow(1, 0.0f, 1.0f, 0.0f);
+	rotationDeltaMatrix.SetRow(2, 0.0f, 0.0f, 1.0f);
+	vec oldFront = frustum.Front().Normalized();
+	frustum.SetFront(rotationDeltaMatrix.MulDir(oldFront));
+	vec oldUp = frustum.Up().Normalized();
+	frustum.SetUp(rotationDeltaMatrix.MulDir(oldUp));
+
 	return true;
 }
 
@@ -61,22 +79,4 @@ void ModuleCamera::SetUpFrustum()
 	frustum.SetPos(float3(0.0f, 4.0f, 8.0f));
 	frustum.SetFront(-float3::unitZ);
 	frustum.SetUp(float3::unitY);
-
-	//Send the frustum projection matrix to OpenGL direct mode would be:
-	float4x4 projectionGL = frustum.ProjectionMatrix().Transposed(); // < --Important to transpose!
-	glMatrixMode(GL_PROJECTION);
-	glLoadMatrixf(*projectionGL.v);
-
-	//Send the frustum view matrix to OpenGL direct mode would be:
-	float4x4 viewGL = float4x4(frustum.ViewMatrix()).Transposed();
-	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixf(*viewGL.v);
-
-	rotationDeltaMatrix.SetRow(0, 1.0f, 0.0f, 0.0f);
-	rotationDeltaMatrix.SetRow(1, 0.0f, 1.0f, 0.0f);
-	rotationDeltaMatrix.SetRow(2, 0.0f, 0.0f, 1.0f);
-	vec oldFront = frustum.Front().Normalized();
-	frustum.SetFront(rotationDeltaMatrix.MulDir(oldFront));
-	vec oldUp = frustum.Up().Normalized();
-	frustum.SetUp(rotationDeltaMatrix.MulDir(oldUp));
 }
