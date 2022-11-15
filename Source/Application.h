@@ -37,9 +37,13 @@ public:
 
 	void RequestBrowser(const char* url);
 
-private:
+	float GetDeltaTime() const;
 
+private:
 	std::list<Module*> modules;
+
+	unsigned previous_time = 0;
+	float delta_time = 0.0f;
 };
 
 extern Application* App;

@@ -26,6 +26,4 @@ private:
 	unsigned CreateQuadVBO();
 	void RenderTriangleVBO(unsigned vbo, unsigned program);
 	void DestroyVBO(unsigned vbo);
-
-	void SetUpFrustum();
 };

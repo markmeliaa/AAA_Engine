@@ -23,18 +23,18 @@ public:
 	// Called before quitting
 	bool CleanUp() override;
 
-	void SetWindowSize(int width, int height);
-	void SetWindowResizable(bool resize) const;
-	void SetWindowBorderless(bool borders) const;
+	void SetWindowSize(const int& width, const int& height);
+	void SetWindowResizable(const bool& resize) const;
+	void SetWindowBorderless(const bool& borders) const;
 
-	void SetWindowBrightness(float brightness) const;
+	void SetWindowBrightness(const float& brightness) const;
 	float GetWindowBrightness() const;
 
 	int getCurrentWidth() const;
-	void setCurrentWidth(int& w);
+	void setCurrentWidth(const int& w);
 
 	int getCurrentHeight() const;
-	void setCurrentHeight(int& h);
+	void setCurrentHeight(const int& h);
 
 	int getMaxWindowsWidth() const;
 	int getMaxWindowsHeight() const;

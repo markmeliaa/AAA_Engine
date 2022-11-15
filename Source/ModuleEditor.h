@@ -18,7 +18,7 @@ public:
 
 	std::vector<const char*> log;
 
-	void SetMaxFps(float fps);
+	void SetMaxFps(const float& fps);
 	float GetMaxFps() const;
 
 private:

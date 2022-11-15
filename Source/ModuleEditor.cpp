@@ -471,7 +471,7 @@ void ModuleEditor::DrawConfig(bool& config_w)
 	ImGui::End();
 }
 
-void ModuleEditor::SetMaxFps(float fps)
+void ModuleEditor::SetMaxFps(const float& fps)
 {
 	max_fps = fps;
 }

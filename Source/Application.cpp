@@ -9,6 +9,8 @@
 #include "ModuleDebugDraw.h"
 #include "ModuleCamera.h"
 
+#include "SDL_timer.h"
+
 using namespace std;
 
 Application::Application()
@@ -54,14 +56,22 @@ update_status Application::Update()
 {
 	update_status ret = UPDATE_CONTINUE;
 
-	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
-		ret = (*it)->PreUpdate();
+	unsigned now_time = SDL_GetTicks();
+	if (SDL_TICKS_PASSED(now_time, previous_time))
+	{
+		unsigned delta_ms = now_time - previous_time;
+		delta_time = delta_ms / 1000.0f;
 
-	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
-		ret = (*it)->Update();
+		for (list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
+			ret = (*it)->PreUpdate();
 
-	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
-		ret = (*it)->PostUpdate();
+		for (list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
+			ret = (*it)->Update();
+
+		for (list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
+			ret = (*it)->PostUpdate();
+	}
+	previous_time = now_time;
 
 	return ret;
 }
@@ -79,4 +89,9 @@ bool Application::CleanUp()
 void Application::RequestBrowser(const char* url)
 {
 	ShellExecuteA(NULL, "open", url, NULL, NULL, SW_SHOWNORMAL);
+}
+
+float Application::GetDeltaTime() const
+{
+	return delta_time;
 }

@@ -36,11 +36,13 @@ bool ModuleInput::Init()
 		ret = false;
 	}
 
+	keyboard = SDL_GetKeyboardState(NULL);
+
 	return ret;
 }
 
 // Called every draw update
-update_status ModuleInput::Update()
+update_status ModuleInput::PreUpdate()
 {
     SDL_Event sdlEvent;
 
@@ -57,22 +59,10 @@ update_status ModuleInput::Update()
         }
     }
 
-    keyboard = SDL_GetKeyboardState(NULL);
-
 	// Exit with ESC
 	if (keyboard[SDL_SCANCODE_ESCAPE])
 	{
 		return UPDATE_STOP;
-	}
-
-	if (keyboard[SDL_SCANCODE_RIGHT])
-	{
-		//return UPDATE_STOP;
-	}
-
-	if (keyboard[SDL_SCANCODE_LEFT])
-	{
-		//return UPDATE_STOP;
 	}
 
 	ImGui_ImplSDL2_ProcessEvent(&sdlEvent);
@@ -87,4 +77,9 @@ bool ModuleInput::CleanUp()
 	App->editor->log.emplace_back("Quitting SDL input event subsystem");
 	SDL_QuitSubSystem(SDL_INIT_EVENTS);
 	return true;
+}
+
+bool ModuleInput::KeyPressed(const int& key) const
+{
+	return keyboard[key];
 }

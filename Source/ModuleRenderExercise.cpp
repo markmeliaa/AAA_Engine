@@ -4,6 +4,7 @@
 #include "ModuleRenderExercise.h"
 #include "ModuleEditor.h"
 #include "ModuleCamera.h"
+#include "ModuleWindow.h"
 
 #include "lib/glew-2.1.0/include/GL/glew.h"
 #include "lib/DirectXTex/DirectXTex/DirectXTex.h"
@@ -43,7 +44,7 @@ update_status ModuleRenderExercise::Update()
 {
 	RenderTriangleVBO(vbo, program);
 	
-	App->draw->Draw(App->camera->view, App->camera->proj, BASE_SCREEN_WIDTH, BASE_SCREEN_HEIGHT);
+	App->draw->Draw(App->camera->GetViewMatrix(), App->camera->GetProjMatrix(), App->window->getCurrentWidth(), App->window->getCurrentHeight());
 
 	return UPDATE_CONTINUE;
 }
@@ -117,9 +118,9 @@ void ModuleRenderExercise::RenderTriangleVBO(unsigned vbo, unsigned program)
 {
 	// TODO: retrieve model view and projection
 	glUseProgram(program);
-	glUniformMatrix4fv(1, 1, GL_TRUE, &App->camera->proj[0][0]);
-	glUniformMatrix4fv(2, 1, GL_TRUE, &App->camera->view[0][0]);	
-	glUniformMatrix4fv(3, 1, GL_TRUE, &App->camera->model[0][0]);
+	glUniformMatrix4fv(1, 1, GL_TRUE, &App->camera->GetProjMatrix()[0][0]);
+	glUniformMatrix4fv(2, 1, GL_TRUE, &App->camera->GetViewMatrix()[0][0]);
+	glUniformMatrix4fv(3, 1, GL_TRUE, &App->camera->GetModelMatrix()[0][0]);
 
 	// TODO: bind buffer and vertex attributes
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);

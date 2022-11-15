@@ -13,8 +13,11 @@ public:
 
 	bool Init() override;
 	//bool Start() override;
-	update_status Update() override;
+	update_status PreUpdate() override;
+	//update_status Update() override;
 	bool CleanUp() override;
+
+	bool KeyPressed(const int& key) const;
 
 private:
 	const Uint8 *keyboard = NULL;

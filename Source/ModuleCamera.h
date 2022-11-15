@@ -18,11 +18,19 @@ public:
 	update_status PostUpdate() override;
 	bool CleanUp() override;
 
-	float aspect = 0;
-	float4x4 model, view, proj;
-	float3x3 rotationDeltaMatrix;
+	float4x4 GetModelMatrix() const;
+	float4x4 GetViewMatrix() const;
+	float4x4 GetProjMatrix() const;
+
+	void SetPos(const float3& newpos);
+	void SetPos(const float& x, const float& y, const float& z);
+	void Translate(const float3& translation);
+	void Rotate(const float3x3& rotationDeltaMatrix);
 
 private:
 	void SetUpFrustum();
 	Frustum frustum;
+	float4x4 model, view, proj;
+
+	float move_speed = 5.0f;
 };

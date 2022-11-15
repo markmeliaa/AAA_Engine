@@ -94,28 +94,26 @@ bool ModuleWindow::CleanUp()
 	return true;
 }
 
-void ModuleWindow::SetWindowSize(int width, int height)
+void ModuleWindow::SetWindowSize(const int& width, const int& height)
 {
 	int display_index = SDL_GetWindowDisplayIndex(window);
 	SDL_SetWindowSize(window, width, height);
 	SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED_DISPLAY(display_index), SDL_WINDOWPOS_CENTERED_DISPLAY(display_index));
 	setCurrentWidth(width);
 	setCurrentHeight(height);
-
-	App->camera->aspect = static_cast<float>(width) / static_cast<float>(height);
 }
 
-void ModuleWindow::SetWindowResizable(bool resize) const
+void ModuleWindow::SetWindowResizable(const bool& resize) const
 {
 	resize ? SDL_SetWindowResizable(window, SDL_TRUE) : SDL_SetWindowResizable(window, SDL_FALSE);
 }
 
-void ModuleWindow::SetWindowBorderless(bool borders) const
+void ModuleWindow::SetWindowBorderless(const bool& borders) const
 {
 	borders ? SDL_SetWindowBordered(window, SDL_FALSE) : SDL_SetWindowBordered(window, SDL_TRUE);
 }
 
-void ModuleWindow::setCurrentWidth(int& w)
+void ModuleWindow::setCurrentWidth(const int& w)
 {
 	currentWidth = w;
 }
@@ -125,7 +123,7 @@ int ModuleWindow::getCurrentWidth() const
 	return currentWidth;
 }
 
-void ModuleWindow::setCurrentHeight(int& h)
+void ModuleWindow::setCurrentHeight(const int& h)
 {
 	currentHeight = h;
 }
@@ -146,7 +144,7 @@ int ModuleWindow::getMaxWindowsHeight() const
 	return max_win_size.h;
 }
 
-void ModuleWindow::SetWindowBrightness(float brightness) const
+void ModuleWindow::SetWindowBrightness(const float& brightness) const
 {
 	SDL_SetWindowBrightness(window, brightness);
 }
