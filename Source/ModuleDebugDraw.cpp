@@ -595,6 +595,14 @@ bool ModuleDebugDraw::Start()
     return true;
 }
 
+update_status ModuleDebugDraw::Update()
+{
+    dd::axisTriad(float4x4::identity, 0.1f, 1.0f);
+    dd::xzSquareGrid(-10, 10, 0.0f, 1.0f, dd::colors::White);
+
+    return UPDATE_CONTINUE;
+}
+
 bool ModuleDebugDraw::CleanUp()
 {
     dd::shutdown();
@@ -610,9 +618,6 @@ void ModuleDebugDraw::Draw(const float4x4& view, const float4x4& proj, unsigned 
     implementation->width     = width;
     implementation->height    = height;
     implementation->mvpMatrix = proj * view;
-
-    dd::axisTriad(float4x4::identity, 0.1f, 1.0f);
-    dd::xzSquareGrid(-10, 10, 0.0f, 1.0f, dd::colors::White);
 
     dd::flush();
 }

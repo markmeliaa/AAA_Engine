@@ -59,6 +59,12 @@ update_status ModuleCamera::Update()
 		Translate(frustum.WorldRight().Normalized() * move_speed * delta_time);
 	}
 
+	if (App->input->KeyPressed(SDL_SCANCODE_LEFT))
+	{
+		App->editor->log.emplace_back("Left arrow pressed!!");
+		Translate(frustum.WorldRight().Normalized() * -move_speed * delta_time);
+	}
+
 	return UPDATE_CONTINUE;
 }
 
