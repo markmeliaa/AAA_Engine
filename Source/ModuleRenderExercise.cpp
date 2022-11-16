@@ -42,7 +42,7 @@ update_status ModuleRenderExercise::PreUpdate()
 
 update_status ModuleRenderExercise::Update()
 {
-	RenderTriangleVBO(vbo, program);
+	RenderQuadVBO(vbo, program);
 	
 	App->draw->Draw(App->camera->GetViewMatrix(), App->camera->GetProjMatrix(), App->window->getCurrentWidth(), App->window->getCurrentHeight());
 
@@ -114,7 +114,7 @@ unsigned ModuleRenderExercise::CreateQuadVBO()
 }
 
 // This function must be called each frame for drawing the triangle
-void ModuleRenderExercise::RenderTriangleVBO(unsigned vbo, unsigned program)
+void ModuleRenderExercise::RenderQuadVBO(unsigned vbo, unsigned program)
 {
 	// TODO: retrieve model view and projection
 	glUseProgram(program);

@@ -18,6 +18,10 @@ public:
 	bool CleanUp() override;
 
 	bool KeyPressed(const int& key) const;
+	bool GetRightInput() const;
+	bool GetLeftInput() const;
+	bool GetUpInput() const;
+	bool GetDownInput() const;
 
 private:
 	const Uint8 *keyboard = NULL;

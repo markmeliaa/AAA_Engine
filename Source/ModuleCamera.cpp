@@ -53,16 +53,28 @@ update_status ModuleCamera::Update()
 {
 	float delta_time = App->GetDeltaTime();
 
-	if (App->input->KeyPressed(SDL_SCANCODE_RIGHT))
+	if (App->input->GetRightInput())
 	{
-		App->editor->log.emplace_back("Right arrow pressed!!");
+		//App->editor->log.emplace_back("Right arrow pressed!!");
 		Translate(frustum.WorldRight().Normalized() * move_speed * delta_time);
 	}
 
-	if (App->input->KeyPressed(SDL_SCANCODE_LEFT))
+	if (App->input->GetLeftInput())
 	{
-		App->editor->log.emplace_back("Left arrow pressed!!");
+		//App->editor->log.emplace_back("Left arrow pressed!!");
 		Translate(frustum.WorldRight().Normalized() * -move_speed * delta_time);
+	}
+
+	if (App->input->GetUpInput())
+	{
+		//App->editor->log.emplace_back("Left arrow pressed!!");
+		Translate(frustum.Up().Normalized() * move_speed * delta_time);
+	}
+
+	if (App->input->GetDownInput())
+	{
+		//App->editor->log.emplace_back("Left arrow pressed!!");
+		Translate(frustum.Up().Normalized() * -move_speed * delta_time);
 	}
 
 	return UPDATE_CONTINUE;
@@ -96,12 +108,12 @@ float4x4 ModuleCamera::GetModelMatrix() const
 
 float4x4 ModuleCamera::GetViewMatrix() const
 {
-	return view;
+	return frustum.ViewMatrix();
 }
 
 float4x4 ModuleCamera::GetProjMatrix() const
 {
-	return proj;
+	return frustum.ProjectionMatrix();
 }
 
 void ModuleCamera::SetPos(const float3& newpos)

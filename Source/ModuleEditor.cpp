@@ -126,10 +126,8 @@ update_status ModuleEditor::Update()
 	DrawMainMenu(demo_w);
 
 	DrawLog(log_w);
-
-	DrawAbout(about_w);
-
 	DrawConfig(config_w);
+	DrawAbout(about_w);
 
 	return UPDATE_CONTINUE;
 }
