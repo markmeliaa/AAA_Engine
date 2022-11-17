@@ -81,6 +81,11 @@ update_status ModuleInput::PreUpdate()
 					mouseButtons[sdlEvent.button.button] = MouseButtonStates::UP;
 				}
 				break;
+
+			case SDL_MOUSEWHEEL:
+				mouseWheel.y = (float)sdlEvent.wheel.y;
+				mouseWheelMoving = true;
+				break;
         }
     }
 
@@ -126,4 +131,19 @@ bool ModuleInput::GetMouseButton(const int& button) const
 float2 ModuleInput::GetMouseInput() const
 {
 	return mouseCurrentPos;
+}
+
+float2 ModuleInput::GetMouseWheelInput() const
+{
+	return mouseWheel;
+}
+
+bool ModuleInput::GetMouseWheel() const
+{
+	return mouseWheelMoving;
+}
+
+void ModuleInput::SetMouseWheel(const bool& wheel)
+{
+	mouseWheelMoving = wheel;
 }

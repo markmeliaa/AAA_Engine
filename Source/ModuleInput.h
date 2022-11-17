@@ -31,6 +31,9 @@ public:
 	bool GetKey(const int& key) const;
 	bool GetMouseButton(const int& button) const;
 	float2 GetMouseInput() const;
+	float2 GetMouseWheelInput() const;
+	bool GetMouseWheel() const;
+	void SetMouseWheel(const bool& wheel);
 
 private:
 	const Uint8 *keyboard = NULL;
@@ -38,4 +41,7 @@ private:
 
 	float2 mouseLastPos = { 0, 0 };
 	float2 mouseCurrentPos = { 0, 0 };
+
+	bool mouseWheelMoving = false;
+	float2 mouseWheel = { 0,0 };
 };

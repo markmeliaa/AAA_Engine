@@ -120,6 +120,14 @@ update_status ModuleCamera::Update()
 		Rotate(float3x3::RotateAxisAngle(frustum.WorldRight().Normalized(), mouse_input.y * rotate_speed_inc * DEGTORAD * delta_time));
 	}
 
+	// Move camera onwards and backwards with Mouse Wheel
+	if (App->input->GetMouseWheel())
+	{
+		Translate(frustum.Front().Normalized() * move_speed_inc * delta_time * (App->input->GetMouseWheelInput().y * 100));
+		App->input->SetMouseWheel(false);
+	}
+
+
 	// Reset position with F
 	if (App->input->GetKey(SDL_SCANCODE_F))
 	{

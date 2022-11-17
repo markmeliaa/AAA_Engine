@@ -38,5 +38,5 @@ private:
 	float4x4 model, view, proj;
 
 	float move_speed = 4.0f;
-	float rotate_speed = 25.0f;
+	float rotate_speed = 15.0f;
 };
