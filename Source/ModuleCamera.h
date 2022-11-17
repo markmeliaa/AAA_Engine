@@ -22,6 +22,11 @@ public:
 	float4x4 GetViewMatrix() const;
 	float4x4 GetProjMatrix() const;
 
+	void SetFov(const float& fov);
+	float GetFov() const;
+	void SetAspectRatio(const float& aspect);
+	float GetAspectRatio() const;
+
 	void SetPos(const float3& newpos);
 	void SetPos(const float& x, const float& y, const float& z);
 	void Translate(const float3& translation);

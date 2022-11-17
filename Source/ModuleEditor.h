@@ -3,6 +3,8 @@
 #include "Globals.h"
 #include <vector>
 
+#define NUMBERWINDOWS 3
+
 class ModuleEditor : public Module
 {
 public:
@@ -21,14 +23,18 @@ public:
 	void SetMaxFps(const float& fps);
 	float GetMaxFps() const;
 
+	bool IsAnyWindowsFocused() const;
+
 private:
 	int loops = 0;
 	float max_fps = 60;
 	float fps_log[85] = {};
 	float milisec_log[85] = {};
 
+	bool WindowsFocused[NUMBERWINDOWS] = { false };
+
 	void DrawMainMenu(bool& demo_w) const;
-	void DrawLog(bool& log_w) const;
-	void DrawAbout(bool& about_w) const;
+	void DrawLog(bool& log_w);
+	void DrawAbout(bool& about_w);
 	void DrawConfig(bool& config_w);
 };

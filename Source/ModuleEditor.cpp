@@ -5,6 +5,8 @@
 #include "ModuleEditor.h"
 #include "ModuleWindow.h"
 #include "ModuleRender.h"
+#include "ModuleCamera.h"
+#include "ModuleInput.h"
 
 #include "lib/imgui-docking/imgui.h"
 #include "lib/imgui-docking/imgui_impl_sdl.h"
@@ -120,8 +122,8 @@ update_status ModuleEditor::Update()
 {
 	static bool demo_w = false;
 	static bool log_w = false;
-	static bool about_w = false;
 	static bool config_w = false;
+	static bool about_w = false;
 
 	DrawMainMenu(demo_w);
 
@@ -199,7 +201,7 @@ void ModuleEditor::DrawMainMenu(bool& demo_w) const
 	}
 }
 
-void ModuleEditor::DrawLog(bool& log_w) const
+void ModuleEditor::DrawLog(bool& log_w)
 {
 	ImGui::SetNextWindowSize(ImVec2(550, 200), ImGuiCond_Always);
 	ImGui::SetNextWindowPos(ImVec2(0, App->window->getCurrentHeight() - 200), ImGuiCond_Always);
@@ -213,10 +215,15 @@ void ModuleEditor::DrawLog(bool& log_w) const
 			ImGui::SetScrollHereY(1.0f);
 	}
 
+	if (ImGui::IsWindowFocused())
+		WindowsFocused[0] = true;
+	else
+		WindowsFocused[0] = false;
+
 	ImGui::End();
 }
 
-void ModuleEditor::DrawAbout(bool& about_w) const
+void ModuleEditor::DrawAbout(bool& about_w)
 {
 	ImGui::SetNextWindowSize(ImVec2(385, 265), ImGuiCond_Always);
 	ImGui::SetNextWindowPos(ImVec2(0, 18), ImGuiCond_Always);
@@ -241,6 +248,11 @@ void ModuleEditor::DrawAbout(bool& about_w) const
 
 	ImGui::Text("Copyright (c) 2022 Marc Alcon Melia");
 	ImGui::Separator();
+
+	if (ImGui::IsWindowFocused())
+		WindowsFocused[1] = true;
+	else
+		WindowsFocused[1] = false;
 
 	ImGui::End();
 }
@@ -466,6 +478,22 @@ void ModuleEditor::DrawConfig(bool& config_w)
 		ImGui::Separator();
 	}
 
+	if (ImGui::CollapsingHeader("Camera Settings"))
+	{
+		static float cam_fov = App->camera->GetFov();
+		ImGui::SliderFloat("Camera FOV", &cam_fov, 0.001f, 3.0f);
+		App->camera->SetFov(cam_fov);
+
+		static float aspect_rat = App->camera->GetAspectRatio();
+		ImGui::SliderFloat("Aspect Ratio", &aspect_rat, 0.0f, 6.0f);
+		App->camera->SetAspectRatio(aspect_rat);
+	}
+
+	if (ImGui::IsWindowFocused())
+		WindowsFocused[2] = true;
+	else
+		WindowsFocused[2] = false;
+
 	ImGui::End();
 }
 
@@ -477,4 +505,15 @@ void ModuleEditor::SetMaxFps(const float& fps)
 float ModuleEditor::GetMaxFps() const
 {
 	return max_fps;
+}
+
+bool ModuleEditor::IsAnyWindowsFocused() const
+{
+	for (int i = 0; i < sizeof(WindowsFocused) / sizeof(bool); i++)
+	{
+		if (WindowsFocused[i])
+			return true;
+	}
+
+	return false;
 }

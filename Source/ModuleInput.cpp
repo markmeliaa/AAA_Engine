@@ -53,9 +53,34 @@ update_status ModuleInput::PreUpdate()
             case SDL_QUIT:
                 return UPDATE_STOP;
             case SDL_WINDOWEVENT:
-                if (sdlEvent.window.event == SDL_WINDOWEVENT_RESIZED || sdlEvent.window.event == SDL_WINDOWEVENT_SIZE_CHANGED)
-                    App->renderer->WindowResized(sdlEvent.window.data1, sdlEvent.window.data2);
-                break;
+				if (sdlEvent.window.windowID == SDL_GetWindowID(App->window->window))
+				{
+					switch (sdlEvent.window.event)
+					{
+						case SDL_WINDOWEVENT_RESIZED:
+							App->editor->log.emplace_back("Windows resized!!!");
+							App->window->SetWindowSize(sdlEvent.window.data1, sdlEvent.window.data2);
+							break;
+						case SDL_WINDOWEVENT_CLOSE:
+							return UPDATE_STOP;
+					}
+				}
+
+				break;
+
+			case SDL_MOUSEBUTTONDOWN:
+				if (!App->editor->IsAnyWindowsFocused() && mouseButtons[sdlEvent.button.button] != MouseButtonStates::DOWN)
+				{
+					mouseButtons[sdlEvent.button.button] = MouseButtonStates::DOWN;
+				}
+				break;
+
+			case SDL_MOUSEBUTTONUP:
+				if (mouseButtons[sdlEvent.button.button] != MouseButtonStates::UP)
+				{
+					mouseButtons[sdlEvent.button.button] = MouseButtonStates::UP;
+				}
+				break;
         }
     }
 
@@ -66,6 +91,15 @@ update_status ModuleInput::PreUpdate()
 	}
 
 	ImGui_ImplSDL2_ProcessEvent(&sdlEvent);
+
+	int mouseX = 0;
+	int mouseY = 0;
+	SDL_GetGlobalMouseState(&mouseX, &mouseY);
+	mouseCurrentPos.x = (float)mouseX - mouseLastPos.x;
+	mouseCurrentPos.y = (float)mouseY - mouseLastPos.y;
+
+	mouseLastPos.x = (float)mouseX;
+	mouseLastPos.y = (float)mouseY;
 
     return UPDATE_CONTINUE;
 }
@@ -82,4 +116,14 @@ bool ModuleInput::CleanUp()
 bool ModuleInput::GetKey(const int& key) const
 {
 	return keyboard[key];
+}
+
+bool ModuleInput::GetMouseButton(const int& button) const
+{
+	return mouseButtons[button] == MouseButtonStates::DOWN;
+}
+
+float2 ModuleInput::GetMouseInput() const
+{
+	return mouseCurrentPos;
 }
