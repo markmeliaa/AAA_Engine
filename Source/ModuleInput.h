@@ -17,11 +17,7 @@ public:
 	//update_status Update() override;
 	bool CleanUp() override;
 
-	bool KeyPressed(const int& key) const;
-	bool GetRightInput() const;
-	bool GetLeftInput() const;
-	bool GetUpInput() const;
-	bool GetDownInput() const;
+	bool GetKey(const int& key) const;
 
 private:
 	const Uint8 *keyboard = NULL;

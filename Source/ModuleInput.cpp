@@ -79,27 +79,7 @@ bool ModuleInput::CleanUp()
 	return true;
 }
 
-bool ModuleInput::KeyPressed(const int& key) const
+bool ModuleInput::GetKey(const int& key) const
 {
 	return keyboard[key];
-}
-
-bool ModuleInput::GetRightInput() const
-{
-	return keyboard[SDL_SCANCODE_RIGHT] || keyboard[SDL_SCANCODE_D];
-}
-
-bool ModuleInput::GetLeftInput() const
-{
-	return keyboard[SDL_SCANCODE_LEFT] || keyboard[SDL_SCANCODE_A];
-}
-
-bool ModuleInput::GetUpInput() const
-{
-	return keyboard[SDL_SCANCODE_UP] || keyboard[SDL_SCANCODE_W];
-}
-
-bool ModuleInput::GetDownInput() const
-{
-	return keyboard[SDL_SCANCODE_DOWN] || keyboard[SDL_SCANCODE_S];
 }

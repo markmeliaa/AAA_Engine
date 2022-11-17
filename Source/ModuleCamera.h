@@ -32,5 +32,6 @@ private:
 	Frustum frustum;
 	float4x4 model, view, proj;
 
-	float move_speed = 5.0f;
+	float move_speed = 4.0f;
+	float rotate_speed = 25.0f;
 };

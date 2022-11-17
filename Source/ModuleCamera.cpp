@@ -26,11 +26,6 @@ bool ModuleCamera::Init()
 	model = float4x4::FromTRS(float3(2.0f, 0.0f, 0.0f), float4x4::RotateZ(pi / 4.0f), float3(2.0f, 1.0f, 0.0f));
 	view = frustum.ViewMatrix();
 
-	float4x4 projectionGL = frustum.ProjectionMatrix().Transposed(); // < --Important to transpose!
-	//Send the frustum projection matrix to OpenGLdirect mode would be:
-	glMatrixMode(GL_PROJECTION);
-	glLoadMatrixf(*projectionGL.v);
-
 	return true;
 }
 
@@ -41,41 +36,75 @@ bool ModuleCamera::Start()
 
 update_status ModuleCamera::PreUpdate()
 {
-	//Send the frustum view matrix to OpenGL direct mode would be:
-	float4x4 viewGL = float4x4(frustum.ViewMatrix()).Transposed();
-	glMatrixMode(GL_MODELVIEW);
-	glLoadMatrixf(*viewGL.v);
-
 	return UPDATE_CONTINUE;
 }
 
 update_status ModuleCamera::Update()
 {
 	float delta_time = App->GetDeltaTime();
+	float move_speed_inc = move_speed;
+	float rotate_speed_inc = rotate_speed;
 
-	if (App->input->GetRightInput())
+	// Increase speed with LShift
+	if (App->input->GetKey(SDL_SCANCODE_LSHIFT))
 	{
-		//App->editor->log.emplace_back("Right arrow pressed!!");
-		Translate(frustum.WorldRight().Normalized() * move_speed * delta_time);
+		move_speed_inc *= 2;
+		rotate_speed_inc *= 2;
 	}
 
-	if (App->input->GetLeftInput())
+	// Move camera around (translations) with WASD + QE
+	if (App->input->GetKey(SDL_SCANCODE_A))
 	{
-		//App->editor->log.emplace_back("Left arrow pressed!!");
-		Translate(frustum.WorldRight().Normalized() * -move_speed * delta_time);
+		Translate(frustum.WorldRight().Normalized() * -move_speed_inc * delta_time);
 	}
 
-	if (App->input->GetUpInput())
+	if (App->input->GetKey(SDL_SCANCODE_D))
 	{
-		//App->editor->log.emplace_back("Left arrow pressed!!");
-		Translate(frustum.Up().Normalized() * move_speed * delta_time);
+		Translate(frustum.WorldRight().Normalized() * move_speed_inc * delta_time);
 	}
 
-	if (App->input->GetDownInput())
+	if (App->input->GetKey(SDL_SCANCODE_Q))
 	{
-		//App->editor->log.emplace_back("Left arrow pressed!!");
-		Translate(frustum.Up().Normalized() * -move_speed * delta_time);
+		Translate(frustum.Up().Normalized() * move_speed_inc * delta_time);
 	}
+
+	if (App->input->GetKey(SDL_SCANCODE_E))
+	{
+		Translate(frustum.Up().Normalized() * -move_speed_inc * delta_time);
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_W))
+	{
+		Translate(frustum.Front().Normalized() * move_speed_inc * delta_time);
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_S))
+	{
+		Translate(frustum.Front().Normalized() * -move_speed_inc * delta_time);
+	}
+
+	// Move camera around (rotations) with Arrow Keys
+	if (App->input->GetKey(SDL_SCANCODE_LEFT))
+	{
+		Rotate(float3x3::RotateY(rotate_speed_inc * DEGTORAD * delta_time));
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_RIGHT))
+	{
+		Rotate(float3x3::RotateY(-rotate_speed_inc * DEGTORAD * delta_time));
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_UP))
+	{
+		Rotate(float3x3::RotateX(rotate_speed_inc * DEGTORAD * delta_time));
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_DOWN))
+	{
+		Rotate(float3x3::RotateX(-rotate_speed_inc * DEGTORAD * delta_time));
+	}
+
+	// Move camera around (rotations) with Mouse Control
 
 	return UPDATE_CONTINUE;
 }
@@ -128,7 +157,7 @@ void ModuleCamera::SetPos(const float& x, const float& y, const float& z)
 
 void ModuleCamera::Translate(const float3& translation)
 {
-	frustum.SetPos(frustum.Pos() + translation);
+	SetPos(frustum.Pos() + translation);
 }
 
 void ModuleCamera::Rotate(const float3x3& rotationDeltaMatrix)
