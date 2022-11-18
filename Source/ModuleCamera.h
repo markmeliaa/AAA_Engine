@@ -36,7 +36,7 @@ public:
 
 private:
 	void SetUpFrustum();
-	Frustum frustum;
+	Frustum* frustum;
 	float4x4 model, view, proj;
 
 	float move_speed = 4.0f;
