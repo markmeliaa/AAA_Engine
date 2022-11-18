@@ -105,12 +105,14 @@ update_status ModuleCamera::Update()
 
 	if (App->input->GetKey(SDL_SCANCODE_UP))
 	{
-		Rotate(float3x3::RotateAxisAngle(frustum.WorldRight().Normalized(), rotate_speed_inc * DEGTORAD * delta_time));
+		if (frustum.Front().y < 0.9f)
+			Rotate(float3x3::RotateAxisAngle(frustum.WorldRight().Normalized(), rotate_speed_inc * DEGTORAD * delta_time));
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_DOWN))
 	{
-		Rotate(float3x3::RotateAxisAngle(frustum.WorldRight().Normalized(), -rotate_speed_inc * DEGTORAD * delta_time));
+		if (frustum.Front().y > -0.9f)
+			Rotate(float3x3::RotateAxisAngle(frustum.WorldRight().Normalized(), -rotate_speed_inc * DEGTORAD * delta_time));
 	}
 
 	// Move camera around (rotations) with Mouse Control
@@ -135,21 +137,13 @@ update_status ModuleCamera::Update()
 		frustum.SetUp(float3::unitY);
 	}
 
+	D_LOG(std::to_string(frustum.Front().y).c_str());
+
 	return UPDATE_CONTINUE;
 }
 
 update_status ModuleCamera::PostUpdate()
 {
-	if (App->window->getCurrentWidth() >= App->window->getCurrentHeight())
-		SetAspectRatio((float)App->window->getCurrentWidth() / (float)App->window->getCurrentHeight());
-	else
-		SetAspectRatio((float)App->window->getCurrentHeight() / (float)App->window->getCurrentWidth());
-
-	SetHorFov(GetAspectRatio() * 0.9f);
-	SetVerFov(GetAspectRatio() * 0.9f);
-
-	D_LOG(std::to_string(GetAspectRatio()).c_str());
-
 	return UPDATE_CONTINUE;
 }
 
@@ -162,7 +156,7 @@ void ModuleCamera::SetUpFrustum()
 {
 	frustum.SetKind(FrustumSpaceGL, FrustumRightHanded);
 	frustum.SetViewPlaneDistances(0.1f, 1000.0f);
-	frustum.SetHorizontalFovAndAspectRatio(DEGTORAD * 100.0f, 1.3f);
+	frustum.SetHorizontalFovAndAspectRatio(DEGTORAD * 90.0f, 1.3f);
 
 	SetPos(0.0f, 4.0f, 8.0f);
 	frustum.SetFront(-float3::unitZ);
