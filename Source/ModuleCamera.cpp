@@ -127,7 +127,6 @@ update_status ModuleCamera::Update()
 		App->input->SetMouseWheel(false);
 	}
 
-
 	// Reset position with F
 	if (App->input->GetKey(SDL_SCANCODE_F))
 	{
@@ -141,6 +140,16 @@ update_status ModuleCamera::Update()
 
 update_status ModuleCamera::PostUpdate()
 {
+	if (App->window->getCurrentWidth() >= App->window->getCurrentHeight())
+		SetAspectRatio((float)App->window->getCurrentWidth() / (float)App->window->getCurrentHeight());
+	else
+		SetAspectRatio((float)App->window->getCurrentHeight() / (float)App->window->getCurrentWidth());
+
+	SetHorFov(GetAspectRatio() * 0.9f);
+	SetVerFov(GetAspectRatio() * 0.9f);
+
+	D_LOG(std::to_string(GetAspectRatio()).c_str());
+
 	return UPDATE_CONTINUE;
 }
 
@@ -175,14 +184,24 @@ float4x4 ModuleCamera::GetProjMatrix() const
 	return frustum.ProjectionMatrix();
 }
 
-void ModuleCamera::SetFov(const float& fov)
+void ModuleCamera::SetHorFov(const float& fov)
 {
 	frustum.SetHorizontalFovAndAspectRatio(fov, frustum.AspectRatio());
 }
 
-float ModuleCamera::GetFov() const
+void ModuleCamera::SetVerFov(const float& fov)
+{
+	frustum.SetVerticalFovAndAspectRatio(fov, frustum.AspectRatio());
+}
+
+float ModuleCamera::GetHorFov() const
 {
 	return frustum.HorizontalFov();
+}
+
+float ModuleCamera::GetVerFov() const
+{
+	return frustum.VerticalFov();
 }
 
 void ModuleCamera::SetAspectRatio(const float& aspect)

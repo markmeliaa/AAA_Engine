@@ -478,6 +478,7 @@ void ModuleEditor::DrawConfig(bool& config_w)
 		ImGui::Separator();
 	}
 
+	/*
 	if (ImGui::CollapsingHeader("Camera Settings"))
 	{
 		static float cam_fov = App->camera->GetFov();
@@ -488,6 +489,7 @@ void ModuleEditor::DrawConfig(bool& config_w)
 		ImGui::SliderFloat("Aspect Ratio", &aspect_rat, 0.0f, 6.0f);
 		App->camera->SetAspectRatio(aspect_rat);
 	}
+	*/
 
 	if (ImGui::IsWindowFocused())
 		WindowsFocused[2] = true;

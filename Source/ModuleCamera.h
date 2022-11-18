@@ -22,8 +22,10 @@ public:
 	float4x4 GetViewMatrix() const;
 	float4x4 GetProjMatrix() const;
 
-	void SetFov(const float& fov);
-	float GetFov() const;
+	void SetHorFov(const float& fov);
+	void SetVerFov(const float& fov);
+	float GetHorFov() const;
+	float GetVerFov() const;
 	void SetAspectRatio(const float& aspect);
 	float GetAspectRatio() const;
 
@@ -38,5 +40,5 @@ private:
 	float4x4 model, view, proj;
 
 	float move_speed = 4.0f;
-	float rotate_speed = 15.0f;
+	float rotate_speed = 25.0f;
 };
