@@ -120,10 +120,10 @@ update_status ModuleEditor::PreUpdate()
 
 update_status ModuleEditor::Update()
 {
-	static bool demo_w = false;
-	static bool log_w = false;
-	static bool config_w = false;
-	static bool about_w = false;
+	static bool demo_w = true;
+	static bool log_w = true;
+	static bool config_w = true;
+	static bool about_w = true;
 
 	DrawMainMenu(demo_w);
 
@@ -203,6 +203,14 @@ void ModuleEditor::DrawMainMenu(bool& demo_w) const
 
 void ModuleEditor::DrawLog(bool& log_w)
 {
+	if (ImGui::IsWindowFocused())
+		WindowsFocused[0] = true;
+	else
+		WindowsFocused[0] = false;
+
+	if (!log_w)
+		return;
+
 	ImGui::SetNextWindowSize(ImVec2(550, 200), ImGuiCond_Always);
 	ImGui::SetNextWindowPos(ImVec2(0, App->window->getCurrentHeight() - 200), ImGuiCond_Always);
 	//ImGui::SetNextWindowBgAlpha(0.75f);
@@ -215,16 +223,20 @@ void ModuleEditor::DrawLog(bool& log_w)
 			ImGui::SetScrollHereY(1.0f);
 	}
 
-	if (ImGui::IsWindowFocused())
-		WindowsFocused[0] = true;
-	else
-		WindowsFocused[0] = false;
-
 	ImGui::End();
 }
 
 void ModuleEditor::DrawAbout(bool& about_w)
 {
+
+	if (ImGui::IsWindowFocused())
+		WindowsFocused[1] = true;
+	else
+		WindowsFocused[1] = false;
+
+	if (!about_w)
+		return;
+
 	ImGui::SetNextWindowSize(ImVec2(385, 265), ImGuiCond_Always);
 	ImGui::SetNextWindowPos(ImVec2(0, 18), ImGuiCond_Always);
 	//ImGui::SetNextWindowBgAlpha(0.75f);
@@ -249,16 +261,20 @@ void ModuleEditor::DrawAbout(bool& about_w)
 	ImGui::Text("Copyright (c) 2022 Marc Alcon Melia");
 	ImGui::Separator();
 
-	if (ImGui::IsWindowFocused())
-		WindowsFocused[1] = true;
-	else
-		WindowsFocused[1] = false;
-
 	ImGui::End();
 }
 
 void ModuleEditor::DrawConfig(bool& config_w)
 {
+
+	if (ImGui::IsWindowFocused())
+		WindowsFocused[2] = true;
+	else
+		WindowsFocused[2] = false;
+
+	if (!config_w)
+		return;
+
 	ImGui::SetNextWindowSize(ImVec2(400, 400), ImGuiCond_Always);
 	ImGui::SetNextWindowPos(ImVec2(App->window->getCurrentWidth() - 400, 18), ImGuiCond_Always);
 	//ImGui::SetNextWindowBgAlpha(0.75f);
@@ -490,12 +506,6 @@ void ModuleEditor::DrawConfig(bool& config_w)
 		App->camera->SetAspectRatio(aspect_rat);
 	}
 	*/
-
-	if (ImGui::IsWindowFocused())
-		WindowsFocused[2] = true;
-	else
-		WindowsFocused[2] = false;
-
 	ImGui::End();
 }
 
