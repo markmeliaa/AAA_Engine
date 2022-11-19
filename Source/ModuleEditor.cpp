@@ -120,16 +120,11 @@ update_status ModuleEditor::PreUpdate()
 
 update_status ModuleEditor::Update()
 {
-	static bool demo_w = true;
-	static bool log_w = true;
-	static bool config_w = true;
-	static bool about_w = true;
+	DrawMainMenu();
 
-	DrawMainMenu(demo_w);
-
-	DrawLog(log_w);
-	DrawConfig(config_w);
-	DrawAbout(about_w);
+	DrawLog();
+	DrawConfig();
+	DrawAbout();
 
 	return UPDATE_CONTINUE;
 }
@@ -155,7 +150,7 @@ bool ModuleEditor::CleanUp()
 	return true;
 }
 
-void ModuleEditor::DrawMainMenu(bool& demo_w) const
+void ModuleEditor::DrawMainMenu()
 {
 	if (ImGui::BeginMainMenuBar())
 	{
@@ -175,16 +170,22 @@ void ModuleEditor::DrawMainMenu(bool& demo_w) const
 			ImGui::EndMenu();
 		}
 
+		if (ImGui::BeginMenu("Window"))
+		{
+			if (ImGui::MenuItem("Console Log", NULL, &log_w))
+				log_w = true;
+
+			if (ImGui::MenuItem("Configuration", NULL, &config_w))
+				config_w = true;
+
+			if (ImGui::MenuItem("About the Engine", NULL, &about_w))
+				about_w = true;
+
+			ImGui::EndMenu();
+		}
+
 		if (ImGui::BeginMenu("Help"))
 		{
-			/*
-			if (ImGui::MenuItem("ImGui Demo"))
-			{
-				ImGui::ShowDemoWindow(&demo_w);
-				demo_w = !demo_w;
-			}
-			*/
-
 			if (ImGui::MenuItem("Documentation"))
 				App->RequestBrowser("https://github.com/markmeliaa/AAA_Engine/wiki");
 
@@ -201,15 +202,13 @@ void ModuleEditor::DrawMainMenu(bool& demo_w) const
 	}
 }
 
-void ModuleEditor::DrawLog(bool& log_w)
+void ModuleEditor::DrawLog()
 {
-	if (ImGui::IsWindowFocused())
-		WindowsFocused[0] = true;
-	else
-		WindowsFocused[0] = false;
-
 	if (!log_w)
+	{
+		WindowsFocused[0] = false;
 		return;
+	}
 
 	ImGui::SetNextWindowSize(ImVec2(550, 200), ImGuiCond_Always);
 	ImGui::SetNextWindowPos(ImVec2(0, App->window->getCurrentHeight() - 200), ImGuiCond_Always);
@@ -223,19 +222,18 @@ void ModuleEditor::DrawLog(bool& log_w)
 			ImGui::SetScrollHereY(1.0f);
 	}
 
+	WindowsFocused[0] = ImGui::IsWindowFocused();
+
 	ImGui::End();
 }
 
-void ModuleEditor::DrawAbout(bool& about_w)
+void ModuleEditor::DrawAbout()
 {
-
-	if (ImGui::IsWindowFocused())
-		WindowsFocused[1] = true;
-	else
-		WindowsFocused[1] = false;
-
 	if (!about_w)
+	{
+		WindowsFocused[1] = false;
 		return;
+	}
 
 	ImGui::SetNextWindowSize(ImVec2(385, 265), ImGuiCond_Always);
 	ImGui::SetNextWindowPos(ImVec2(0, 18), ImGuiCond_Always);
@@ -261,39 +259,23 @@ void ModuleEditor::DrawAbout(bool& about_w)
 	ImGui::Text("Copyright (c) 2022 Marc Alcon Melia");
 	ImGui::Separator();
 
+	WindowsFocused[1] = ImGui::IsWindowFocused();
+
 	ImGui::End();
 }
 
-void ModuleEditor::DrawConfig(bool& config_w)
+void ModuleEditor::DrawConfig()
 {
-
-	if (ImGui::IsWindowFocused())
-		WindowsFocused[2] = true;
-	else
-		WindowsFocused[2] = false;
-
 	if (!config_w)
+	{
+		WindowsFocused[2] = false;
 		return;
+	}
 
 	ImGui::SetNextWindowSize(ImVec2(400, 400), ImGuiCond_Always);
 	ImGui::SetNextWindowPos(ImVec2(App->window->getCurrentWidth() - 400, 18), ImGuiCond_Always);
 	//ImGui::SetNextWindowBgAlpha(0.75f);
 	ImGui::Begin("Configuration", &config_w);
-
-	if (ImGui::BeginMenu("Options"))
-	{
-		if (ImGui::MenuItem("TBD 1"))
-		{
-
-		}
-
-		if (ImGui::MenuItem("TBD 2"))
-		{
-
-		}
-
-		ImGui::EndMenu();
-	}
 
 	if (ImGui::CollapsingHeader("Application"))
 	{
@@ -506,6 +488,9 @@ void ModuleEditor::DrawConfig(bool& config_w)
 		App->camera->SetAspectRatio(aspect_rat);
 	}
 	*/
+
+	WindowsFocused[2] = ImGui::IsWindowFocused();
+
 	ImGui::End();
 }
 

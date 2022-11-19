@@ -31,10 +31,14 @@ private:
 	float fps_log[85] = {};
 	float milisec_log[85] = {};
 
+	bool log_w = true;
+	bool config_w = true;
+	bool about_w = true;
+
 	bool WindowsFocused[NUMBERWINDOWS] = { false };
 
-	void DrawMainMenu(bool& demo_w) const;
-	void DrawLog(bool& log_w);
-	void DrawAbout(bool& about_w);
-	void DrawConfig(bool& config_w);
+	void DrawMainMenu();
+	void DrawLog();
+	void DrawAbout();
+	void DrawConfig();
 };
