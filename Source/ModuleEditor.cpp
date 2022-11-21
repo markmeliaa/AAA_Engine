@@ -11,6 +11,7 @@
 #include <list>
 #include "PanelConsole.h"
 #include "PanelAbout.h"
+#include "PanelConfig.h"
 
 #include "lib/imgui-docking/imgui.h"
 #include "lib/imgui-docking/imgui_impl_sdl.h"
@@ -30,6 +31,7 @@ ModuleEditor::ModuleEditor()
 {
 	panels.push_back(console = new PanelConsole());
 	panels.push_back(about = new PanelAbout());
+	panels.push_back(config = new PanelConfig());
 }
 
 ModuleEditor::~ModuleEditor()
@@ -133,9 +135,6 @@ update_status ModuleEditor::Update()
 	for (list<Panel*>::iterator it = panels.begin(); it != panels.end(); ++it)
 		(*it)->Draw();
 
-	DrawConfig();
-	//DrawAbout();
-
 	return UPDATE_CONTINUE;
 }
 
@@ -185,8 +184,8 @@ void ModuleEditor::DrawMainMenu()
 			if (ImGui::MenuItem("Console Log", NULL, &console->visible))
 				console->visible = true;
 
-			if (ImGui::MenuItem("Configuration", NULL, &config_w))
-				config_w = true;
+			if (ImGui::MenuItem("Configuration", NULL, &config->visible))
+				config->visible = true;
 
 			if (ImGui::MenuItem("About the Engine", NULL, &about->visible))
 				about->visible = true;
@@ -212,283 +211,12 @@ void ModuleEditor::DrawMainMenu()
 	}
 }
 
-void ModuleEditor::DrawAbout()
-{
-	/*
-	if (!about_w)
-	{
-		WindowsFocused[1] = false;
-		return;
-	}
-	*/
-
-	ImGui::SetNextWindowSize(ImVec2(385, 265), ImGuiCond_Always);
-	ImGui::SetNextWindowPos(ImVec2(0, 18), ImGuiCond_Always);
-	//ImGui::SetNextWindowBgAlpha(0.75f);
-	ImGui::Begin("About...", &about_w);
-
-	ImGui::Text(TITLE);
-	ImGui::Text("- You get the name? This is not (yet) a real engine");
-	ImGui::Text("");
-	ImGui::Text("Developed by Mark Meliaa.");
-	ImGui::Separator();
-
-	ImGui::Text("So far, the libraries being used are:");
-	ImGui::Text("	- SDL");
-	ImGui::Text("	- GLEW");
-	ImGui::Text("	- MathLib");
-	ImGui::Text("	- ImGui");
-	ImGui::Text("	- DebugDraw");
-	ImGui::Text("	- DirectXTex");
-	ImGui::Text("	- Assimp");
-	ImGui::Separator();
-
-	ImGui::Text("Copyright (c) 2022 Marc Alcon Melia");
-	ImGui::Separator();
-
-	//WindowsFocused[1] = ImGui::IsWindowFocused();
-
-	ImGui::End();
-}
-
-void ModuleEditor::DrawConfig()
-{
-	/*
-	if (!config_w)
-	{
-		WindowsFocused[2] = false;
-		return;
-	}
-	*/
-
-	ImGui::SetNextWindowSize(ImVec2(400, 400), ImGuiCond_Always);
-	ImGui::SetNextWindowPos(ImVec2(App->window->getCurrentWidth() - 400, 18), ImGuiCond_Always);
-	//ImGui::SetNextWindowBgAlpha(0.75f);
-	ImGui::Begin("Configuration", &config_w);
-
-	if (ImGui::CollapsingHeader("Application"))
-	{
-		static char eng_name[128] = "\"UNREAL\" engine";
-		ImGui::InputText("Engine name", eng_name, IM_ARRAYSIZE(eng_name));
-
-		static char org_name[128] = "UPC Tech Talent";
-		ImGui::InputText("Organization", org_name, IM_ARRAYSIZE(org_name));
-
-		static int maax_fps = GetMaxFps();
-		ImGui::SliderInt("Max FPS", &maax_fps, 0, 60);
-		SetMaxFps(maax_fps);
-
-		ImGui::Text("Limit framerate:");
-		ImGui::SameLine();
-		std::string s = std::to_string((int)GetMaxFps());
-		char const* char_fps = s.c_str();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), char_fps);
-
-
-		ImGui::PlotHistogram("##framerate", fps_log, IM_ARRAYSIZE(fps_log), 0, "Framerate", 0.0f, 100.0f, ImVec2(385.0f, 100.0f));
-		ImGui::PlotHistogram("##milliseconds", milisec_log, IM_ARRAYSIZE(milisec_log), 0, "Milliseconds", 0.0f, 40.0f, ImVec2(385.0f, 100.0f));
-	}
-
-	if (ImGui::CollapsingHeader("Window"))
-	{
-		static bool win_fullscreen = false;
-		static bool win_resizable = false;
-		static bool win_borderless = false;
-		static bool win_fullscreen_dsktp = false;
-
-		static float bright = App->window->GetWindowBrightness();
-		if (ImGui::SliderFloat("Brightness", &bright, 0.0f, 1.0f))
-			App->window->SetWindowBrightness(bright);
-
-		static int width = App->window->getCurrentWidth();
-		ImGui::SliderInt("Screen Width", &width, 0, App->window->getMaxWindowsWidth());
-
-		if (!ImGui::IsAnyMouseDown())
-		{
-			if (width < 820)
-				width = 820;
-
-			App->window->setCurrentWidth(width);
-
-			if (width < App->window->getMaxWindowsWidth())
-			{
-				win_fullscreen = false;
-				win_fullscreen_dsktp = false;
-			}
-		}
-
-		static int height = App->window->getCurrentHeight();
-		ImGui::SliderInt("Screen Height", &height, 0, App->window->getMaxWindowsHeight());
-
-		if (!ImGui::IsAnyMouseDown())
-		{
-			if (height < 685)
-				height = 685;
-			App->window->setCurrentHeight(height);
-
-			if (height < App->window->getMaxWindowsHeight())
-			{
-				win_fullscreen = false;
-				win_fullscreen_dsktp = false;
-			}
-
-			else if (width == App->window->getMaxWindowsWidth() && height == App->window->getMaxWindowsHeight())
-			{
-				if (!win_fullscreen && !win_fullscreen_dsktp)
-					win_fullscreen = true;
-			}
-		}
-
-		App->window->SetWindowSize(App->window->getCurrentWidth(), App->window->getCurrentHeight());
-
-		ImGui::Text("Refresh rate: ");
-		ImGui::SameLine();
-		std::string s = std::to_string((int)ImGui::GetIO().Framerate);
-		char const* framerate = s.c_str();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), framerate);
-
-		if (ImGui::Checkbox("FULLSCREEN     ", &win_fullscreen))
-		{
-			if (win_fullscreen)
-			{
-				width = App->window->getMaxWindowsWidth();
-				height = App->window->getMaxWindowsHeight();
-				App->window->SetWindowSize(App->window->getMaxWindowsWidth(), App->window->getMaxWindowsHeight());
-			}
-
-			else
-			{
-				width = BASE_SCREEN_WIDTH;
-				height = BASE_SCREEN_HEIGHT;
-				App->window->SetWindowSize(BASE_SCREEN_WIDTH, BASE_SCREEN_HEIGHT);
-			}
-		}
-		ImGui::SameLine();
-		if (ImGui::Checkbox("RESIZABLE", &win_resizable))
-		{
-			App->window->SetWindowResizable(win_resizable);
-		}
-
-		if (ImGui::Checkbox("BORDERLESS     ", &win_borderless))
-		{
-			App->window->SetWindowBorderless(win_borderless);
-		}
-		ImGui::SameLine();
-		if (ImGui::Checkbox("FULLSCREEN DSKTP", &win_fullscreen_dsktp))
-		{
-			if (win_fullscreen_dsktp)
-			{
-				width = App->window->getMaxWindowsWidth();
-				height = App->window->getMaxWindowsHeight();
-				App->window->SetWindowSize(App->window->getMaxWindowsWidth(), App->window->getMaxWindowsHeight());
-			}
-
-			else
-			{
-				width = BASE_SCREEN_WIDTH;
-				height = BASE_SCREEN_HEIGHT;
-				App->window->SetWindowSize(BASE_SCREEN_WIDTH, BASE_SCREEN_HEIGHT);
-			}
-		}
-	}
-
-	if (ImGui::CollapsingHeader("Hardware"))
-	{
-		SDL_version sdl_ver;
-		SDL_VERSION(&sdl_ver);
-
-		ImGui::Text("SDL version:");
-		ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%u.%u.%u", sdl_ver.major, sdl_ver.minor, sdl_ver.patch);
-		ImGui::Separator();
-
-		ImGui::Text("CPUs:");
-		ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%d", SDL_GetCPUCount());
-		ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "(Cache: %dkb)", SDL_GetCPUCacheLineSize());
-
-		ImGui::Text("System RAM:");
-		ImGui::SameLine();
-		float gb = static_cast<float>(SDL_GetSystemRAM());
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%.1fGb", (gb * 0.00104858));
-
-		ImGui::Text("Caps:");
-		ImGui::SameLine();
-		std::vector<const char*> caps;
-		if (SDL_Has3DNow())
-			caps.emplace_back("3DNow");
-
-		if (SDL_HasAltiVec())
-			caps.emplace_back("AltiVec");
-
-		if (SDL_HasAVX())
-			caps.emplace_back("AVX");
-
-		if (SDL_HasAVX2())
-			caps.emplace_back("AVX2");
-
-		if (SDL_HasMMX())
-			caps.emplace_back("MMX");
-
-		if (SDL_HasRDTSC())
-			caps.emplace_back("RDTSC");
-
-		if (SDL_HasSSE())
-			caps.emplace_back("SSE");
-
-		if (SDL_HasSSE2())
-			caps.emplace_back("SSE2");
-
-		if (SDL_HasSSE3())
-			caps.emplace_back("SSE3");
-
-		if (SDL_HasSSE41())
-			caps.emplace_back("SSE41");
-
-		if (SDL_HasSSE42())
-			caps.emplace_back("SSE42");
-
-		for (int i = 0; i < caps.size(); i++)
-		{
-			if (i == 5)
-				ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), caps[i]);
-
-			else
-			{
-				ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), caps[i]);
-				ImGui::SameLine();
-			}
-
-		}
-		ImGui::Text("");
-		ImGui::Separator();
-	}
-
-	/*
-	if (ImGui::CollapsingHeader("Camera Settings"))
-	{
-		static float cam_fov = App->camera->GetFov();
-		ImGui::SliderFloat("Camera FOV", &cam_fov, 0.001f, 3.0f);
-		App->camera->SetFov(cam_fov);
-
-		static float aspect_rat = App->camera->GetAspectRatio();
-		ImGui::SliderFloat("Aspect Ratio", &aspect_rat, 0.0f, 6.0f);
-		App->camera->SetAspectRatio(aspect_rat);
-	}
-	*/
-
-	//WindowsFocused[2] = ImGui::IsWindowFocused();
-
-	ImGui::End();
-}
-
-void ModuleEditor::SetMaxFps(const float& fps)
+void ModuleEditor::SetMaxFps(const int& fps)
 {
 	max_fps = fps;
 }
 
-float ModuleEditor::GetMaxFps() const
+int ModuleEditor::GetMaxFps() const
 {
 	return max_fps;
 }
@@ -496,7 +224,10 @@ float ModuleEditor::GetMaxFps() const
 bool ModuleEditor::IsAnyWindowsFocused()
 {
 	for (list<Panel*>::iterator it = panels.begin(); it != panels.end(); ++it)
-		return (*it)->getFocused();
+	{
+		if ((*it)->getFocused())
+			return true;
+	}
 
 	return false;
 }

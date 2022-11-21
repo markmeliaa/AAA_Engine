@@ -9,6 +9,7 @@
 
 class PanelConsole;
 class PanelAbout;
+class PanelConfig;
 
 class ModuleEditor : public Module
 {
@@ -25,19 +26,21 @@ public:
 
 	std::vector<const char*> log;
 
-	void SetMaxFps(const float& fps);
-	float GetMaxFps() const;
+	void SetMaxFps(const int& fps);
+	int GetMaxFps() const;
 
 	bool IsAnyWindowsFocused();
 
 	PanelConsole* console = nullptr;
 	PanelAbout* about = nullptr;
+	PanelConfig* config = nullptr;
+
+	float fps_log[85] = {};
+	float milisec_log[85] = {};
 
 private:
 	int loops = 0;
 	float max_fps = 60;
-	float fps_log[85] = {};
-	float milisec_log[85] = {};
 
 	std::list<Panel*> panels;
 
@@ -46,6 +49,4 @@ private:
 	bool about_w = true;
 
 	void DrawMainMenu();
-	void DrawAbout();
-	void DrawConfig();
 };

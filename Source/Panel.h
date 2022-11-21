@@ -14,12 +14,12 @@ public:
 
 	bool getFocused() const
 	{
-		return focused;
+		return this->focused;
 	}
 
 	void setFocused(const bool& f)
 	{
-		focused = f;
+		this->focused = f;
 	}
 
 	bool visible = true;
