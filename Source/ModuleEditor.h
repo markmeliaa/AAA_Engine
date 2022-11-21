@@ -1,9 +1,14 @@
 #pragma once
+
+#include <list>
+#include <vector>
 #include "Module.h"
 #include "Globals.h"
-#include <vector>
 
-#define NUMBERWINDOWS 3
+#include "Panel.h"
+
+class PanelConsole;
+class PanelAbout;
 
 class ModuleEditor : public Module
 {
@@ -23,7 +28,10 @@ public:
 	void SetMaxFps(const float& fps);
 	float GetMaxFps() const;
 
-	bool IsAnyWindowsFocused() const;
+	bool IsAnyWindowsFocused();
+
+	PanelConsole* console = nullptr;
+	PanelAbout* about = nullptr;
 
 private:
 	int loops = 0;
@@ -31,14 +39,13 @@ private:
 	float fps_log[85] = {};
 	float milisec_log[85] = {};
 
+	std::list<Panel*> panels;
+
 	bool log_w = true;
 	bool config_w = true;
 	bool about_w = true;
 
-	bool WindowsFocused[NUMBERWINDOWS] = { false };
-
 	void DrawMainMenu();
-	void DrawLog();
 	void DrawAbout();
 	void DrawConfig();
 };

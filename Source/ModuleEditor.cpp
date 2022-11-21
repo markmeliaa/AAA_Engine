@@ -8,6 +8,10 @@
 #include "ModuleCamera.h"
 #include "ModuleInput.h"
 
+#include <list>
+#include "PanelConsole.h"
+#include "PanelAbout.h"
+
 #include "lib/imgui-docking/imgui.h"
 #include "lib/imgui-docking/imgui_impl_sdl.h"
 #include "lib/imgui-docking/imgui_impl_opengl3.h"
@@ -20,8 +24,12 @@
 #endif
 #include <string>
 
+using namespace std;
+
 ModuleEditor::ModuleEditor()
 {
+	panels.push_back(console = new PanelConsole());
+	panels.push_back(about = new PanelAbout());
 }
 
 ModuleEditor::~ModuleEditor()
@@ -122,9 +130,11 @@ update_status ModuleEditor::Update()
 {
 	DrawMainMenu();
 
-	DrawLog();
+	for (list<Panel*>::iterator it = panels.begin(); it != panels.end(); ++it)
+		(*it)->Draw();
+
 	DrawConfig();
-	DrawAbout();
+	//DrawAbout();
 
 	return UPDATE_CONTINUE;
 }
@@ -172,14 +182,14 @@ void ModuleEditor::DrawMainMenu()
 
 		if (ImGui::BeginMenu("Window"))
 		{
-			if (ImGui::MenuItem("Console Log", NULL, &log_w))
-				log_w = true;
+			if (ImGui::MenuItem("Console Log", NULL, &console->visible))
+				console->visible = true;
 
 			if (ImGui::MenuItem("Configuration", NULL, &config_w))
 				config_w = true;
 
-			if (ImGui::MenuItem("About the Engine", NULL, &about_w))
-				about_w = true;
+			if (ImGui::MenuItem("About the Engine", NULL, &about->visible))
+				about->visible = true;
 
 			ImGui::EndMenu();
 		}
@@ -202,38 +212,15 @@ void ModuleEditor::DrawMainMenu()
 	}
 }
 
-void ModuleEditor::DrawLog()
-{
-	if (!log_w)
-	{
-		WindowsFocused[0] = false;
-		return;
-	}
-
-	ImGui::SetNextWindowSize(ImVec2(550, 200), ImGuiCond_Always);
-	ImGui::SetNextWindowPos(ImVec2(0, App->window->getCurrentHeight() - 200), ImGuiCond_Always);
-	//ImGui::SetNextWindowBgAlpha(0.75f);
-	ImGui::Begin("Console Log", &log_w);
-
-	for (int i = 0; i < log.size(); i++)
-	{
-		ImGui::TextUnformatted(log[i]);
-		if (ImGui::GetScrollY() >= ImGui::GetScrollMaxY())
-			ImGui::SetScrollHereY(1.0f);
-	}
-
-	WindowsFocused[0] = ImGui::IsWindowFocused();
-
-	ImGui::End();
-}
-
 void ModuleEditor::DrawAbout()
 {
+	/*
 	if (!about_w)
 	{
 		WindowsFocused[1] = false;
 		return;
 	}
+	*/
 
 	ImGui::SetNextWindowSize(ImVec2(385, 265), ImGuiCond_Always);
 	ImGui::SetNextWindowPos(ImVec2(0, 18), ImGuiCond_Always);
@@ -259,18 +246,20 @@ void ModuleEditor::DrawAbout()
 	ImGui::Text("Copyright (c) 2022 Marc Alcon Melia");
 	ImGui::Separator();
 
-	WindowsFocused[1] = ImGui::IsWindowFocused();
+	//WindowsFocused[1] = ImGui::IsWindowFocused();
 
 	ImGui::End();
 }
 
 void ModuleEditor::DrawConfig()
 {
+	/*
 	if (!config_w)
 	{
 		WindowsFocused[2] = false;
 		return;
 	}
+	*/
 
 	ImGui::SetNextWindowSize(ImVec2(400, 400), ImGuiCond_Always);
 	ImGui::SetNextWindowPos(ImVec2(App->window->getCurrentWidth() - 400, 18), ImGuiCond_Always);
@@ -308,8 +297,8 @@ void ModuleEditor::DrawConfig()
 		static bool win_fullscreen_dsktp = false;
 
 		static float bright = App->window->GetWindowBrightness();
-		ImGui::SliderFloat("Brightness", &bright, 0.0f, 1.0f);
-		App->window->SetWindowBrightness(bright);
+		if (ImGui::SliderFloat("Brightness", &bright, 0.0f, 1.0f))
+			App->window->SetWindowBrightness(bright);
 
 		static int width = App->window->getCurrentWidth();
 		ImGui::SliderInt("Screen Width", &width, 0, App->window->getMaxWindowsWidth());
@@ -489,7 +478,7 @@ void ModuleEditor::DrawConfig()
 	}
 	*/
 
-	WindowsFocused[2] = ImGui::IsWindowFocused();
+	//WindowsFocused[2] = ImGui::IsWindowFocused();
 
 	ImGui::End();
 }
@@ -504,13 +493,10 @@ float ModuleEditor::GetMaxFps() const
 	return max_fps;
 }
 
-bool ModuleEditor::IsAnyWindowsFocused() const
+bool ModuleEditor::IsAnyWindowsFocused()
 {
-	for (int i = 0; i < sizeof(WindowsFocused) / sizeof(bool); i++)
-	{
-		if (WindowsFocused[i])
-			return true;
-	}
+	for (list<Panel*>::iterator it = panels.begin(); it != panels.end(); ++it)
+		return (*it)->getFocused();
 
 	return false;
 }
