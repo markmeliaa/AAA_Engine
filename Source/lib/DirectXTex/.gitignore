@@ -17,7 +17,6 @@
 *.VC.db
 *.nupkg
 .vs
-[Bb]in
 packages
 /DDSView/Shaders/*.inc
 /DDSView/Shaders/*.pdb
