@@ -13,6 +13,7 @@ class ModuleRenderExercise;
 class ModuleDebugDraw;
 class ModuleEditor;
 class ModuleCamera;
+class ModuleTexture;
 
 class Application
 {
@@ -34,6 +35,7 @@ public:
 	ModuleDebugDraw* draw = nullptr;
 	ModuleEditor* editor = nullptr;
 	ModuleCamera* camera = nullptr;
+	ModuleTexture* texture = nullptr;
 
 	void RequestBrowser(const char* url);
 

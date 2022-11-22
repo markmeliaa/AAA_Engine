@@ -8,6 +8,7 @@
 #include "ModuleEditor.h"
 #include "ModuleDebugDraw.h"
 #include "ModuleCamera.h"
+#include "ModuleTexture.h"
 
 #include "SDL_timer.h"
 
@@ -24,6 +25,7 @@ Application::Application()
 	modules.push_back(draw = new ModuleDebugDraw());
 	modules.push_back(editor = new ModuleEditor());
 	modules.push_back(camera = new ModuleCamera());
+	modules.push_back(texture = new ModuleTexture());
 
 	modules.push_back(renderer = new ModuleRender());
 }

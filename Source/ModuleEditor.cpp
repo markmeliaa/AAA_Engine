@@ -13,8 +13,6 @@
 #include "PanelAbout.h"
 #include "PanelConfig.h"
 
-#include "DirectXTex.h"
-
 #include "lib/imgui-docking/imgui.h"
 #include "lib/imgui-docking/imgui_impl_sdl.h"
 #include "lib/imgui-docking/imgui_impl_opengl3.h"
