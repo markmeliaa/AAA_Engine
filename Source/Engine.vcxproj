@@ -99,13 +99,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>.\lib\imgui-docking;.\lib\glew-2.1.0\include;.\lib\SDL\include;.\lib\MathGeoLib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\lib\imgui-docking;.\lib\glew-2.1.0\include;.\lib\SDL\include;.\lib\MathGeoLib;.\lib\DirectXTex\DirectXTex</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>./lib/glew-2.1.0/lib/Release/x64</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32.lib;opengl32.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>./lib/glew-2.1.0/lib/Release/x64;.\lib\DirectXTex\DirectXTex\Bin\Desktop_2019_Win10\x64\Debug</AdditionalLibraryDirectories>
+      <AdditionalDependencies>DirectXTex.lib;glew32.lib;opengl32.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -132,15 +132,15 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>.\lib\imgui-docking;.\lib\glew-2.1.0\include;.\lib\SDL\include;.\lib\MathGeoLib</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\lib\imgui-docking;.\lib\glew-2.1.0\include;.\lib\SDL\include;.\lib\MathGeoLib;.\lib\DirectXTex\DirectXTex</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>./lib/glew-2.1.0/lib/Release/x64</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32.lib;opengl32.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>./lib/glew-2.1.0/lib/Release/x64;.\lib\DirectXTex\DirectXTex\Bin\Desktop_2019_Win10\x64\Debug</AdditionalLibraryDirectories>
+      <AdditionalDependencies>DirectXTex.lib;glew32.lib;opengl32.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>

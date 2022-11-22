@@ -13,6 +13,8 @@
 #include "PanelAbout.h"
 #include "PanelConfig.h"
 
+#include "DirectXTex.h"
+
 #include "lib/imgui-docking/imgui.h"
 #include "lib/imgui-docking/imgui_impl_sdl.h"
 #include "lib/imgui-docking/imgui_impl_opengl3.h"
@@ -168,6 +170,27 @@ bool ModuleEditor::CleanUp()
 	return ret;
 }
 
+void ModuleEditor::SetMaxFps(const int& fps)
+{
+	max_fps = fps;
+}
+
+int ModuleEditor::GetMaxFps() const
+{
+	return max_fps;
+}
+
+bool ModuleEditor::IsAnyWindowsFocused()
+{
+	for (list<Panel*>::iterator it = panels.begin(); it != panels.end(); ++it)
+	{
+		if ((*it)->getFocused())
+			return true;
+	}
+
+	return false;
+}
+
 void ModuleEditor::DrawMainMenu()
 {
 	if (ImGui::BeginMainMenuBar())
@@ -193,11 +216,11 @@ void ModuleEditor::DrawMainMenu()
 			if (ImGui::MenuItem("Console Log", NULL, &console->visible))
 				console->visible = true;
 
-			if (ImGui::MenuItem("Configuration", NULL, &config->visible))
-				config->visible = true;
-
 			if (ImGui::MenuItem("About the Engine", NULL, &about->visible))
 				about->visible = true;
+
+			if (ImGui::MenuItem("Configuration", NULL, &config->visible))
+				config->visible = true;
 
 			ImGui::EndMenu();
 		}
@@ -218,25 +241,4 @@ void ModuleEditor::DrawMainMenu()
 
 		ImGui::EndMainMenuBar();
 	}
-}
-
-void ModuleEditor::SetMaxFps(const int& fps)
-{
-	max_fps = fps;
-}
-
-int ModuleEditor::GetMaxFps() const
-{
-	return max_fps;
-}
-
-bool ModuleEditor::IsAnyWindowsFocused()
-{
-	for (list<Panel*>::iterator it = panels.begin(); it != panels.end(); ++it)
-	{
-		if ((*it)->getFocused())
-			return true;
-	}
-
-	return false;
 }
