@@ -23,6 +23,7 @@ bool ModuleCamera::Init()
 	D_LOG("Create the camera");
 	App->editor->log.emplace_back("Creating the camera");
 
+	aspectRatio = (float)App->window->getCurrentWidth() / (float)App->window->getCurrentHeight();
 	SetUpFrustum();
 
 	proj = frustum->ProjectionMatrix();
@@ -45,6 +46,9 @@ update_status ModuleCamera::PreUpdate()
 
 update_status ModuleCamera::Update()
 {
+	aspectRatio = (float)App->window->getCurrentWidth() / (float)App->window->getCurrentHeight();
+	frustum->SetHorizontalFovAndAspectRatio(frustum->HorizontalFov(), aspectRatio);
+
 	if (App->editor->IsAnyWindowsFocused())
 		return UPDATE_CONTINUE;
 
@@ -138,6 +142,8 @@ update_status ModuleCamera::Update()
 		frustum->SetUp(float3::unitY);
 	}
 
+	D_LOG(std::to_string(App->window->getCurrentWidth()).c_str());
+
 	return UPDATE_CONTINUE;
 }
 
@@ -156,9 +162,9 @@ void ModuleCamera::SetUpFrustum()
 {
 	frustum->SetKind(FrustumSpaceGL, FrustumRightHanded);
 	frustum->SetViewPlaneDistances(0.1f, 1000.0f);
-	frustum->SetHorizontalFovAndAspectRatio(DEGTORAD * 90.0f, 1.3f);
+	frustum->SetHorizontalFovAndAspectRatio(DEGTORAD * 90.0f, aspectRatio);
 
-	SetPos(0.0f, 4.0f, 8.0f);
+	SetPos(0.0f, 3.0f, 10);
 	frustum->SetFront(-float3::unitZ);
 	frustum->SetUp(float3::unitY);
 }
