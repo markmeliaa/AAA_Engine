@@ -8,4 +8,5 @@ public:
 	~PanelConsole();
 
 	void Draw() override;
+	//bool CleanUp() override;
 };

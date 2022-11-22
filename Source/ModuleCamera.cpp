@@ -142,8 +142,6 @@ update_status ModuleCamera::Update()
 		frustum->SetUp(float3::unitY);
 	}
 
-	D_LOG(std::to_string(App->window->getCurrentWidth()).c_str());
-
 	return UPDATE_CONTINUE;
 }
 

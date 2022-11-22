@@ -36,6 +36,10 @@ ModuleEditor::ModuleEditor()
 
 ModuleEditor::~ModuleEditor()
 {
+	for (list<Panel*>::iterator it = panels.begin(); it != panels.end(); ++it)
+	{
+		delete* it;
+	}
 }
 
 bool ModuleEditor::Init()
@@ -156,7 +160,12 @@ bool ModuleEditor::CleanUp()
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();
 
-	return true;
+	bool ret = true;
+
+	for (list<Panel*>::reverse_iterator it = panels.rbegin(); it != panels.rend() && ret; ++it)
+		ret = (*it)->CleanUp();
+
+	return ret;
 }
 
 void ModuleEditor::DrawMainMenu()

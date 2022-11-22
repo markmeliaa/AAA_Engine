@@ -128,7 +128,6 @@ void ModuleWindow::setCurrentHeight(const int& h)
 	currentHeight = h;
 }
 
-
 int ModuleWindow::getCurrentHeight() const
 {
 	return currentHeight;

@@ -12,15 +12,13 @@ public:
 
 	virtual void Draw() = 0;
 
-	bool getFocused() const
+	virtual bool CleanUp()
 	{
-		return this->focused;
+		return true;
 	}
 
-	void setFocused(const bool& f)
-	{
-		this->focused = f;
-	}
+	bool getFocused() const { return focused; }
+	void setFocused(const bool& f) { focused = f; }
 
 	bool visible = true;
 
