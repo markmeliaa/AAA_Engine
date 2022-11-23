@@ -15,6 +15,8 @@ public:
 	update_status PostUpdate() override;
 	bool CleanUp() override;
 
+	void CheckImageMetadata();
+
 	int GetMinFilter() const;
 	void SetMinFilter();
 
@@ -38,7 +40,6 @@ private:
 	unsigned CreateProgram(unsigned vtx_shader, unsigned frg_shader);
 
 	void CreateQuadBuffers();
-	void CheckImageMetadata();
 	void RenderQuad(unsigned program);
 
 	void DestroyVBO(unsigned vbo);

@@ -259,6 +259,26 @@ void PanelConfig::Draw()
 			App->render_ex->SetMinFilter();
 		}
 		ImGui::Separator();
+
+		static bool baboon = true;
+		static bool nano = false;
+
+		ImGui::Text("Choose image shown:");
+		if (ImGui::Checkbox("BABOON     ", &baboon))
+		{
+			App->texture->LoadTexture(L"image-Baboon.ppm");
+			App->render_ex->CheckImageMetadata();
+			nano = false;
+			baboon = true;
+		}
+		ImGui::SameLine();
+		if (ImGui::Checkbox("NANO", &nano))
+		{
+			App->texture->LoadTexture(L"nano.png");
+			App->render_ex->CheckImageMetadata();
+			baboon = false;
+			nano = true;
+		}
 	}
 
 	this->setFocused(ImGui::IsWindowFocused());
