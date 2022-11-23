@@ -17,7 +17,7 @@ public:
 	update_status PostUpdate() override;
 	bool CleanUp() override;
 
-	void LoadTexture(const char* image_file_name);
+	void LoadTexture(const wchar_t* image_file_name);
 
 	DirectX::ScratchImage* GetImage();
 	DirectX::TexMetadata GetImageMetadata();

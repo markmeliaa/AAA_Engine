@@ -59,6 +59,7 @@ bool ModuleRenderExercise::CleanUp()
 	D_LOG("Deleting buffer objects");
 	App->editor->log.emplace_back("Deleting buffer objects");
 
+	glDeleteProgram(program);
 	DestroyVBO(vbo);
 	DestroyEBO(ebo);
 	DestroyVAO(vao);

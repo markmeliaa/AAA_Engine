@@ -16,9 +16,6 @@ ModuleTexture::~ModuleTexture()
 
 bool ModuleTexture::Init()
 {
-	D_LOG("Load the texture");
-	App->editor->log.emplace_back("Load the texture");
-
 	return true;
 }
 
@@ -48,48 +45,31 @@ bool ModuleTexture::CleanUp()
 	return true;
 }
 
-void ModuleTexture::LoadTexture(const char* image_file_name)
+void ModuleTexture::LoadTexture(const wchar_t* image_file_name)
 {
+	D_LOG("Load the texture");
+	App->editor->log.emplace_back("Load the texture");
+
 	loaded_image = new DirectX::ScratchImage;
 	DirectX::ScratchImage* flip = new DirectX::ScratchImage;
-	HRESULT loadResult;
 
-	std::string string_file_name = std::string(image_file_name);
-	std::string extension = string_file_name.substr(string_file_name.size() - 4, 4);
-
-	std::wstring w_path = std::wstring(string_file_name.begin(), string_file_name.end());
-
-	if (extension == ".dds")
+	HRESULT loadResult = LoadFromDDSFile(image_file_name, DirectX::DDS_FLAGS_NONE, &image_metadata, *flip);
+	if (FAILED(loadResult))
 	{
-		loadResult = LoadFromDDSFile(w_path.c_str(), DirectX::DDS_FLAGS_NONE, &image_metadata, *flip);
+		loadResult = DirectX::LoadFromTGAFile(image_file_name, &image_metadata, *flip);
 		if (FAILED(loadResult))
 		{
-			flip = nullptr;
-			D_LOG("DDS texture loading: %s FAILED", image_file_name);
+			loadResult = LoadFromWICFile(image_file_name, DirectX::WIC_FLAGS_NONE, &image_metadata, *flip);
+			if (FAILED(loadResult))
+			{
+				flip = nullptr;
+				D_LOG("WIC texture loading: %s FAILED", image_file_name);
+			}
 		}
 	}
 
-	else if (extension == ".tga")
-	{
-		loadResult = DirectX::LoadFromTGAFile(w_path.c_str(), &image_metadata, *flip);
-		if (FAILED(loadResult))
-		{
-			flip = nullptr;
-			D_LOG("TGA texture loading: %s FAILED", image_file_name);
-		}
-	}
-
-	else
-	{
-		loadResult = LoadFromWICFile(w_path.c_str(), DirectX::WIC_FLAGS_DEFAULT_SRGB, &image_metadata, *flip);
-		if (FAILED(loadResult))
-		{
-			flip = nullptr;
-			D_LOG("WIC texture loading: %s FAILED", image_file_name);
-		}
-	}
-
-	DirectX::FlipRotate(flip->GetImages(), flip->GetImageCount(), flip->GetMetadata(), DirectX::TEX_FR_FLIP_VERTICAL, *loaded_image);
+	if (flip != nullptr)
+		DirectX::FlipRotate(flip->GetImages(), flip->GetImageCount(), flip->GetMetadata(), DirectX::TEX_FR_FLIP_VERTICAL, *loaded_image);
 }
 
 DirectX::ScratchImage* ModuleTexture::GetImage()
