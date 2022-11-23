@@ -1,4 +1,6 @@
-﻿#include "Application.h"
+﻿#pragma once
+#pragma warning( disable : 4267 )
+#include "Application.h"
 #include "ModuleProgram.h"
 #include "ModuleDebugDraw.h"
 #include "ModuleRenderExercise.h"
@@ -12,6 +14,9 @@
 
 ModuleRenderExercise::ModuleRenderExercise()
 {
+	min_filter = GL_NEAREST_MIPMAP_LINEAR;
+	mag_filter = GL_NEAREST;
+	tex_wrap = GL_CLAMP_TO_BORDER;
 }
 
 ModuleRenderExercise::~ModuleRenderExercise()
@@ -66,6 +71,7 @@ bool ModuleRenderExercise::CleanUp()
 	DestroyVBO(vbo);
 	DestroyEBO(ebo);
 	DestroyVAO(vao);
+	DestroyTex(texture_object);
 
 	return true;
 }
@@ -102,11 +108,11 @@ unsigned ModuleRenderExercise::CreateProgram(unsigned vtx_shader, unsigned frg_s
 void ModuleRenderExercise::CreateQuadBuffers()
 {
 	float vertices[] = {
-		// positions          // colors					// texture coords
-		 1.0f,  1.0f, 0.0f,   /*1.0f, 0.0f, 0.0f,*/		1.0f, 1.0f,		// top right
-		 1.0f, -1.0f, 0.0f,   /*0.0f, 1.0f, 0.0f,*/		1.0f, 0.0f,		// bottom right
-		-1.0f, -1.0f, 0.0f,   /*0.0f, 0.0f, 1.0f,*/		0.0f, 0.0f,		// bottom left
-		-1.0f,  1.0f, 0.0f,   /*1.0f, 1.0f, 0.0f,*/		0.0f, 1.0f		// top left 
+		// positions          // colors					 // texture coords
+		 2.0f,  2.0f, 0.0f,   /*1.0f, 0.0f, 0.0f,*/		 2.0f,  2.0f,		// top right
+		 2.0f, -2.0f, 0.0f,   /*0.0f, 1.0f, 0.0f,*/		 2.0f, -1.0f,		// bottom right
+		-2.0f, -2.0f, 0.0f,   /*0.0f, 0.0f, 1.0f,*/		-1.0f, -1.0f,		// bottom left
+		-2.0f,  2.0f, 0.0f,   /*1.0f, 1.0f, 0.0f,*/		-1.0f,  2.0f		// top left 
 	};
 
 	unsigned int indices[] = {
@@ -130,11 +136,6 @@ void ModuleRenderExercise::CreateQuadBuffers()
 
 	glGenTextures(1, &texture_object);
 	glBindTexture(GL_TEXTURE_2D, texture_object);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
 }
 
 void ModuleRenderExercise::CheckImageMetadata()
@@ -199,6 +200,12 @@ void ModuleRenderExercise::RenderQuad(unsigned program)
 	glActiveTexture(GL_TEXTURE5);
 	glBindTexture(GL_TEXTURE_2D, texture_object);
 
+	// Modify texture characteristics
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GetMinFilter());
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GetMagFilter());
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GetWrapMode());
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GetWrapMode());
+
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 
@@ -218,4 +225,64 @@ void ModuleRenderExercise::DestroyEBO(unsigned ebo)
 void ModuleRenderExercise::DestroyVAO(unsigned vao)
 {
 	glDeleteBuffers(1, &vao);
+}
+
+// This function must be called one time at destruction of vertex array object
+void ModuleRenderExercise::DestroyTex(unsigned texture)
+{
+	glDeleteTextures(1, &texture);
+}
+
+int ModuleRenderExercise::GetMinFilter() const
+{
+	return min_filter;
+}
+
+void ModuleRenderExercise::SetMinFilter()
+{
+	if (min_filter == GL_NEAREST_MIPMAP_NEAREST)
+		min_filter = GL_LINEAR_MIPMAP_NEAREST;
+
+	else if (min_filter == GL_LINEAR_MIPMAP_NEAREST)
+		min_filter = GL_NEAREST_MIPMAP_LINEAR;
+
+	else if (min_filter == GL_NEAREST_MIPMAP_LINEAR)
+		min_filter = GL_LINEAR_MIPMAP_LINEAR;
+
+	else if (min_filter == GL_LINEAR_MIPMAP_LINEAR)
+		min_filter = GL_NEAREST_MIPMAP_NEAREST;
+}
+
+int ModuleRenderExercise::GetMagFilter() const
+{
+	return mag_filter;
+}
+
+void ModuleRenderExercise::SetMagFilter()
+{
+	if (mag_filter == GL_NEAREST)
+		mag_filter = GL_LINEAR;
+
+	else if (mag_filter == GL_LINEAR)
+		mag_filter = GL_NEAREST;
+}
+
+int ModuleRenderExercise::GetWrapMode() const
+{
+	return tex_wrap;
+}
+
+void ModuleRenderExercise::SetWrapMode()
+{
+	if (tex_wrap == GL_REPEAT)
+		tex_wrap = GL_MIRRORED_REPEAT;
+
+	else if (tex_wrap == GL_MIRRORED_REPEAT)
+		tex_wrap = GL_CLAMP_TO_BORDER;
+
+	else if (tex_wrap == GL_CLAMP_TO_BORDER)
+		tex_wrap = GL_CLAMP_TO_EDGE;
+
+	else if (tex_wrap == GL_CLAMP_TO_EDGE)
+		tex_wrap = GL_REPEAT;
 }

@@ -1,6 +1,8 @@
 #include "PanelConfig.h"
 #include "ModuleWindow.h"
 #include "ModuleEditor.h"
+#include "ModuleTexture.h"
+#include "ModuleRenderExercise.h"
 
 #include <string>
 #include "lib/imgui-docking/imgui.h"
@@ -227,18 +229,37 @@ void PanelConfig::Draw()
 		ImGui::Separator();
 	}
 
-	/*
-	if (ImGui::CollapsingHeader("Camera Settings"))
+	if (ImGui::CollapsingHeader("Texture"))
 	{
-		static float cam_fov = App->camera->GetFov();
-		ImGui::SliderFloat("Camera FOV", &cam_fov, 0.001f, 3.0f);
-		App->camera->SetFov(cam_fov);
+		ImGui::TextUnformatted("Size of the texture:");
+		ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), std::to_string(App->texture->GetImageMetadata().width).c_str());
+		ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "x");
+		ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), std::to_string(App->texture->GetImageMetadata().height).c_str());
+		ImGui::TextUnformatted("Format of the texture:");
+		ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), std::to_string(App->texture->GetImageMetadata().format).c_str());
+		ImGui::Separator();
 
-		static float aspect_rat = App->camera->GetAspectRatio();
-		ImGui::SliderFloat("Aspect Ratio", &aspect_rat, 0.0f, 6.0f);
-		App->camera->SetAspectRatio(aspect_rat);
+		ImGui::Text("Modify the texture:");
+		if (ImGui::Button("WRAP mode", ImVec2(121.5f, 25.0f)))
+		{
+			App->render_ex->SetWrapMode();
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("MAG filter", ImVec2(121.5f, 25.0f)))
+		{
+			App->render_ex->SetMagFilter();
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("MIN filter", ImVec2(121.5f, 25.0f)))
+		{
+			App->render_ex->SetMinFilter();
+		}
+		ImGui::Separator();
 	}
-	*/
 
 	this->setFocused(ImGui::IsWindowFocused());
 

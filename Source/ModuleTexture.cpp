@@ -19,7 +19,7 @@ bool ModuleTexture::Init()
 	D_LOG("Load the texture");
 	App->editor->log.emplace_back("Load the texture");
 
-	LoadTexture(L"nano.png");
+	LoadTexture(L"image-Baboon.ppm");
 
 	return true;
 }
