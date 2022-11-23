@@ -18,7 +18,6 @@ public:
 	update_status PostUpdate() override;
 	bool CleanUp() override;
 
-	float4x4 GetModelMatrix() const;
 	float4x4 GetViewMatrix() const;
 	float4x4 GetProjMatrix() const;
 

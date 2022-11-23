@@ -17,6 +17,12 @@ public:
 	update_status PostUpdate() override;
 	bool CleanUp() override;
 
-private:
+	void LoadTexture(const char* image_file_name);
 
+	DirectX::ScratchImage* GetImage();
+	DirectX::TexMetadata GetImageMetadata();
+
+private:
+	DirectX::ScratchImage* loaded_image;
+	DirectX::TexMetadata image_metadata;
 };

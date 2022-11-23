@@ -27,7 +27,6 @@ bool ModuleCamera::Init()
 	SetUpFrustum();
 
 	proj = frustum->ProjectionMatrix();
-	model = float4x4::FromTRS(float3(2.0f, 0.0f, 0.0f), float4x4::RotateZ(pi / 4.0f), float3(2.0f, 1.0f, 0.0f));
 	view = frustum->ViewMatrix();
 
 	return true;
@@ -165,11 +164,6 @@ void ModuleCamera::SetUpFrustum()
 	SetPos(0.0f, 3.0f, 10.0f);
 	frustum->SetFront(-float3::unitZ);
 	frustum->SetUp(float3::unitY);
-}
-
-float4x4 ModuleCamera::GetModelMatrix() const
-{
-	return model;
 }
 
 float4x4 ModuleCamera::GetViewMatrix() const

@@ -18,10 +18,15 @@ public:
 private:
 	unsigned int program = 0;
 	unsigned int vbo = 0;
+	unsigned int ebo = 0;
+	unsigned int vao = 0;
 
 	unsigned CreateProgram(unsigned vtx_shader, unsigned frg_shader);
 
-	unsigned CreateQuadVBO();
-	void RenderQuadVBO(unsigned vbo, unsigned program);
+	void CreateQuadBuffers();
+	void RenderQuad(unsigned program);
+
 	void DestroyVBO(unsigned vbo);
+	void DestroyEBO(unsigned ebo);
+	void DestroyVAO(unsigned vao);
 };

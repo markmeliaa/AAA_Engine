@@ -30,7 +30,6 @@ bool ModuleRenderExercise::Start()
 
 	D_LOG("Creating triangle vertex buffer object");
 	App->editor->log.emplace_back("Creating triangle vertex buffer object");
-	vbo = CreateQuadVBO();
 
 	return true;
 }
@@ -42,7 +41,8 @@ update_status ModuleRenderExercise::PreUpdate()
 
 update_status ModuleRenderExercise::Update()
 {
-	RenderQuadVBO(vbo, program);
+	CreateQuadBuffers();
+	RenderQuad(program);
 	
 	App->draw->Draw(App->camera->GetViewMatrix(), App->camera->GetProjMatrix(), App->window->getCurrentWidth(), App->window->getCurrentHeight());
 
@@ -56,10 +56,12 @@ update_status ModuleRenderExercise::PostUpdate()
 
 bool ModuleRenderExercise::CleanUp()
 {
-	D_LOG("Deleting vertex buffer object");
-	App->editor->log.emplace_back("Deleting vertex buffer object");
+	D_LOG("Deleting buffer objects");
+	App->editor->log.emplace_back("Deleting buffer objects");
 
 	DestroyVBO(vbo);
+	DestroyEBO(ebo);
+	DestroyVAO(vao);
 
 	return true;
 }
@@ -93,61 +95,82 @@ unsigned ModuleRenderExercise::CreateProgram(unsigned vtx_shader, unsigned frg_s
 }
 
 // This function must be called one time at creation of vertex buffer
-unsigned ModuleRenderExercise::CreateQuadVBO()
+void ModuleRenderExercise::CreateQuadBuffers()
 {
-	float buffer_data[] = {
-		-1.0f, -1.0f, 0.0f, // ← v0 pos
-		 1.0f, -1.0f, 0.0f, // ← v1 pos
-		 0.0f,  1.0f, 0.0f, // ← v2 pos
-
-		//-1.0f, -1.0f, 0.0f,
-		// 0.0f, -2.0f, 0.0f,
-		// 1.0f, -1.0f, 0.0f
-
-		 0.0f,  0.0f, // ← v0 texcoord
-		 1.0f,  0.0f, // ← v1 texcoord
-		 0.5f,  1.0f  // ← v2 texcoord
+	float vertices[] = {
+		 1.0f,  1.0f, 0.0f,  // top right
+		 1.0f, -1.0f, 0.0f,  // bottom right
+		-1.0f, -1.0f, 0.0f,  // bottom left
+		-1.0f,  1.0f, 0.0f   // top left 
 	};
 
-	unsigned vbo;
+	unsigned int indices[] = {  // note that we start from 0!
+		3, 1, 0,   // first triangle
+		3, 2, 1    // second triangle
+	};
 
+	// Vertex Array Object
+	glGenVertexArrays(1, &vao);
+	glBindBuffer(GL_ARRAY_BUFFER, vao);
+
+	// Vertex Buffer Object
 	glGenBuffers(1, &vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, vbo); // set vbo active
-	glBufferData(GL_ARRAY_BUFFER, sizeof(buffer_data), buffer_data, GL_STATIC_DRAW);
+	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-	return vbo;
+	// Element Buffer Object
+	glGenBuffers(1, &ebo);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 }
 
 // This function must be called each frame for drawing the triangle
-void ModuleRenderExercise::RenderQuadVBO(unsigned vbo, unsigned program)
+void ModuleRenderExercise::RenderQuad(unsigned program)
 {
-	// TODO: retrieve model view and projection
 	glUseProgram(program);
 
-	glUniformMatrix4fv(1, 1, GL_TRUE, &App->camera->GetModelMatrix()[0][0]);
-	glUniformMatrix4fv(2, 1, GL_TRUE, &App->camera->GetViewMatrix()[0][0]);
-	glUniformMatrix4fv(3, 1, GL_TRUE, &App->camera->GetProjMatrix()[0][0]);
+	// Retrieve model, view and projection matrix
+	float4x4 model = float4x4::identity;
+	//float4x4 model = float4x4::FromTRS(float3(2.0f, 0.0f, 0.0f), float4x4::RotateZ(pi / 4.0f), float3(2.0f, 1.0f, 0.0f));
+	float4x4 view = App->camera->GetViewMatrix();
+	float4x4 proj = App->camera->GetProjMatrix();
 
-	// TODO: bind buffer and vertex attributes
+	glUniformMatrix4fv(1, 1, GL_TRUE, &model[0][0]);
+	glUniformMatrix4fv(2, 1, GL_TRUE, &view[0][0]);
+	glUniformMatrix4fv(3, 1, GL_TRUE, &proj[0][0]);
+
+	// Bind buffers and vertex attributes
+	glBindVertexArray(vao);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
-	// size = 3 float per vertex
-	// stride = 0 is equivalent to stride = sizeof(float)*3
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
-	glEnableVertexAttribArray(1);
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * 3 * 3)); // buffer offset
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * 3 * 3));
+	glEnableVertexAttribArray(0);
 
-	// Enable texture
+	// Activate and bind texture
 	glActiveTexture(GL_TEXTURE5);
 	//glBindTexture(GL_TEXTURE_2D, texture_object);
 
-	// 1 triangle to draw = 3 vertices
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 
-// This function must be called one time at destruction of vertex buffer
+// This function must be called one time at destruction of vertex buffer object
 void ModuleRenderExercise::DestroyVBO(unsigned vbo)
 {
 	glDeleteBuffers(1, &vbo);
+}
+
+// This function must be called one time at destruction of element buffer object
+void ModuleRenderExercise::DestroyEBO(unsigned ebo)
+{
+	glDeleteBuffers(1, &ebo);
+}
+
+// This function must be called one time at destruction of vertex array object
+void ModuleRenderExercise::DestroyVAO(unsigned vao)
+{
+	glDeleteBuffers(1, &vao);
 }
