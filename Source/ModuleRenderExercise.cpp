@@ -99,9 +99,9 @@ unsigned ModuleRenderExercise::CreateQuadVBO()
 		-1.0f, -1.0f, 0.0f,
 		 1.0f, -1.0f, 0.0f,
 		 0.0f,  1.0f, 0.0f,
-		-1.0f, -1.0f, 0.0f,
-		 0.0f, -2.0f, 0.0f,
-		 1.0f, -1.0f, 0.0f
+		//-1.0f, -1.0f, 0.0f,
+		// 0.0f, -2.0f, 0.0f,
+		// 1.0f, -1.0f, 0.0f
 	};
 
 	unsigned vbo;
@@ -130,9 +130,8 @@ void ModuleRenderExercise::RenderQuadVBO(unsigned vbo, unsigned program)
 	// stride = 0 is equivalent to stride = sizeof(float)*3
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
-	glUseProgram(program);
 	// 1 triangle to draw = 3 vertices
-	glDrawArrays(GL_TRIANGLES, 0, 6);
+	glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
 // This function must be called one time at destruction of vertex buffer

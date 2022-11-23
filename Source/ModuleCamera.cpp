@@ -100,30 +100,30 @@ update_status ModuleCamera::Update()
 	// Move camera around (rotations) with Arrow Keys
 	if (App->input->GetKey(SDL_SCANCODE_LEFT))
 	{
-		Rotate(float3x3::RotateAxisAngle(frustum->Up().Normalized(), rotate_speed_inc * DEGTORAD * delta_time));
+		Rotate(float3x3::RotateY(rotate_speed_inc * DEGTORAD * delta_time));
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_RIGHT))
 	{
-		Rotate(float3x3::RotateAxisAngle(frustum->Up().Normalized(), -rotate_speed_inc * DEGTORAD * delta_time));
+		Rotate(float3x3::RotateY(-rotate_speed_inc * DEGTORAD * delta_time));
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_UP))
 	{
-		if (frustum->Front().y < 0.9f)
+		if (frustum->Front().y < 0.75f)
 			Rotate(float3x3::RotateAxisAngle(frustum->WorldRight().Normalized(), rotate_speed_inc * DEGTORAD * delta_time));
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_DOWN))
 	{
-		if (frustum->Front().y > -0.9f)
+		if (frustum->Front().y > -0.75f)
 			Rotate(float3x3::RotateAxisAngle(frustum->WorldRight().Normalized(), -rotate_speed_inc * DEGTORAD * delta_time));
 	}
 
 	// Move camera around (rotations) with Mouse Control
 	if (App->input->GetMouseButton(1))
 	{
-		Rotate(float3x3::RotateAxisAngle(frustum->Up().Normalized(), mouse_input.x * rotate_speed_inc * DEGTORAD * delta_time));
+		Rotate(float3x3::RotateY(mouse_input.x * rotate_speed_inc * DEGTORAD * delta_time));		
 		Rotate(float3x3::RotateAxisAngle(frustum->WorldRight().Normalized(), mouse_input.y * rotate_speed_inc * DEGTORAD * delta_time));
 	}
 
@@ -137,7 +137,7 @@ update_status ModuleCamera::Update()
 	// Reset position with F
 	if (App->input->GetKey(SDL_SCANCODE_F))
 	{
-		SetPos(0.0f, 4.0f, 8.0f);
+		SetPos(0.0f, 3.0f, 10.0f);
 		frustum->SetFront(-float3::unitZ);
 		frustum->SetUp(float3::unitY);
 	}
@@ -162,7 +162,7 @@ void ModuleCamera::SetUpFrustum()
 	frustum->SetViewPlaneDistances(0.1f, 1000.0f);
 	frustum->SetHorizontalFovAndAspectRatio(DEGTORAD * 90.0f, aspectRatio);
 
-	SetPos(0.0f, 3.0f, 10);
+	SetPos(0.0f, 3.0f, 10.0f);
 	frustum->SetFront(-float3::unitZ);
 	frustum->SetUp(float3::unitY);
 }
