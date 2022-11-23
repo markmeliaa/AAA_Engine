@@ -15,9 +15,8 @@ public:
 	update_status PostUpdate() override;
 	bool CleanUp() override;
 
-	unsigned int program = 0;
-
 private:
+	unsigned int program = 0;
 	unsigned int vbo = 0;
 
 	unsigned CreateProgram(unsigned vtx_shader, unsigned frg_shader);
