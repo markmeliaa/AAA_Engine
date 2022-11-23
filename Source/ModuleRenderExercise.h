@@ -21,9 +21,12 @@ private:
 	unsigned int ebo = 0;
 	unsigned int vao = 0;
 
+	unsigned int texture_object = 0;
+
 	unsigned CreateProgram(unsigned vtx_shader, unsigned frg_shader);
 
 	void CreateQuadBuffers();
+	void CheckImageMetadata();
 	void RenderQuad(unsigned program);
 
 	void DestroyVBO(unsigned vbo);

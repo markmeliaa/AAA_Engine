@@ -16,6 +16,11 @@ ModuleTexture::~ModuleTexture()
 
 bool ModuleTexture::Init()
 {
+	D_LOG("Load the texture");
+	App->editor->log.emplace_back("Load the texture");
+
+	LoadTexture(L"nano.png");
+
 	return true;
 }
 
@@ -47,9 +52,6 @@ bool ModuleTexture::CleanUp()
 
 void ModuleTexture::LoadTexture(const wchar_t* image_file_name)
 {
-	D_LOG("Load the texture");
-	App->editor->log.emplace_back("Load the texture");
-
 	loaded_image = new DirectX::ScratchImage;
 	DirectX::ScratchImage* flip = new DirectX::ScratchImage;
 

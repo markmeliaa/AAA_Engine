@@ -5,6 +5,7 @@
 #include "ModuleEditor.h"
 #include "ModuleCamera.h"
 #include "ModuleWindow.h"
+#include "ModuleTexture.h"
 
 #include "lib/glew-2.1.0/include/GL/glew.h"
 #include "lib/DirectXTex/DirectXTex/DirectXTex.h"
@@ -31,6 +32,9 @@ bool ModuleRenderExercise::Start()
 	D_LOG("Creating triangle vertex buffer object");
 	App->editor->log.emplace_back("Creating triangle vertex buffer object");
 
+	CreateQuadBuffers();
+	CheckImageMetadata();
+
 	return true;
 }
 
@@ -41,7 +45,6 @@ update_status ModuleRenderExercise::PreUpdate()
 
 update_status ModuleRenderExercise::Update()
 {
-	CreateQuadBuffers();
 	RenderQuad(program);
 	
 	App->draw->Draw(App->camera->GetViewMatrix(), App->camera->GetProjMatrix(), App->window->getCurrentWidth(), App->window->getCurrentHeight());
@@ -99,13 +102,14 @@ unsigned ModuleRenderExercise::CreateProgram(unsigned vtx_shader, unsigned frg_s
 void ModuleRenderExercise::CreateQuadBuffers()
 {
 	float vertices[] = {
-		 1.0f,  1.0f, 0.0f,  // top right
-		 1.0f, -1.0f, 0.0f,  // bottom right
-		-1.0f, -1.0f, 0.0f,  // bottom left
-		-1.0f,  1.0f, 0.0f   // top left 
+		// positions          // colors					// texture coords
+		 1.0f,  1.0f, 0.0f,   /*1.0f, 0.0f, 0.0f,*/		1.0f, 1.0f,		// top right
+		 1.0f, -1.0f, 0.0f,   /*0.0f, 1.0f, 0.0f,*/		1.0f, 0.0f,		// bottom right
+		-1.0f, -1.0f, 0.0f,   /*0.0f, 0.0f, 1.0f,*/		0.0f, 0.0f,		// bottom left
+		-1.0f,  1.0f, 0.0f,   /*1.0f, 1.0f, 0.0f,*/		0.0f, 1.0f		// top left 
 	};
 
-	unsigned int indices[] = {  // note that we start from 0!
+	unsigned int indices[] = {
 		3, 1, 0,   // first triangle
 		3, 2, 1    // second triangle
 	};
@@ -123,6 +127,46 @@ void ModuleRenderExercise::CreateQuadBuffers()
 	glGenBuffers(1, &ebo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
+
+	glGenTextures(1, &texture_object);
+	glBindTexture(GL_TEXTURE_2D, texture_object);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP);
+}
+
+void ModuleRenderExercise::CheckImageMetadata()
+{
+	DirectX::TexMetadata image_metadata = App->texture->GetImageMetadata();
+	int internalFormat, format, type;
+
+	switch (image_metadata.format)
+	{
+		case DXGI_FORMAT_R8G8B8A8_UNORM_SRGB:
+		case DXGI_FORMAT_R8G8B8A8_UNORM:
+			internalFormat = GL_RGBA8;
+			format = GL_RGBA;
+			type = GL_UNSIGNED_BYTE;
+			break;
+		case DXGI_FORMAT_B8G8R8A8_UNORM_SRGB:
+		case DXGI_FORMAT_B8G8R8A8_UNORM:
+			internalFormat = GL_RGBA8;
+			format = GL_BGRA;
+			type = GL_UNSIGNED_BYTE;
+			break;
+		case DXGI_FORMAT_B5G6R5_UNORM:
+			internalFormat = GL_RGB8;
+			format = GL_BGR;
+			type = GL_UNSIGNED_BYTE;
+			break;
+		default:
+			assert(false && "Unsupported format");
+	}
+
+	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, image_metadata.width, image_metadata.height, 0, format, type, App->texture->GetImage()->GetImage(0, 0, 0)->pixels);
+	glGenerateMipmap(GL_TEXTURE_2D);
 }
 
 // This function must be called each frame for drawing the triangle
@@ -145,15 +189,15 @@ void ModuleRenderExercise::RenderQuad(unsigned program)
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
 
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * 3 * 3));
-	glEnableVertexAttribArray(0);
+	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+	glEnableVertexAttribArray(1);
 
 	// Activate and bind texture
 	glActiveTexture(GL_TEXTURE5);
-	//glBindTexture(GL_TEXTURE_2D, texture_object);
+	glBindTexture(GL_TEXTURE_2D, texture_object);
 
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
