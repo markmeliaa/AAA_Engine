@@ -1,3 +1,4 @@
+#pragma once
 #include "Application.h"
 #include "ModuleCamera.h"
 #include "ModuleEditor.h"

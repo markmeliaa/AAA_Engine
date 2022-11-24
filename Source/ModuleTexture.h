@@ -23,6 +23,6 @@ public:
 	DirectX::TexMetadata GetImageMetadata();
 
 private:
-	DirectX::ScratchImage* loaded_image;
+	DirectX::ScratchImage* loaded_image = nullptr;
 	DirectX::TexMetadata image_metadata;
 };
