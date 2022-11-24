@@ -72,62 +72,51 @@ update_status ModuleEditor::PreUpdate()
 	ImGui_ImplSDL2_NewFrame(App->window->window);
 	ImGui::NewFrame();
 
-	loops++;
-
-	if (loops == 60 || fps_log[sizeof(fps_log)/sizeof(float) - 1] == NULL)
+	int last = 0;
+	for (int i = 0; i < sizeof(fps_log) / sizeof(float); i++)
 	{
-		int last = 0;
-
-		if (ImGui::GetIO().Framerate > max_fps)
-			ImGui::GetIO().Framerate = max_fps;
-
-		for (int i = 0; i < sizeof(fps_log) / sizeof(float); i++)
+		last = i;
+		if (fps_log[i] == NULL)
 		{
-			last = i;
-			if (fps_log[i] == NULL)
-			{
-				fps_log[i] = ImGui::GetIO().Framerate;
-				break;
-			}
-
-			else if (fps_log[i + 1] == NULL)
-			{
-				fps_log[i + 1] = ImGui::GetIO().Framerate;
-				break;
-			}
-
-			else
-				fps_log[i] = fps_log[i + 1];
+			fps_log[i] = ImGui::GetIO().Framerate;
+			break;
 		}
 
-		if (last == sizeof(fps_log) / sizeof(float) - 1)
-			fps_log[sizeof(fps_log) / sizeof(float) - 1] = ImGui::GetIO().Framerate;
-
-		last = 0;
-		for (int i = 0; i < sizeof(milisec_log) / sizeof(float); i++)
+		else if (fps_log[i + 1] == NULL)
 		{
-			last = i;
-			if (milisec_log[i] == NULL)
-			{
-				milisec_log[i] = ImGui::GetIO().DeltaTime * 1000;
-				break;
-			}
-
-			else if (milisec_log[i + 1] == NULL)
-			{
-				milisec_log[i + 1] = ImGui::GetIO().DeltaTime * 1000;
-				break;
-			}
-
-			else
-				milisec_log[i] = milisec_log[i + 1];
+			fps_log[i + 1] = ImGui::GetIO().Framerate;
+			break;
 		}
 
-		if (last == sizeof(milisec_log) / sizeof(float) - 1)
-			milisec_log[sizeof(milisec_log) / sizeof(float) - 1] = ImGui::GetIO().DeltaTime * 1000;
-
-		loops = 0;
+		else
+			fps_log[i] = fps_log[i + 1];
 	}
+
+	if (last == sizeof(fps_log) / sizeof(float) - 1)
+		fps_log[sizeof(fps_log) / sizeof(float) - 1] = ImGui::GetIO().Framerate;
+
+	last = 0;
+	for (int i = 0; i < sizeof(milisec_log) / sizeof(float); i++)
+	{
+		last = i;
+		if (milisec_log[i] == NULL)
+		{
+			milisec_log[i] = ImGui::GetIO().DeltaTime * 1000;
+			break;
+		}
+
+		else if (milisec_log[i + 1] == NULL)
+		{
+			milisec_log[i + 1] = ImGui::GetIO().DeltaTime * 1000;
+			break;
+		}
+
+		else
+			milisec_log[i] = milisec_log[i + 1];
+	}
+
+	if (last == sizeof(milisec_log) / sizeof(float) - 1)
+		milisec_log[sizeof(milisec_log) / sizeof(float) - 1] = ImGui::GetIO().DeltaTime * 1000;
 
 	return UPDATE_CONTINUE;
 }

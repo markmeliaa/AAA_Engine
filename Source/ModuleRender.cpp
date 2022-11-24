@@ -88,6 +88,9 @@ bool ModuleRender::Init()
 	glEnable(GL_CULL_FACE);		// Enable cull backward faces
 	glFrontFace(GL_CCW);		// Front faces will be counter clockwise
 
+	// Cap the FPS
+	SDL_GL_SetSwapInterval(1);
+
 	return true;
 }
 

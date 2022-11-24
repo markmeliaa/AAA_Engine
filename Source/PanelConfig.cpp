@@ -39,15 +39,14 @@ void PanelConfig::Draw()
 		ImGui::InputText("Organization", org_name, IM_ARRAYSIZE(org_name));
 
 		static int maax_fps = App->editor->GetMaxFps();
-		ImGui::SliderInt("Max FPS", &maax_fps, 0, 60);
-		App->editor->SetMaxFps(maax_fps);
+		if (ImGui::SliderInt("Max FPS", &maax_fps, 0, 60))
+			App->editor->SetMaxFps(maax_fps);
 
 		ImGui::Text("Limit framerate:");
 		ImGui::SameLine();
 		std::string s = std::to_string((int)App->editor->GetMaxFps());
 		char const* char_fps = s.c_str();
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), char_fps);
-
 
 		ImGui::PlotHistogram("##framerate", App->editor->fps_log, IM_ARRAYSIZE(App->editor->fps_log), 0, "Framerate", 0.0f, 100.0f, ImVec2(385.0f, 100.0f));
 		ImGui::PlotHistogram("##milliseconds", App->editor->milisec_log, IM_ARRAYSIZE(App->editor->milisec_log), 0, "Milliseconds", 0.0f, 40.0f, ImVec2(385.0f, 100.0f));

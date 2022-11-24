@@ -2,6 +2,7 @@
 
 #include <list>
 #include <vector>
+#include <queue>
 #include "Module.h"
 #include "Globals.h"
 
@@ -39,7 +40,6 @@ public:
 	float milisec_log[85] = {};
 
 private:
-	int loops = 0;
 	float max_fps = 60;
 
 	std::list<Panel*> panels;
