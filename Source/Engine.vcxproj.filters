@@ -193,6 +193,12 @@
     <ClCompile Include="ModuleTexture.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Scene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -502,6 +508,12 @@
     <ClInclude Include="ModuleTexture.h">
       <Filter>Modules</Filter>
     </ClInclude>
+    <ClInclude Include="Model.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.h">
+      <Filter>Scene</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Modules">
@@ -524,6 +536,9 @@
     </Filter>
     <Filter Include="Libs\MathGeoLib">
       <UniqueIdentifier>{8c1bb811-5b11-4b63-89f7-80f1f61a438e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Scene">
+      <UniqueIdentifier>{5d860134-d50c-4284-bb72-8ea80f53b16b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

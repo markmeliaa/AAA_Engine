@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __ModuleProgram_H__
+#define __ModuleProgram_H__
+
 #include "Module.h"
 #include "Globals.h"
 
@@ -25,3 +27,5 @@ private:
 	char* LoadShaderSource(const char* shader_file_name);
 	unsigned CompileShader(unsigned type, const char* source);
 };
+
+#endif // __ModuleProgram_H__

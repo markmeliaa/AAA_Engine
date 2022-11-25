@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __PanelConfig_H__
+#define __PanelConfig_H__
+
 #include "Panel.h"
 
 class PanelConfig : public Panel
@@ -10,3 +12,5 @@ public:
 	void Draw() override;
 	//bool CleanUp() override;
 };
+
+#endif // __PanelConfig_H__

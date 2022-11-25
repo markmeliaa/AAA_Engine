@@ -1,4 +1,5 @@
-#pragma once
+#ifndef __ModuleEditor_H__
+#define __ModuleEditor_H__
 
 #include <list>
 #include <vector>
@@ -50,3 +51,5 @@ private:
 
 	void DrawMainMenu();
 };
+
+#endif // __ModuleEditor_H__

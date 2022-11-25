@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __ModuleInput_H__
+#define __ModuleInput_H__
+
 #include "Module.h"
 #include "Globals.h"
 
@@ -45,3 +47,5 @@ private:
 	bool mouseWheelMoving = false;
 	float2 mouseWheel = { 0,0 };
 };
+
+#endif // __ModuleInput_H__

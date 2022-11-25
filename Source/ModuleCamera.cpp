@@ -123,14 +123,14 @@ update_status ModuleCamera::Update()
 	// Move camera around (rotations) with Mouse Control
 	if (App->input->GetMouseButton(1))
 	{
-		Rotate(float3x3::RotateY(mouse_input.x * rotate_speed_inc * DEGTORAD * delta_time));		
-		Rotate(float3x3::RotateAxisAngle(frustum->WorldRight().Normalized(), mouse_input.y * rotate_speed_inc * DEGTORAD * delta_time));
+		Rotate(float3x3::RotateY(mouse_input.x * move_speed_inc * DEGTORAD * delta_time));		
+		Rotate(float3x3::RotateAxisAngle(frustum->WorldRight().Normalized(), mouse_input.y * move_speed_inc * DEGTORAD * delta_time));
 	}
 
 	// Move camera onwards and backwards with Mouse Wheel
 	if (App->input->GetMouseWheel())
 	{
-		Translate(frustum->Front().Normalized() * move_speed_inc * delta_time * (App->input->GetMouseWheelInput().y * 100));
+		Translate(frustum->Front().Normalized() * move_speed_inc * delta_time * App->input->GetMouseWheelInput().y);
 		App->input->SetMouseWheel(false);
 	}
 

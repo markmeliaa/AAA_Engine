@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __Panel_H__
+#define __Panel_H__
+
 #include "Globals.h"
 #include "Application.h"
 
@@ -25,3 +27,5 @@ public:
 private:
 	bool focused = false;
 };
+
+#endif // __Panel_H__

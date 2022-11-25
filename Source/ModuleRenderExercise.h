@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __ModuleRenderExercise_H__
+#define __ModuleRenderExercise_H__
+
 #include "Module.h"
 #include "Globals.h"
 
@@ -47,3 +49,5 @@ private:
 	void DestroyVAO(unsigned vao);
 	void DestroyTex(unsigned tex);
 };
+
+#endif // __ModuleRenderExercise_H__

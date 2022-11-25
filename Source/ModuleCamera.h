@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __ModuleCamera_H__
+#define __ModuleCamera_H__
+
 #pragma warning( disable : 26495 )
 #include "Module.h"
 #include "Globals.h"
@@ -44,3 +46,5 @@ private:
 	float move_speed = 4.0f;
 	float rotate_speed = 25.0f;
 };
+
+#endif // __ModuleCamera_H__

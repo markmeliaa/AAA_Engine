@@ -1,4 +1,6 @@
-#pragma once
+#ifndef __ModuleTexture_H__
+#define __ModuleTexture_H__
+
 #include "Module.h"
 #include "Globals.h"
 
@@ -26,3 +28,5 @@ private:
 	DirectX::ScratchImage* loaded_image = nullptr;
 	DirectX::TexMetadata image_metadata;
 };
+
+#endif // __ModuleTexture_H__
