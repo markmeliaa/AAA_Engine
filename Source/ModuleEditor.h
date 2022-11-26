@@ -28,11 +28,6 @@ public:
 
 	std::vector<const char*> log;
 
-	void SetMaxFps(const int& fps);
-	int GetMaxFps() const;
-
-	bool IsAnyWindowsFocused();
-
 	PanelConsole* console = nullptr;
 	PanelAbout* about = nullptr;
 	PanelConfig* config = nullptr;
@@ -40,14 +35,16 @@ public:
 	float fps_log[85] = {};
 	float milisec_log[85] = {};
 
+	void SetMaxFps(const int& fps);
+	int GetMaxFps() const;
+
+	void GetFpsPerFrame();
+	void GetMilisecPerFrame();
+	bool IsAnyWindowsFocused();
+
 private:
-	float max_fps = 60;
-
 	std::list<Panel*> panels;
-
-	bool log_w = true;
-	bool config_w = true;
-	bool about_w = true;
+	int limited_fps = 60;
 
 	void DrawMainMenu();
 };

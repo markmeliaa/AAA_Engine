@@ -72,51 +72,8 @@ update_status ModuleEditor::PreUpdate()
 	ImGui_ImplSDL2_NewFrame(App->window->window);
 	ImGui::NewFrame();
 
-	int last = 0;
-	for (int i = 0; i < sizeof(fps_log) / sizeof(float); i++)
-	{
-		last = i;
-		if (fps_log[i] == NULL)
-		{
-			fps_log[i] = ImGui::GetIO().Framerate;
-			break;
-		}
-
-		else if (fps_log[i + 1] == NULL)
-		{
-			fps_log[i + 1] = ImGui::GetIO().Framerate;
-			break;
-		}
-
-		else
-			fps_log[i] = fps_log[i + 1];
-	}
-
-	if (last == sizeof(fps_log) / sizeof(float) - 1)
-		fps_log[sizeof(fps_log) / sizeof(float) - 1] = ImGui::GetIO().Framerate;
-
-	last = 0;
-	for (int i = 0; i < sizeof(milisec_log) / sizeof(float); i++)
-	{
-		last = i;
-		if (milisec_log[i] == NULL)
-		{
-			milisec_log[i] = ImGui::GetIO().DeltaTime * 1000;
-			break;
-		}
-
-		else if (milisec_log[i + 1] == NULL)
-		{
-			milisec_log[i + 1] = ImGui::GetIO().DeltaTime * 1000;
-			break;
-		}
-
-		else
-			milisec_log[i] = milisec_log[i + 1];
-	}
-
-	if (last == sizeof(milisec_log) / sizeof(float) - 1)
-		milisec_log[sizeof(milisec_log) / sizeof(float) - 1] = ImGui::GetIO().DeltaTime * 1000;
+	GetFpsPerFrame();
+	GetMilisecPerFrame();
 
 	return UPDATE_CONTINUE;
 }
@@ -155,16 +112,6 @@ bool ModuleEditor::CleanUp()
 		ret = (*it)->CleanUp();
 
 	return ret;
-}
-
-void ModuleEditor::SetMaxFps(const int& fps)
-{
-	max_fps = fps;
-}
-
-int ModuleEditor::GetMaxFps() const
-{
-	return max_fps;
 }
 
 bool ModuleEditor::IsAnyWindowsFocused()
@@ -228,4 +175,66 @@ void ModuleEditor::DrawMainMenu()
 
 		ImGui::EndMainMenuBar();
 	}
+}
+
+void ModuleEditor::GetFpsPerFrame()
+{
+	int last_checked = 0;
+	for (int i = 0; i < sizeof(fps_log) / sizeof(float); i++)
+	{
+		last_checked = i;
+		if (fps_log[last_checked] == NULL)
+		{
+			fps_log[last_checked] = ImGui::GetIO().Framerate;
+			break;
+		}
+
+		else if (fps_log[last_checked + 1] == NULL)
+		{
+			fps_log[last_checked + 1] = ImGui::GetIO().Framerate;
+			break;
+		}
+
+		else
+			fps_log[last_checked] = fps_log[last_checked + 1];
+	}
+
+	if (last_checked == sizeof(fps_log) / sizeof(float) - 1)
+		fps_log[last_checked] = ImGui::GetIO().Framerate;
+}
+
+void ModuleEditor::GetMilisecPerFrame()
+{
+	int last_checked = 0;
+	for (int i = 0; i < sizeof(milisec_log) / sizeof(float); i++)
+	{
+		last_checked = i;
+		if (milisec_log[last_checked] == NULL)
+		{
+			milisec_log[last_checked] = ImGui::GetIO().DeltaTime * 1000;
+			break;
+		}
+
+		else if (milisec_log[last_checked + 1] == NULL)
+		{
+			milisec_log[last_checked + 1] = ImGui::GetIO().DeltaTime * 1000;
+			break;
+		}
+
+		else
+			milisec_log[last_checked] = milisec_log[last_checked + 1];
+	}
+
+	if (last_checked == sizeof(milisec_log) / sizeof(float) - 1)
+		milisec_log[last_checked] = ImGui::GetIO().DeltaTime * 1000;
+}
+
+void ModuleEditor::SetMaxFps(const int& fps)
+{
+	limited_fps = fps;
+}
+
+int ModuleEditor::GetMaxFps() const
+{
+	return limited_fps;
 }
