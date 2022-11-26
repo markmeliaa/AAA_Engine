@@ -269,17 +269,20 @@ void PanelConfig::Draw()
 		ImGui::Text("Modify the texture:");
 		if (ImGui::Button("WRAP mode", ImVec2(121.5f, 25.0f)))
 		{
-			App->render_ex->SetWrapMode();
+			App->texture->SetWrapMode();
+			App->texture->SetTextureOptions();
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("MAG filter", ImVec2(121.5f, 25.0f)))
 		{
-			App->render_ex->SetMagFilter();
+			App->texture->SetMagFilter();
+			App->texture->SetTextureOptions();
 		}
 		ImGui::SameLine();
 		if (ImGui::Button("MIN filter", ImVec2(121.5f, 25.0f)))
 		{
-			App->render_ex->SetMinFilter();
+			App->texture->SetMinFilter();
+			App->texture->SetTextureOptions();
 		}
 		ImGui::Separator();
 
@@ -289,16 +292,14 @@ void PanelConfig::Draw()
 		ImGui::Text("Choose image shown:");
 		if (ImGui::Checkbox("BABOON     ", &baboon))
 		{
-			App->texture->LoadTexture(L"image-Baboon.ppm");
-			App->render_ex->CheckImageMetadata();
+			App->texture->LoadTexture("image-Baboon.ppm");
 			nano = false;
 			baboon = true;
 		}
 		ImGui::SameLine();
 		if (ImGui::Checkbox("NANO", &nano))
 		{
-			App->texture->LoadTexture(L"nano.png");
-			App->render_ex->CheckImageMetadata();
+			App->texture->LoadTexture("nano.png");
 			baboon = false;
 			nano = true;
 		}

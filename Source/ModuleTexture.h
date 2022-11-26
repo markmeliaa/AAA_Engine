@@ -5,6 +5,7 @@
 #include "Globals.h"
 
 #include "DirectXTex.h"
+#include "GL/glew.h"
 
 class ModuleTexture : public Module
 {
@@ -19,14 +20,29 @@ public:
 	update_status PostUpdate() override;
 	bool CleanUp() override;
 
-	void LoadTexture(const wchar_t* image_file_name);
+	GLuint LoadTexture(const char* image_file_name);
+	GLuint CheckImageMetadata() const;
+	void SetTextureOptions() const;
 
 	DirectX::ScratchImage* GetImage();
 	DirectX::TexMetadata GetImageMetadata();
 
+	int GetMinFilter() const;
+	void SetMinFilter();
+
+	int GetMagFilter() const;
+	void SetMagFilter();
+
+	int GetWrapMode() const;
+	void SetWrapMode();
+
 private:
 	DirectX::ScratchImage* loaded_image = nullptr;
 	DirectX::TexMetadata image_metadata;
+
+	int min_filter;
+	int mag_filter;
+	int tex_wrap;
 };
 
 #endif // __ModuleTexture_H__

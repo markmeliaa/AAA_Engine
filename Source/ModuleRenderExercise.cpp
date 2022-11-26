@@ -9,14 +9,11 @@
 #include "ModuleWindow.h"
 #include "ModuleTexture.h"
 
-#include "lib/glew-2.1.0/include/GL/glew.h"
-#include "lib/DirectXTex/DirectXTex/DirectXTex.h"
+#include "GL/glew.h"
+#include "DirectXTex.h"
 
 ModuleRenderExercise::ModuleRenderExercise()
 {
-	min_filter = GL_NEAREST_MIPMAP_LINEAR;
-	mag_filter = GL_NEAREST;
-	tex_wrap = GL_CLAMP_TO_BORDER;
 }
 
 ModuleRenderExercise::~ModuleRenderExercise()
@@ -38,7 +35,7 @@ bool ModuleRenderExercise::Start()
 	App->editor->log.emplace_back("Creating triangle vertex buffer object");
 
 	CreateQuadBuffers();
-	CheckImageMetadata();
+	RenderQuad(program);
 
 	return true;
 }
@@ -71,7 +68,6 @@ bool ModuleRenderExercise::CleanUp()
 	DestroyVBO(vbo);
 	DestroyEBO(ebo);
 	DestroyVAO(vao);
-	DestroyTex(texture_object);
 
 	return true;
 }
@@ -133,41 +129,6 @@ void ModuleRenderExercise::CreateQuadBuffers()
 	glGenBuffers(1, &ebo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-	glGenTextures(1, &texture_object);
-	glBindTexture(GL_TEXTURE_2D, texture_object);
-}
-
-void ModuleRenderExercise::CheckImageMetadata()
-{
-	DirectX::TexMetadata image_metadata = App->texture->GetImageMetadata();
-	int internalFormat, format, type;
-
-	switch (image_metadata.format)
-	{
-		case DXGI_FORMAT_R8G8B8A8_UNORM_SRGB:
-		case DXGI_FORMAT_R8G8B8A8_UNORM:
-			internalFormat = GL_RGBA8;
-			format = GL_RGBA;
-			type = GL_UNSIGNED_BYTE;
-			break;
-		case DXGI_FORMAT_B8G8R8A8_UNORM_SRGB:
-		case DXGI_FORMAT_B8G8R8A8_UNORM:
-			internalFormat = GL_RGBA8;
-			format = GL_BGRA;
-			type = GL_UNSIGNED_BYTE;
-			break;
-		case DXGI_FORMAT_B5G6R5_UNORM:
-			internalFormat = GL_RGB8;
-			format = GL_BGR;
-			type = GL_UNSIGNED_BYTE;
-			break;
-		default:
-			assert(false && "Unsupported format");
-	}
-
-	glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, image_metadata.width, image_metadata.height, 0, format, type, App->texture->GetImage()->GetImage(0, 0, 0)->pixels);
-	glGenerateMipmap(GL_TEXTURE_2D);
 }
 
 // This function must be called each frame for drawing the triangle
@@ -196,15 +157,8 @@ void ModuleRenderExercise::RenderQuad(unsigned program)
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
 	glEnableVertexAttribArray(1);
 
-	// Activate and bind texture
+	// Activate the texture
 	glActiveTexture(GL_TEXTURE5);
-	glBindTexture(GL_TEXTURE_2D, texture_object);
-
-	// Modify texture characteristics
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GetMinFilter());
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GetMagFilter());
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GetWrapMode());
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GetWrapMode());
 
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
@@ -225,64 +179,4 @@ void ModuleRenderExercise::DestroyEBO(unsigned ebo)
 void ModuleRenderExercise::DestroyVAO(unsigned vao)
 {
 	glDeleteBuffers(1, &vao);
-}
-
-// This function must be called one time at destruction of vertex array object
-void ModuleRenderExercise::DestroyTex(unsigned texture)
-{
-	glDeleteTextures(1, &texture);
-}
-
-int ModuleRenderExercise::GetMinFilter() const
-{
-	return min_filter;
-}
-
-void ModuleRenderExercise::SetMinFilter()
-{
-	if (min_filter == GL_NEAREST_MIPMAP_NEAREST)
-		min_filter = GL_LINEAR_MIPMAP_NEAREST;
-
-	else if (min_filter == GL_LINEAR_MIPMAP_NEAREST)
-		min_filter = GL_NEAREST_MIPMAP_LINEAR;
-
-	else if (min_filter == GL_NEAREST_MIPMAP_LINEAR)
-		min_filter = GL_LINEAR_MIPMAP_LINEAR;
-
-	else if (min_filter == GL_LINEAR_MIPMAP_LINEAR)
-		min_filter = GL_NEAREST_MIPMAP_NEAREST;
-}
-
-int ModuleRenderExercise::GetMagFilter() const
-{
-	return mag_filter;
-}
-
-void ModuleRenderExercise::SetMagFilter()
-{
-	if (mag_filter == GL_NEAREST)
-		mag_filter = GL_LINEAR;
-
-	else if (mag_filter == GL_LINEAR)
-		mag_filter = GL_NEAREST;
-}
-
-int ModuleRenderExercise::GetWrapMode() const
-{
-	return tex_wrap;
-}
-
-void ModuleRenderExercise::SetWrapMode()
-{
-	if (tex_wrap == GL_REPEAT)
-		tex_wrap = GL_MIRRORED_REPEAT;
-
-	else if (tex_wrap == GL_MIRRORED_REPEAT)
-		tex_wrap = GL_CLAMP_TO_BORDER;
-
-	else if (tex_wrap == GL_CLAMP_TO_BORDER)
-		tex_wrap = GL_CLAMP_TO_EDGE;
-
-	else if (tex_wrap == GL_CLAMP_TO_EDGE)
-		tex_wrap = GL_REPEAT;
 }

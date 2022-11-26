@@ -3,7 +3,6 @@
 
 #include <list>
 #include <vector>
-#include <queue>
 #include "Module.h"
 #include "Globals.h"
 
