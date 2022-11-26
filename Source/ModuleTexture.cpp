@@ -88,7 +88,7 @@ GLuint ModuleTexture::LoadTexture(const char* image_file_name)
 
 GLuint ModuleTexture::CheckImageMetadata() const
 {
-	GLuint texture_object = 0;
+	GLuint texture_object;
 	glGenTextures(1, &texture_object);
 	glBindTexture(GL_TEXTURE_2D, texture_object);
 

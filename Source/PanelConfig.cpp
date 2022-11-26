@@ -252,59 +252,6 @@ void PanelConfig::Draw()
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "----------");
 	}
 
-	if (ImGui::CollapsingHeader("Texture"))
-	{
-		ImGui::TextUnformatted("Size of the texture:");
-		ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), std::to_string(App->texture->GetImageMetadata().width).c_str());
-		ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "x");
-		ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), std::to_string(App->texture->GetImageMetadata().height).c_str());
-		ImGui::TextUnformatted("Format of the texture:");
-		ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), std::to_string(App->texture->GetImageMetadata().format).c_str());
-		ImGui::Separator();
-
-		ImGui::Text("Modify the texture:");
-		if (ImGui::Button("WRAP mode", ImVec2(121.5f, 25.0f)))
-		{
-			App->texture->SetWrapMode();
-			App->texture->SetTextureOptions();
-		}
-		ImGui::SameLine();
-		if (ImGui::Button("MAG filter", ImVec2(121.5f, 25.0f)))
-		{
-			App->texture->SetMagFilter();
-			App->texture->SetTextureOptions();
-		}
-		ImGui::SameLine();
-		if (ImGui::Button("MIN filter", ImVec2(121.5f, 25.0f)))
-		{
-			App->texture->SetMinFilter();
-			App->texture->SetTextureOptions();
-		}
-		ImGui::Separator();
-
-		static bool baboon = true;
-		static bool nano = false;
-
-		ImGui::Text("Choose image shown:");
-		if (ImGui::Checkbox("BABOON     ", &baboon))
-		{
-			App->texture->LoadTexture("image-Baboon.ppm");
-			nano = false;
-			baboon = true;
-		}
-		ImGui::SameLine();
-		if (ImGui::Checkbox("NANO", &nano))
-		{
-			App->texture->LoadTexture("nano.png");
-			baboon = false;
-			nano = true;
-		}
-	}
-
 	this->setFocused(ImGui::IsWindowFocused());
 
 	ImGui::End();

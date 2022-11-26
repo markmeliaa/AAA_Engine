@@ -20,6 +20,8 @@ public:
 	unsigned int vertex_shader = 0;
 	unsigned int fragment_shader = 0;
 
+	unsigned CreateProgram();
+
 private:
 	char* vertex_file = nullptr;
 	char* fragment_file = nullptr;

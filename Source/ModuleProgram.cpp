@@ -2,7 +2,7 @@
 #include "ModuleProgram.h"
 #include "ModuleEditor.h"
 
-#include "lib/glew-2.1.0/include/GL/glew.h"
+#include "GL/glew.h"
 
 ModuleProgram::ModuleProgram()
 {
@@ -70,4 +70,33 @@ unsigned ModuleProgram::CompileShader(unsigned type, const char* source)
 		}
 	}
 	return shader_id;
+}
+
+unsigned ModuleProgram::CreateProgram()
+{
+	unsigned int vertex = CompileShader(GL_VERTEX_SHADER, LoadShaderSource("default_vertex.glsl"));
+	unsigned int fragment = CompileShader(GL_FRAGMENT_SHADER, LoadShaderSource("default_fragment.glsl"));
+
+	unsigned programId = glCreateProgram();
+	glAttachShader(programId, vertex);
+	glAttachShader(programId, fragment);
+	glLinkProgram(programId);
+	int res;
+	glGetProgramiv(programId, GL_LINK_STATUS, &res);
+	if (res == GL_FALSE)
+	{
+		int len = 0;
+		glGetProgramiv(programId, GL_INFO_LOG_LENGTH, &len);
+		if (len > 0)
+		{
+			int written = 0;
+			char* info = (char*)malloc(len);
+			glGetProgramInfoLog(programId, len, &written, info);
+			D_LOG("Program Log Info: %s", info);
+			free(info);
+		}
+	}
+	glDeleteShader(vertex);
+	glDeleteShader(fragment);
+	return programId;
 }

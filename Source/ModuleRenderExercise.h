@@ -3,6 +3,7 @@
 
 #include "Module.h"
 #include "Globals.h"
+#include "Model.h"
 
 class ModuleRenderExercise : public Module
 {
@@ -18,19 +19,7 @@ public:
 	bool CleanUp() override;
 
 private:
-	unsigned int program = 0;
-	unsigned int vbo = 0;
-	unsigned int ebo = 0;
-	unsigned int vao = 0;
-
-	unsigned CreateProgram(unsigned vtx_shader, unsigned frg_shader);
-
-	void CreateQuadBuffers();
-	void RenderQuad(unsigned program);
-
-	void DestroyVBO(unsigned vbo);
-	void DestroyEBO(unsigned ebo);
-	void DestroyVAO(unsigned vao);
+	Model* model;
 };
 
 #endif // __ModuleRenderExercise_H__
