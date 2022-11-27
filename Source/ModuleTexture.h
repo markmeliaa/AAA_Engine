@@ -4,8 +4,8 @@
 #include "Module.h"
 #include "Globals.h"
 
-#include "DirectXTex.h"
-#include "GL/glew.h"
+#include <GL/glew.h>
+#include <DirectXTex.h>
 
 class ModuleTexture : public Module
 {

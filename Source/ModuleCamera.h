@@ -1,12 +1,11 @@
 #ifndef __ModuleCamera_H__
 #define __ModuleCamera_H__
 
-#pragma warning( disable : 26495 )
 #include "Module.h"
 #include "Globals.h"
 
-#include "lib/MathGeoLib/Geometry/Frustum.h"
-#include "lib/MathGeoLib/Math/float3x3.h"
+#include <Geometry/Frustum.h>
+#include <Math/float3x3.h>
 
 class ModuleCamera : public Module
 {

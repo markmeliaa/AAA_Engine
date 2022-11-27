@@ -1,12 +1,12 @@
 #ifndef __ModuleEditor_H__
 #define __ModuleEditor_H__
 
-#include <list>
-#include <vector>
 #include "Module.h"
 #include "Globals.h"
-
 #include "Panel.h"
+
+#include <list>
+#include <vector>
 
 class PanelConsole;
 class PanelAbout;

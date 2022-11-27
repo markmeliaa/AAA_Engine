@@ -1,8 +1,9 @@
+#pragma once
 #include "Application.h"
+#include "Mesh.h"
 #include "ModuleProgram.h"
 #include "ModuleCamera.h"
 
-#include "Mesh.h"
 #include <Math/float2.h>
 
 Mesh::Mesh(const aiMesh* mesh)

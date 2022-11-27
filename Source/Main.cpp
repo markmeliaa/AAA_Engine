@@ -1,10 +1,10 @@
 #include <stdlib.h>
 #include "Application.h"
-#include "ModuleRender.h"
 #include "Globals.h"
+#include "ModuleRender.h"
 #include "ModuleEditor.h"
 
-#include "lib/SDL/include/SDL.h"
+#include <SDL.h>
 #pragma comment( lib, "lib/SDL/lib/x64/SDL2.lib" )
 #pragma comment( lib, "lib/SDL/lib/x64/SDL2main.lib" )
 
@@ -43,7 +43,7 @@ int main(int argc, char ** argv)
 			if (!App->Init())
 			{
 				D_LOG("Application Init exits with error -----");
-				//App->editor->log.emplace_back("----- Application Init exits with error -----");
+				App->editor->log.emplace_back("----- Application Init exits with error -----");
 				state = MAIN_EXIT;
 			}
 			else
@@ -62,7 +62,7 @@ int main(int argc, char ** argv)
 			if (update_return == UPDATE_ERROR)
 			{
 				D_LOG("Application Update exits with error -----");
-				//App->editor->log.emplace_back("----- Application Update exits with error -----");
+				App->editor->log.emplace_back("----- Application Update exits with error -----");
 				state = MAIN_EXIT;
 			}
 
@@ -79,7 +79,7 @@ int main(int argc, char ** argv)
 			if (!App->CleanUp())
 			{
 				D_LOG("Application CleanUp exits with error -----");
-				//App->editor->log.emplace_back("----- Application CleanUp exits with error -----");
+				App->editor->log.emplace_back("----- Application CleanUp exits with error -----");
 			}
 			else
 				main_return = EXIT_SUCCESS;

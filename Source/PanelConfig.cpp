@@ -1,13 +1,12 @@
 #include "PanelConfig.h"
 #include "ModuleWindow.h"
 #include "ModuleEditor.h"
-#include "ModuleTexture.h"
-#include "ModuleRenderExercise.h"
+
+#include <imgui.h>
+#include <imgui_impl_sdl.h>
+#include <imgui_impl_opengl3.h>
 
 #include <string>
-#include "lib/imgui-docking/imgui.h"
-#include "lib/imgui-docking/imgui_impl_sdl.h"
-#include "lib/imgui-docking/imgui_impl_opengl3.h"
 
 PanelConfig::PanelConfig()
 {

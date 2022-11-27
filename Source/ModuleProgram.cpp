@@ -1,8 +1,9 @@
+#pragma once
 #include "Application.h"
 #include "ModuleProgram.h"
 #include "ModuleEditor.h"
 
-#include "GL/glew.h"
+#include <GL/glew.h>
 
 ModuleProgram::ModuleProgram()
 {

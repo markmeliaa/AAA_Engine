@@ -1,10 +1,11 @@
+#pragma once
 #include "Globals.h"
 #include "ModuleDebugDraw.h"
 
 #define DEBUG_DRAW_IMPLEMENTATION
 #include "DebugDraw.h"     // Debug Draw API. Notice that we need the DEBUG_DRAW_IMPLEMENTATION macro here!
 
-#include "lib/glew-2.1.0/include/GL/glew.h"
+#include <GL/glew.h>
 
 class DDRenderInterfaceCoreGL final
     : public dd::RenderInterface
@@ -621,5 +622,3 @@ void ModuleDebugDraw::Draw(const float4x4& view, const float4x4& proj, unsigned 
 
     dd::flush();
 }
-
-

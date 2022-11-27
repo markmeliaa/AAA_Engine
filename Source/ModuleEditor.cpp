@@ -1,29 +1,16 @@
 ﻿#pragma once
-#pragma warning( disable : 4244 )
-#include "Globals.h"
 #include "Application.h"
 #include "ModuleEditor.h"
 #include "ModuleWindow.h"
 #include "ModuleRender.h"
-#include "ModuleCamera.h"
-#include "ModuleInput.h"
 
-#include <list>
 #include "PanelConsole.h"
 #include "PanelAbout.h"
 #include "PanelConfig.h"
 
-#include "lib/imgui-docking/imgui.h"
-#include "lib/imgui-docking/imgui_impl_sdl.h"
-#include "lib/imgui-docking/imgui_impl_opengl3.h"
-#include <stdio.h>
-#include <SDL.h>
-#if defined(IMGUI_IMPL_OPENGL_ES2)
-#include <SDL_opengles2.h>
-#else
-#include <SDL_opengl.h>
-#endif
-#include <string>
+#include <imgui.h>
+#include <imgui_impl_sdl.h>
+#include <imgui_impl_opengl3.h>
 
 using namespace std;
 

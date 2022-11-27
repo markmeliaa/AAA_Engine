@@ -6,9 +6,8 @@
 #include "ModuleWindow.h"
 
 #include <GL/glew.h>
-#include "lib/MathGeoLib/Geometry/Frustum.h"
-#include "lib/SDL/include/SDL.h"
-#include "SDL_scancode.h"
+#include <SDL.h>
+#include <SDL_scancode.h>
 
 ModuleCamera::ModuleCamera()
 {

@@ -1,7 +1,6 @@
 #pragma once
 #include "Application.h"
 #include "ModuleWindow.h"
-#include "ModuleRender.h"
 #include "ModuleInput.h"
 #include "ModuleProgram.h"
 #include "ModuleRenderExercise.h"
@@ -9,8 +8,9 @@
 #include "ModuleDebugDraw.h"
 #include "ModuleCamera.h"
 #include "ModuleTexture.h"
+#include "ModuleRender.h"
 
-#include "SDL_timer.h"
+#include <SDL_timer.h>
 
 using namespace std;
 
@@ -22,8 +22,8 @@ Application::Application()
 
 	modules.push_back(program = new ModuleProgram());
 	modules.push_back(render_ex = new ModuleRenderExercise());
-	modules.push_back(draw = new ModuleDebugDraw());
 	modules.push_back(editor = new ModuleEditor());
+	modules.push_back(draw = new ModuleDebugDraw());
 	modules.push_back(camera = new ModuleCamera());
 	modules.push_back(texture = new ModuleTexture());
 

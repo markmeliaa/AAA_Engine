@@ -1,15 +1,13 @@
 ﻿#pragma once
 #include "Application.h"
-#include "ModuleProgram.h"
-#include "ModuleDebugDraw.h"
 #include "ModuleRenderExercise.h"
+#include "ModuleDebugDraw.h"
 #include "ModuleEditor.h"
 #include "ModuleCamera.h"
 #include "ModuleWindow.h"
-#include "ModuleTexture.h"
 
-#include "GL/glew.h"
-#include "DirectXTex.h"
+#include <GL/glew.h>
+#include <DirectXTex.h>
 
 ModuleRenderExercise::ModuleRenderExercise()
 {
@@ -21,6 +19,8 @@ ModuleRenderExercise::~ModuleRenderExercise()
 
 bool ModuleRenderExercise::Start()
 {
+	D_LOG("Load the model");
+	App->editor->log.emplace_back("Load the model");
 	model = new Model("Bakerhouse.fbx");
 
 	return true;

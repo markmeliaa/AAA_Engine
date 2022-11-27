@@ -1,8 +1,7 @@
-#include "Globals.h"
+#pragma once
 #include "Application.h"
 #include "ModuleWindow.h"
 #include "ModuleEditor.h"
-#include "ModuleCamera.h"
 
 ModuleWindow::ModuleWindow()
 {
@@ -25,8 +24,8 @@ bool ModuleWindow::Init()
 	if(SDL_Init(SDL_INIT_VIDEO) < 0)
 	{
 		D_LOG("SDL_VIDEO could not initialize! SDL_Error: %s\n", SDL_GetError());
-		//App->editor->log.emplace_back("SDL_VIDEO could not initialize! SDL_Error");
-		//App->editor->log.emplace_back(SDL_GetError());
+		App->editor->log.emplace_back("SDL_VIDEO could not initialize! SDL_Error");
+		App->editor->log.emplace_back(SDL_GetError());
 		ret = false;
 	}
 	else
@@ -61,8 +60,8 @@ bool ModuleWindow::Init()
 		if(window == NULL)
 		{
 			D_LOG("Window could not be created! SDL_Error: %s\n", SDL_GetError());
-			//App->editor->log.emplace_back("Window could not be created! SDL_Error:");
-			//App->editor->log.emplace_back(SDL_GetError());
+			App->editor->log.emplace_back("Window could not be created! SDL_Error:");
+			App->editor->log.emplace_back(SDL_GetError());
 			ret = false;
 		}
 		else

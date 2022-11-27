@@ -4,9 +4,10 @@
 #include "Globals.h"
 #include "Mesh.h"
 
-#include <vector>
-#include "GL/glew.h"
+#include <GL/glew.h>
 #include <assimp/scene.h>
+
+#include <vector>
 
 class Model
 {

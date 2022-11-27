@@ -1,15 +1,13 @@
-#include "Globals.h"
+#pragma once
 #include "Application.h"
 #include "ModuleInput.h"
-#include "ModuleRender.h"
 #include "ModuleWindow.h"
 #include "ModuleEditor.h"
-#include "ModuleCamera.h"
 
-#include "lib/SDL/include/SDL.h"
-#include "lib/imgui-docking/imgui.h"
-#include "lib/imgui-docking/imgui_impl_sdl.h"
-#include "lib/imgui-docking/imgui_impl_opengl3.h"
+#include <SDL.h>
+#include <imgui.h>
+#include <imgui_impl_sdl.h>
+#include <imgui_impl_opengl3.h>
 
 ModuleInput::ModuleInput()
 {
@@ -31,8 +29,8 @@ bool ModuleInput::Init()
 	if(SDL_InitSubSystem(SDL_INIT_EVENTS) < 0)
 	{
 		D_LOG("SDL_EVENTS could not initialize! SDL_Error: %s\n", SDL_GetError());
-		//App->editor->log.emplace_back("SDL_EVENTS could not initialize! SDL_Error:");
-		//App->editor->log.emplace_back(SDL_GetError());
+		App->editor->log.emplace_back("SDL_EVENTS could not initialize! SDL_Error:");
+		App->editor->log.emplace_back(SDL_GetError());
 		ret = false;
 	}
 

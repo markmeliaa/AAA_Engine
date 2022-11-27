@@ -3,7 +3,7 @@
 
 #include "Module.h"
 
-#include "lib/MathGeoLib/Math/float4x4.h"
+#include <Math/float4x4.h>
 
 class DDRenderInterfaceCoreGL;
 class Camera;

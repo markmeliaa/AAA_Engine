@@ -1,3 +1,4 @@
+#pragma once
 #include "Application.h"
 #include "Model.h"
 #include "ModuleTexture.h"
@@ -37,6 +38,9 @@ void Model::Load(const char* file_name)
 	const aiScene* scene = aiImportFile(file_name, aiProcessPreset_TargetRealtime_MaxQuality);
 	if (scene)
 	{
+		D_LOG("Load the materials and the meshes of the model");
+		App->editor->log.emplace_back("Load the materials and the meshes of the model");
+
 		LoadMaterials(scene->mMaterials, scene->mNumMaterials);
 		LoadMeshes(scene->mMeshes, scene->mNumMeshes);
 	}

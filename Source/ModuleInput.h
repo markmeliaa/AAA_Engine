@@ -4,7 +4,7 @@
 #include "Module.h"
 #include "Globals.h"
 
-#include "lib/MathGeoLib/Math/float2.h"
+#include <Math/float2.h>
 
 #define MOUSEBUTTONS 5
 

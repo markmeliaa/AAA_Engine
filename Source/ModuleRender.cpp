@@ -1,11 +1,11 @@
-#include "Globals.h"
+#pragma once
 #include "Application.h"
 #include "ModuleRender.h"
 #include "ModuleWindow.h"
 #include "ModuleEditor.h"
 
-#include "SDL.h"
-#include "GL/glew.h"
+#include <SDL.h>
+#include <GL/glew.h>
 
 ModuleRender::ModuleRender()
 {

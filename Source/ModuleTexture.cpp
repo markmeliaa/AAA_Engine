@@ -1,13 +1,8 @@
 #pragma once
 #pragma warning( disable : 4267 )
-#include "Globals.h"
 #include "Application.h"
 #include "ModuleTexture.h"
 #include "ModuleEditor.h"
-#include "ModuleRenderExercise.h"
-
-#include "DirectXTex.h"
-#include "GL/glew.h"
 
 ModuleTexture::ModuleTexture()
 {
@@ -42,7 +37,9 @@ GLuint ModuleTexture::LoadTexture(const char* image_file_name)
 			if (FAILED(loadResult))
 			{
 				flip = nullptr;
-				D_LOG("WIC texture loading: %s FAILED", image_file_name);
+				D_LOG("Loading texture FAILED with: %s", image_file_name);
+				App->editor->log.emplace_back("Loading texture FAILED with:");
+				App->editor->log.emplace_back(image_file_name);
 			}
 		}
 	}
