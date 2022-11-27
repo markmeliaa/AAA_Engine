@@ -10,7 +10,6 @@ public:
 	~PanelConfig();
 
 	void Draw() override;
-	//bool CleanUp() override;
 };
 
 #endif // __PanelConfig_H__

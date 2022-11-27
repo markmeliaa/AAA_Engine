@@ -27,7 +27,6 @@ void PanelConfig::Draw()
 
 	ImGui::SetNextWindowSize(ImVec2(400, 400), ImGuiCond_Always);
 	ImGui::SetNextWindowPos(ImVec2((float)App->window->getCurrentWidth() - 400, 18), ImGuiCond_Always);
-	//ImGui::SetNextWindowBgAlpha(0.75f);
 	ImGui::Begin("Configuration", &visible);
 
 	if (ImGui::CollapsingHeader("Application"))

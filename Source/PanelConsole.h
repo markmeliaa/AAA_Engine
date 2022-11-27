@@ -10,7 +10,6 @@ public:
 	~PanelConsole();
 
 	void Draw() override;
-	//bool CleanUp() override;
 };
 
 #endif __PanelConsole_H__

@@ -22,7 +22,6 @@ void PanelAbout::Draw()
 
 	ImGui::SetNextWindowSize(ImVec2(385, 265), ImGuiCond_Always);
 	ImGui::SetNextWindowPos(ImVec2(0, 18), ImGuiCond_Always);
-	//ImGui::SetNextWindowBgAlpha(0.75f);
 	ImGui::Begin("About...", &visible);
 
 	ImGui::Text(TITLE);
@@ -34,7 +33,7 @@ void PanelAbout::Draw()
 	ImGui::Text("So far, the libraries being used are:");
 	ImGui::Text("	- SDL");
 	ImGui::Text("	- GLEW");
-	ImGui::Text("	- MathLib");
+	ImGui::Text("	- MathGeoLib");
 	ImGui::Text("	- ImGui");
 	ImGui::Text("	- DebugDraw");
 	ImGui::Text("	- DirectXTex");

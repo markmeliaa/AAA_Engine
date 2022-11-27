@@ -28,6 +28,6 @@ enum update_status
 #define FULLSCREEN_DSKTP false
 #define VSYNC true
 #define TITLE "\"UNREAL\" Engine"
-#define GLSL_VERSION "#version 430"
+#define GLSL_VERSION "#version 440"
 
 #endif // __Globals__H_

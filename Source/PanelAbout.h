@@ -10,7 +10,6 @@ public:
 	~PanelAbout();
 
 	void Draw() override;
-	//bool CleanUp() override;
 };
 
 #endif // __PanelAbout_H__
