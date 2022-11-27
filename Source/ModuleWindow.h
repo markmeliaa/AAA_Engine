@@ -18,8 +18,6 @@ public:
 	// Called before quitting
 	bool Init() override;
 
-	//bool Start() override;
-
 	// Called before quitting
 	bool CleanUp() override;
 

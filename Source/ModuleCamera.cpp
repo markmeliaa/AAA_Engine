@@ -39,11 +39,6 @@ bool ModuleCamera::Start()
 	return true;
 }
 
-update_status ModuleCamera::PreUpdate()
-{
-	return UPDATE_CONTINUE;
-}
-
 update_status ModuleCamera::Update()
 {
 	aspectRatio = (float)App->window->getCurrentWidth() / (float)App->window->getCurrentHeight();
@@ -145,11 +140,6 @@ update_status ModuleCamera::Update()
 	return UPDATE_CONTINUE;
 }
 
-update_status ModuleCamera::PostUpdate()
-{
-	return UPDATE_CONTINUE;
-}
-
 bool ModuleCamera::CleanUp()
 {
 	delete frustum;
@@ -175,36 +165,6 @@ float4x4 ModuleCamera::GetViewMatrix() const
 float4x4 ModuleCamera::GetProjMatrix() const
 {
 	return frustum->ProjectionMatrix();
-}
-
-void ModuleCamera::SetHorFov(const float& fov)
-{
-	frustum->SetHorizontalFovAndAspectRatio(fov, frustum->AspectRatio());
-}
-
-void ModuleCamera::SetVerFov(const float& fov)
-{
-	frustum->SetVerticalFovAndAspectRatio(fov, frustum->AspectRatio());
-}
-
-float ModuleCamera::GetHorFov() const
-{
-	return frustum->HorizontalFov();
-}
-
-float ModuleCamera::GetVerFov() const
-{
-	return frustum->VerticalFov();
-}
-
-void ModuleCamera::SetAspectRatio(const float& aspect)
-{
-	frustum->SetHorizontalFovAndAspectRatio(frustum->HorizontalFov(), aspect);
-}
-
-float ModuleCamera::GetAspectRatio() const
-{
-	return frustum->AspectRatio();
 }
 
 void ModuleCamera::SetPos(const float3& newpos)

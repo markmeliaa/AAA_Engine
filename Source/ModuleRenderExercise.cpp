@@ -1,5 +1,4 @@
 ﻿#pragma once
-#pragma warning( disable : 4267 )
 #include "Application.h"
 #include "ModuleProgram.h"
 #include "ModuleDebugDraw.h"
@@ -20,21 +19,11 @@ ModuleRenderExercise::~ModuleRenderExercise()
 {
 }
 
-bool ModuleRenderExercise::Init()
-{
-	return true;
-}
-
 bool ModuleRenderExercise::Start()
 {
 	model = new Model("Bakerhouse.fbx");
 
 	return true;
-}
-
-update_status ModuleRenderExercise::PreUpdate()
-{
-	return UPDATE_CONTINUE;
 }
 
 update_status ModuleRenderExercise::Update()
@@ -43,11 +32,6 @@ update_status ModuleRenderExercise::Update()
 
 	App->draw->Draw(App->camera->GetViewMatrix(), App->camera->GetProjMatrix(), App->window->getCurrentWidth(), App->window->getCurrentHeight());
 
-	return UPDATE_CONTINUE;
-}
-
-update_status ModuleRenderExercise::PostUpdate()
-{
 	return UPDATE_CONTINUE;
 }
 

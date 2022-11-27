@@ -8,46 +8,13 @@
 
 #include "DirectXTex.h"
 #include "GL/glew.h"
-#include <string>
 
 ModuleTexture::ModuleTexture()
 {
-	min_filter = GL_NEAREST_MIPMAP_LINEAR;
-	mag_filter = GL_NEAREST;
-	tex_wrap = GL_CLAMP_TO_EDGE;
 }
 
 ModuleTexture::~ModuleTexture()
 {
-}
-
-bool ModuleTexture::Init()
-{
-	return true;
-}
-
-bool ModuleTexture::Start()
-{
-	D_LOG("Load the texture");
-	App->editor->log.emplace_back("Load the texture");
-	App->texture->LoadTexture("image-Baboon.ppm");
-
-	return true;
-}
-
-update_status ModuleTexture::PreUpdate()
-{
-	return UPDATE_CONTINUE;
-}
-
-update_status ModuleTexture::Update()
-{
-	return UPDATE_CONTINUE;
-}
-
-update_status ModuleTexture::PostUpdate()
-{
-	return UPDATE_CONTINUE;
 }
 
 bool ModuleTexture::CleanUp()
@@ -126,72 +93,9 @@ GLuint ModuleTexture::CheckImageMetadata() const
 
 void ModuleTexture::SetTextureOptions() const
 {
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GetMinFilter());
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GetMagFilter());
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GetWrapMode());
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GetWrapMode());
-}
-
-DirectX::ScratchImage* ModuleTexture::GetImage()
-{
-	return loaded_image;
-}
-
-DirectX::TexMetadata ModuleTexture::GetImageMetadata()
-{
-	return image_metadata;
-}
-
-int ModuleTexture::GetMinFilter() const
-{
-	return min_filter;
-}
-
-void ModuleTexture::SetMinFilter()
-{
-	if (min_filter == GL_NEAREST_MIPMAP_NEAREST)
-		min_filter = GL_LINEAR_MIPMAP_NEAREST;
-
-	else if (min_filter == GL_LINEAR_MIPMAP_NEAREST)
-		min_filter = GL_NEAREST_MIPMAP_LINEAR;
-
-	else if (min_filter == GL_NEAREST_MIPMAP_LINEAR)
-		min_filter = GL_LINEAR_MIPMAP_LINEAR;
-
-	else if (min_filter == GL_LINEAR_MIPMAP_LINEAR)
-		min_filter = GL_NEAREST_MIPMAP_NEAREST;
-}
-
-int ModuleTexture::GetMagFilter() const
-{
-	return mag_filter;
-}
-
-void ModuleTexture::SetMagFilter()
-{
-	if (mag_filter == GL_NEAREST)
-		mag_filter = GL_LINEAR;
-
-	else if (mag_filter == GL_LINEAR)
-		mag_filter = GL_NEAREST;
-}
-
-int ModuleTexture::GetWrapMode() const
-{
-	return tex_wrap;
-}
-
-void ModuleTexture::SetWrapMode()
-{
-	if (tex_wrap == GL_REPEAT)
-		tex_wrap = GL_MIRRORED_REPEAT;
-
-	else if (tex_wrap == GL_MIRRORED_REPEAT)
-		tex_wrap = GL_CLAMP_TO_BORDER;
-
-	else if (tex_wrap == GL_CLAMP_TO_BORDER)
-		tex_wrap = GL_CLAMP_TO_EDGE;
-
-	else if (tex_wrap == GL_CLAMP_TO_EDGE)
-		tex_wrap = GL_REPEAT;
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 }

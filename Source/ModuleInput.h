@@ -25,9 +25,7 @@ public:
 	~ModuleInput();
 
 	bool Init() override;
-	//bool Start() override;
 	update_status PreUpdate() override;
-	//update_status Update() override;
 	bool CleanUp() override;
 
 	bool GetKey(const int& key) const;

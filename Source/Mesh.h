@@ -11,7 +11,7 @@ public:
 	Mesh(const aiMesh* mesh);
 	~Mesh();
 
-	void Draw(const std::vector<unsigned>& model_textures);
+	void Draw(const std::vector<GLuint>& model_textures);
 
 private:
 	void LoadVBO(const aiMesh* mesh);

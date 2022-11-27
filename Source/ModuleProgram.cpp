@@ -28,7 +28,7 @@ char* ModuleProgram::LoadShaderSource(const char* shader_file_name)
 	{
 		fseek(file, 0, SEEK_END);
 		int size = ftell(file);
-		data = (char*)malloc(size + 1);
+		data = (char*)malloc(static_cast<size_t>(size) + 1);
 		fseek(file, 0, SEEK_SET);
 		fread(data, 1, size, file);
 		data[size] = 0;
@@ -55,8 +55,8 @@ unsigned ModuleProgram::CompileShader(unsigned type, const char* source)
 			char* info = (char*)malloc(len);
 			glGetShaderInfoLog(shader_id, len, &written, info);
 			D_LOG("Shader Log Info: %s", info);
-			//App->editor->log.emplace_back("Shader Log Info:");
-			//App->editor->log.emplace_back(info);
+			App->editor->log.emplace_back("Shader Log Info:");
+			App->editor->log.emplace_back(info);
 			free(info);
 		}
 	}
@@ -65,17 +65,13 @@ unsigned ModuleProgram::CompileShader(unsigned type, const char* source)
 
 unsigned ModuleProgram::CreateProgram()
 {
-	D_LOG("Loading from .glsl files");
-	App->editor->log.emplace_back("Loading from .glsl files");
-	D_LOG("Creating shader objects");
-	App->editor->log.emplace_back("Creating shader objects");
+	D_LOG("Load shaders from .glsl files and create shader objects");
+	App->editor->log.emplace_back("Load shaders from .glsl files and create shader objects");
+	unsigned vertex = CompileShader(GL_VERTEX_SHADER, LoadShaderSource("default_vertex.glsl"));
+	unsigned fragment = CompileShader(GL_FRAGMENT_SHADER, LoadShaderSource("default_fragment.glsl"));
 
-	unsigned int vertex = CompileShader(GL_VERTEX_SHADER, LoadShaderSource("default_vertex.glsl"));
-	unsigned int fragment = CompileShader(GL_FRAGMENT_SHADER, LoadShaderSource("default_fragment.glsl"));
-
-	D_LOG("Creating and linking program");
-	App->editor->log.emplace_back("Creating and linking program");
-
+	D_LOG("Create and link program");
+	App->editor->log.emplace_back("Create and link program");
 	unsigned programId = glCreateProgram();
 	glAttachShader(programId, vertex);
 	glAttachShader(programId, fragment);
@@ -95,7 +91,11 @@ unsigned ModuleProgram::CreateProgram()
 			free(info);
 		}
 	}
+
+	D_LOG("Delete shaders once linked");
+	App->editor->log.emplace_back("Delete shaders once linked");
 	glDeleteShader(vertex);
 	glDeleteShader(fragment);
+
 	return programId;
 }

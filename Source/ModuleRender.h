@@ -5,7 +5,7 @@
 #include "Globals.h"
 
 #include "SDL.h"
-#include "lib/glew-2.1.0/include/GL/glew.h"
+#include "GL/glew.h"
 
 struct SDL_Texture;
 struct SDL_Renderer;
@@ -19,12 +19,11 @@ public:
 
 	bool Init() override;
 	update_status PreUpdate() override;
-	//update_status Update() override;
 	update_status PostUpdate() override;
 	bool CleanUp() override;
 
 public:
-	void* context;
+	void* context = nullptr;
 };
 
 #endif // __ModuleRender_H__
