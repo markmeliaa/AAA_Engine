@@ -22,7 +22,7 @@ Mesh::~Mesh()
 
 void Mesh::Draw(const std::vector<GLuint>& model_textures)
 {
-	unsigned program = App->program->CreateProgram();
+	unsigned program = App->program->program;
 
 	const float4x4 model = float4x4::identity;
 	const float4x4& view = App->camera->GetViewMatrix();

@@ -14,16 +14,7 @@ ModuleProgram::~ModuleProgram()
 
 bool ModuleProgram::Start()
 {
-	D_LOG("Loading from shader files");
-	App->editor->log.emplace_back("Loading from shader files");
-	vertex_file = LoadShaderSource("default_vertex.glsl");
-	fragment_file = LoadShaderSource("default_fragment.glsl");
-
-	D_LOG("Creating shader objects");
-	App->editor->log.emplace_back("Creating shader objects");
-	vertex_shader = CompileShader(GL_VERTEX_SHADER, vertex_file);
-	fragment_shader = CompileShader(GL_FRAGMENT_SHADER, fragment_file);
-
+	program = CreateProgram();
 	return true;
 }
 
@@ -74,8 +65,16 @@ unsigned ModuleProgram::CompileShader(unsigned type, const char* source)
 
 unsigned ModuleProgram::CreateProgram()
 {
+	D_LOG("Loading from .glsl files");
+	App->editor->log.emplace_back("Loading from .glsl files");
+	D_LOG("Creating shader objects");
+	App->editor->log.emplace_back("Creating shader objects");
+
 	unsigned int vertex = CompileShader(GL_VERTEX_SHADER, LoadShaderSource("default_vertex.glsl"));
 	unsigned int fragment = CompileShader(GL_FRAGMENT_SHADER, LoadShaderSource("default_fragment.glsl"));
+
+	D_LOG("Creating and linking program");
+	App->editor->log.emplace_back("Creating and linking program");
 
 	unsigned programId = glCreateProgram();
 	glAttachShader(programId, vertex);

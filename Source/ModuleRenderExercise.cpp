@@ -27,9 +27,6 @@ bool ModuleRenderExercise::Init()
 
 bool ModuleRenderExercise::Start()
 {
-	D_LOG("Creating and linking program");
-	App->editor->log.emplace_back("Creating and linking program");
-
 	model = new Model("Bakerhouse.fbx");
 
 	return true;
@@ -56,9 +53,6 @@ update_status ModuleRenderExercise::PostUpdate()
 
 bool ModuleRenderExercise::CleanUp()
 {
-	D_LOG("Deleting buffer objects");
-	App->editor->log.emplace_back("Deleting buffer objects");
-
 	delete model;
 	return true;
 }
