@@ -50,7 +50,7 @@ int main(int argc, char ** argv)
 			{
 				state = MAIN_UPDATE;
 				D_LOG("Application Update --------------");
-				App->editor->log.emplace_back("-------------- Engine ready! --------------");
+				App->editor->log.emplace_back("-------------- Engine ready to be used! --------------");
 			}
 
 			break;

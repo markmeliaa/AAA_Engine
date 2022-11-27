@@ -58,9 +58,15 @@ bool ModuleRender::Init()
 
 bool ModuleRender::Start()
 {
-	D_LOG("Load the model");
-	App->editor->log.emplace_back("Load the model");
+	D_LOG("***** ASSIMP PROCESS START *****");
+	App->editor->log.emplace_back("***** ASSIMP PROCESS START *****");
+
+	D_LOG("Load the inital model");
+	App->editor->log.emplace_back("Load the initial model");
 	model = new Model("Bakerhouse.fbx");
+
+	D_LOG("***** ASSIMP PROCESS END *****");
+	App->editor->log.emplace_back("***** ASSIMP PROCESS END *****");
 
 	return true;
 }
