@@ -3,10 +3,7 @@
 
 #include "Module.h"
 #include "Globals.h"
-
-struct SDL_Texture;
-struct SDL_Renderer;
-struct SDL_Rect;
+#include "Model.h"
 
 class ModuleRender : public Module
 {
@@ -15,12 +12,15 @@ public:
 	~ModuleRender();
 
 	bool Init() override;
+	bool Start() override;
 	update_status PreUpdate() override;
+	update_status Update() override;
 	update_status PostUpdate() override;
 	bool CleanUp() override;
 
 public:
 	void* context = nullptr;
+	Model* model;
 };
 
 #endif // __ModuleRender_H__

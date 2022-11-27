@@ -3,6 +3,8 @@
 #include "ModuleRender.h"
 #include "ModuleWindow.h"
 #include "ModuleEditor.h"
+#include "ModuleDebugDraw.h"
+#include "ModuleCamera.h"
 
 #include <SDL.h>
 #include <GL/glew.h>
@@ -54,6 +56,15 @@ bool ModuleRender::Init()
 	return true;
 }
 
+bool ModuleRender::Start()
+{
+	D_LOG("Load the model");
+	App->editor->log.emplace_back("Load the model");
+	model = new Model("Bakerhouse.fbx");
+
+	return true;
+}
+
 update_status ModuleRender::PreUpdate()
 {
 	int w, h;
@@ -62,6 +73,15 @@ update_status ModuleRender::PreUpdate()
 	glViewport(0, 0, w, h);
 	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	return UPDATE_CONTINUE;
+}
+
+update_status ModuleRender::Update()
+{
+	model->Draw();
+
+	App->draw->Draw(App->camera->GetViewMatrix(), App->camera->GetProjMatrix(), App->window->getCurrentWidth(), App->window->getCurrentHeight());
 
 	return UPDATE_CONTINUE;
 }
@@ -81,5 +101,6 @@ bool ModuleRender::CleanUp()
 	//Destroy window
 	SDL_GL_DeleteContext(context);
 
+	delete model;
 	return true;
 }

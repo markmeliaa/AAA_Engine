@@ -11,7 +11,6 @@ class ModuleWindow;
 class ModuleTextures;
 class ModuleInput;
 class ModuleProgram;
-class ModuleRenderExercise;
 class ModuleDebugDraw;
 class ModuleEditor;
 class ModuleCamera;
@@ -33,7 +32,6 @@ public:
 	ModuleWindow* window = nullptr;
 	ModuleInput* input = nullptr;
 	ModuleProgram* program = nullptr;
-	ModuleRenderExercise* render_ex = nullptr;
 	ModuleDebugDraw* draw = nullptr;
 	ModuleEditor* editor = nullptr;
 	ModuleCamera* camera = nullptr;
