@@ -45,7 +45,7 @@ private:
 	std::list<Panel*> panels;
 	int limited_fps = 60;
 
-	void DrawMainMenu();
+	update_status DrawMainMenu();
 };
 
 #endif // __ModuleEditor_H__

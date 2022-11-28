@@ -1,3 +1,4 @@
+#include "Application.h"
 #include "PanelConsole.h"
 #include "ModuleWindow.h"
 #include "ModuleEditor.h"

@@ -67,12 +67,12 @@ update_status ModuleEditor::PreUpdate()
 
 update_status ModuleEditor::Update()
 {
-	DrawMainMenu();
+	update_status ret = DrawMainMenu();
 
 	for (list<Panel*>::iterator it = panels.begin(); it != panels.end(); ++it)
 		(*it)->Draw();
 
-	return UPDATE_CONTINUE;
+	return ret;
 }
 
 update_status ModuleEditor::PostUpdate()
@@ -112,33 +112,25 @@ bool ModuleEditor::IsAnyWindowsFocused()
 	return false;
 }
 
-void ModuleEditor::DrawMainMenu()
+update_status ModuleEditor::DrawMainMenu()
 {
 	if (ImGui::BeginMainMenuBar())
 	{
 		if (ImGui::BeginMenu("File"))
 		{
-			if (ImGui::MenuItem("TBD"))
-				App->RequestBrowser("https://github.com/markmeliaa/AAA_Engine");
-
-			ImGui::EndMenu();
-		}
-
-		if (ImGui::BeginMenu("Edit"))
-		{
-			if (ImGui::MenuItem("TBD"))
-				App->RequestBrowser("https://github.com/markmeliaa/AAA_Engine");
+			if (ImGui::MenuItem("Exit Engine (Esc)"))
+				return UPDATE_STOP;
 
 			ImGui::EndMenu();
 		}
 
 		if (ImGui::BeginMenu("Window"))
 		{
-			if (ImGui::MenuItem("Console Log", NULL, &console->visible))
-				console->visible = true;
-
 			if (ImGui::MenuItem("About the Engine", NULL, &about->visible))
 				about->visible = true;
+
+			if (ImGui::MenuItem("Console Log", NULL, &console->visible))
+				console->visible = true;
 
 			if (ImGui::MenuItem("Configuration", NULL, &config->visible))
 				config->visible = true;
@@ -146,7 +138,7 @@ void ModuleEditor::DrawMainMenu()
 			ImGui::EndMenu();
 		}
 
-		if (ImGui::BeginMenu("Help"))
+		if (ImGui::BeginMenu("Github Page"))
 		{
 			if (ImGui::MenuItem("Documentation"))
 				App->RequestBrowser("https://github.com/markmeliaa/AAA_Engine/wiki");
@@ -162,6 +154,8 @@ void ModuleEditor::DrawMainMenu()
 
 		ImGui::EndMainMenuBar();
 	}
+
+	return UPDATE_CONTINUE;
 }
 
 void ModuleEditor::GetFpsPerFrame()
