@@ -24,11 +24,9 @@ Mesh::~Mesh()
 void Mesh::Draw(const std::vector<GLuint>& model_textures)
 {
 	unsigned program = App->program->program;
-
-	const float4x4 model = float4x4::identity;
+	const float4x4 model = float4x4::FromTRS(float3(0.0f, 0.0f, 0.0f), float4x4::RotateZ(rotation), float3(0.1f, 0.1f, 0.1f));
 	const float4x4& view = App->camera->GetViewMatrix();
 	const float4x4& proj = App->camera->GetProjMatrix();
-
 	glUseProgram(program);
 	glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_TRUE, (const float*)&model);
 	glUniformMatrix4fv(glGetUniformLocation(program, "view"), 1, GL_TRUE, (const float*)&view);
