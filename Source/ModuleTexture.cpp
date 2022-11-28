@@ -23,9 +23,9 @@ GLuint ModuleTexture::LoadTexture(const char* image_file_name)
 	loaded_image = new DirectX::ScratchImage;
 	DirectX::ScratchImage* flip = new DirectX::ScratchImage;
 
-	const size_t image_size = strlen(image_file_name) + 1;
-	wchar_t* w_image_file_name = new wchar_t[image_size];
-	mbstowcs(w_image_file_name, image_file_name, image_size);
+	const size_t image_name_size = strlen(image_file_name) + 1;
+	wchar_t* w_image_file_name = new wchar_t[image_name_size];
+	mbstowcs(w_image_file_name, image_file_name, image_name_size);
 
 	HRESULT loadResult = LoadFromDDSFile(w_image_file_name, DirectX::DDS_FLAGS_NONE, &image_metadata, *flip);
 	if (FAILED(loadResult))
@@ -95,4 +95,10 @@ void ModuleTexture::SetTextureOptions() const
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
+}
+
+
+DirectX::TexMetadata ModuleTexture::GetImageMetadata() const
+{
+	return image_metadata;
 }

@@ -8,9 +8,10 @@
 #include <list>
 #include <vector>
 
-class PanelConsole;
 class PanelAbout;
+class PanelConsole;
 class PanelConfig;
+class PanelProperties;
 
 class ModuleEditor : public Module
 {
@@ -27,9 +28,10 @@ public:
 
 	std::vector<const char*> log;
 
-	PanelConsole* console = nullptr;
 	PanelAbout* about = nullptr;
+	PanelConsole* console = nullptr;
 	PanelConfig* config = nullptr;
+	PanelProperties* props = nullptr;
 
 	float fps_log[85] = {};
 	float milisec_log[85] = {};

@@ -102,3 +102,13 @@ void Mesh::CreateVAO()
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 0, (void*)(sizeof(float) * 3 * num_vertices));
 }
+
+int Mesh::GetNumVertices() const
+{
+	return num_vertices;
+}
+
+int Mesh::GetNumIndices() const
+{
+	return num_indices;
+}

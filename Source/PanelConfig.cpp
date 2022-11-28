@@ -8,6 +8,8 @@
 #include <imgui_impl_opengl3.h>
 
 #include <string>
+#include <SDL.h>
+#include <GL/glew.h>
 
 PanelConfig::PanelConfig()
 {
@@ -25,8 +27,9 @@ void PanelConfig::Draw()
 		return;
 	}
 
-	ImGui::SetNextWindowSize(ImVec2(400, 400), ImGuiCond_Always);
+	ImGui::SetNextWindowSize(ImVec2(400, (float)App->window->getCurrentHeight() / 2), ImGuiCond_Always);
 	ImGui::SetNextWindowPos(ImVec2((float)App->window->getCurrentWidth() - 400, 18), ImGuiCond_Always);
+	ImGui::SetNextWindowBgAlpha(1.0f);
 	ImGui::Begin("Configuration", &visible);
 
 	if (ImGui::CollapsingHeader("Application"))
@@ -162,6 +165,10 @@ void PanelConfig::Draw()
 		ImGui::Text("SDL version:");
 		ImGui::SameLine();
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%u.%u.%u", sdl_ver.major, sdl_ver.minor, sdl_ver.patch);
+
+		ImGui::Text("OpenGL version:");
+		ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s", glGetString(GL_VERSION));
 		ImGui::Separator();
 
 		ImGui::Text("CPUs:");

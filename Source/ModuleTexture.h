@@ -17,6 +17,8 @@ public:
 
 	GLuint LoadTexture(const char* image_file_name);
 
+	DirectX::TexMetadata GetImageMetadata() const;
+
 private:
 	GLuint CheckImageMetadata() const;
 	void SetTextureOptions() const;

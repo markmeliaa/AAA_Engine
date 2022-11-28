@@ -196,6 +196,9 @@
     <ClCompile Include="Mesh.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
+    <ClCompile Include="PanelProperties.cpp">
+      <Filter>Panels</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -507,6 +510,9 @@
     </ClInclude>
     <ClInclude Include="Mesh.h">
       <Filter>Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="PanelProperties.h">
+      <Filter>Panels</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

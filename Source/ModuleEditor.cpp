@@ -4,9 +4,10 @@
 #include "ModuleWindow.h"
 #include "ModuleRender.h"
 
-#include "PanelConsole.h"
 #include "PanelAbout.h"
+#include "PanelConsole.h"
 #include "PanelConfig.h"
+#include "PanelProperties.h"
 
 #include <imgui.h>
 #include <imgui_impl_sdl.h>
@@ -16,9 +17,10 @@ using namespace std;
 
 ModuleEditor::ModuleEditor()
 {
-	panels.push_back(console = new PanelConsole());
 	panels.push_back(about = new PanelAbout());
+	panels.push_back(console = new PanelConsole());
 	panels.push_back(config = new PanelConfig());
+	panels.push_back(props = new PanelProperties());
 }
 
 ModuleEditor::~ModuleEditor()
@@ -31,7 +33,7 @@ ModuleEditor::~ModuleEditor()
 
 bool ModuleEditor::Init()
 {
-	//D_LOG("Create ImGui context")
+	//D_LOG("Create ImGui context");
 	log.emplace_back("Create ImGui context");
 	ImGui::CreateContext();
 	ImGuiIO& io = ImGui::GetIO();
@@ -135,10 +137,13 @@ update_status ModuleEditor::DrawMainMenu()
 			if (ImGui::MenuItem("Configuration", NULL, &config->visible))
 				config->visible = true;
 
+			if (ImGui::MenuItem("Object Properties", NULL, &props->visible))
+				props->visible = true;
+
 			ImGui::EndMenu();
 		}
 
-		if (ImGui::BeginMenu("Github Page"))
+		if (ImGui::BeginMenu("Github"))
 		{
 			if (ImGui::MenuItem("Documentation"))
 				App->RequestBrowser("https://github.com/markmeliaa/AAA_Engine/wiki");

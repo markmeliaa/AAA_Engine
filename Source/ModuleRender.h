@@ -18,8 +18,11 @@ public:
 	update_status PostUpdate() override;
 	bool CleanUp() override;
 
-public:
+	Model* GetModel() const;
+
 	void* context = nullptr;
+
+private:
 	Model* model;
 };
 

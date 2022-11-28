@@ -12,4 +12,4 @@ public:
 	void Draw() override;
 };
 
-#endif __PanelConsole_H__
+#endif // __PanelConsole_H__

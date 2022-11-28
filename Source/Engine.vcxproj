@@ -209,6 +209,7 @@
     <ClCompile Include="PanelAbout.cpp" />
     <ClCompile Include="PanelConfig.cpp" />
     <ClCompile Include="PanelConsole.cpp" />
+    <ClCompile Include="PanelProperties.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
@@ -315,6 +316,7 @@
     <ClInclude Include="PanelAbout.h" />
     <ClInclude Include="PanelConfig.h" />
     <ClInclude Include="PanelConsole.h" />
+    <ClInclude Include="PanelProperties.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="lib\MathGeoLib\Geometry\KDTree.inl" />

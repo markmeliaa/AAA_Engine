@@ -110,3 +110,8 @@ bool ModuleRender::CleanUp()
 	delete model;
 	return true;
 }
+
+Model* ModuleRender::GetModel() const
+{
+	return model;
+}

@@ -25,6 +25,7 @@ void PanelConsole::Draw()
 
 	ImGui::SetNextWindowSize(ImVec2(550, 200), ImGuiCond_Always);
 	ImGui::SetNextWindowPos(ImVec2(0, (float)App->window->getCurrentHeight() - 200), ImGuiCond_Always);
+	ImGui::SetNextWindowBgAlpha(1.0f);
 	ImGui::Begin("Console Log", &visible);
 
 	for (int i = 0; i < App->editor->log.size(); i++)

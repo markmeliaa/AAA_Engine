@@ -17,6 +17,8 @@ public:
 
 	void Draw();
 
+	std::vector<Mesh*> GetMeshes() const;
+
 private:
 	void Load(const char* file_name);
 	void LoadMaterials(aiMaterial** aiMaterial, const unsigned int& numMaterials);

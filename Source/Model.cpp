@@ -68,7 +68,6 @@ void Model::LoadMaterials(aiMaterial** aiMaterial, const unsigned int& numMateri
 	{
 		if (aiMaterial[i]->GetTexture(aiTextureType_DIFFUSE, 0, &file) == AI_SUCCESS)
 		{
-
 			materials.emplace_back(App->texture->LoadTexture(file.data));
 		}
 	}
@@ -84,4 +83,9 @@ void Model::LoadMeshes(aiMesh** aiMesh, const unsigned int& numMeshes)
 	{
 		meshes.emplace_back(new Mesh(aiMesh[i]));
 	}
+}
+
+std::vector<Mesh*> Model::GetMeshes() const
+{
+	return meshes;
 }

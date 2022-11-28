@@ -14,6 +14,9 @@ public:
 
 	void Draw(const std::vector<GLuint>& model_textures);
 
+	int GetNumVertices() const;
+	int GetNumIndices() const;
+
 private:
 	void LoadVBO(const aiMesh* mesh);
 	void LoadEBO(const aiMesh* mesh);
