@@ -67,35 +67,46 @@ update_status ModuleCamera::Update()
 		rotate_speed_inc *= 2;
 	}
 
-	// Move camera around (translations) with WASD + QE
-	if (App->input->GetKey(SDL_SCANCODE_A))
+	// Focus model with F
+	if (App->input->GetKey(SDL_SCANCODE_F))
 	{
-		Translate(frustum->WorldRight().Normalized() * -move_speed_inc * delta_time);
+		SetPos(model_trans.x - 6.5f, model_trans.y + 3, model_trans.z + 6.5f);
+		frustum->SetFront((float3::unitX + -float3::unitZ).Normalized());
+		frustum->SetUp(float3::unitY);
 	}
 
-	if (App->input->GetKey(SDL_SCANCODE_D))
+	// Move camera around while right clicking (translations) with WASD + QE
+	if (App->input->GetMouseButton(3))
 	{
-		Translate(frustum->WorldRight().Normalized() * move_speed_inc * delta_time);
-	}
+		if (App->input->GetKey(SDL_SCANCODE_A))
+		{
+			Translate(frustum->WorldRight().Normalized() * -move_speed_inc * delta_time);
+		}
 
-	if (App->input->GetKey(SDL_SCANCODE_Q))
-	{
-		Translate(frustum->Up().Normalized() * move_speed_inc * delta_time);
-	}
+		if (App->input->GetKey(SDL_SCANCODE_D))
+		{
+			Translate(frustum->WorldRight().Normalized() * move_speed_inc * delta_time);
+		}
 
-	if (App->input->GetKey(SDL_SCANCODE_E))
-	{
-		Translate(frustum->Up().Normalized() * -move_speed_inc * delta_time);
-	}
+		if (App->input->GetKey(SDL_SCANCODE_Q))
+		{
+			Translate(frustum->Up().Normalized() * move_speed_inc * delta_time);
+		}
 
-	if (App->input->GetKey(SDL_SCANCODE_W))
-	{
-		Translate(frustum->Front().Normalized() * move_speed_inc * delta_time);
-	}
+		if (App->input->GetKey(SDL_SCANCODE_E))
+		{
+			Translate(frustum->Up().Normalized() * -move_speed_inc * delta_time);
+		}
 
-	if (App->input->GetKey(SDL_SCANCODE_S))
-	{
-		Translate(frustum->Front().Normalized() * -move_speed_inc * delta_time);
+		if (App->input->GetKey(SDL_SCANCODE_W))
+		{
+			Translate(frustum->Front().Normalized() * move_speed_inc * delta_time);
+		}
+
+		if (App->input->GetKey(SDL_SCANCODE_S))
+		{
+			Translate(frustum->Front().Normalized() * -move_speed_inc * delta_time);
+		}
 	}
 
 	// Move camera around (rotations) with Arrow Keys
@@ -133,14 +144,6 @@ update_status ModuleCamera::Update()
 	{
 		Translate(frustum->Front().Normalized() * move_speed_inc * delta_time * App->input->GetMouseWheelInput().y);
 		App->input->SetMouseWheel(false);
-	}
-
-	// Reset position with F
-	if (App->input->GetKey(SDL_SCANCODE_F))
-	{
-		SetPos(0.0f, 3.0f, 10.0f);
-		frustum->SetFront(-float3::unitZ);
-		frustum->SetUp(float3::unitY);
 	}
 
 	return UPDATE_CONTINUE;

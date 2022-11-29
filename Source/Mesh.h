@@ -28,6 +28,9 @@ private:
 	int num_vertices;
 	int num_indices;
 	int material_index;
+
+	float max_x, max_y, max_z = 0.0f;
+	float min_x, min_y, min_z = 0.0f;
 };
 
 #endif // __Mesh_H__

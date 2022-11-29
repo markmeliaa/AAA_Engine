@@ -137,7 +137,7 @@ update_status ModuleEditor::DrawMainMenu()
 			if (ImGui::MenuItem("Configuration", NULL, &config->visible))
 				config->visible = true;
 
-			if (ImGui::MenuItem("Object Properties", NULL, &props->visible))
+			if (ImGui::MenuItem("Model Properties", NULL, &props->visible))
 				props->visible = true;
 
 			ImGui::EndMenu();

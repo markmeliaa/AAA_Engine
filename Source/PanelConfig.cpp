@@ -10,6 +10,7 @@
 #include <string>
 #include <SDL.h>
 #include <GL/glew.h>
+#include <DirectXTex.h>
 
 PanelConfig::PanelConfig()
 {
@@ -169,6 +170,10 @@ void PanelConfig::Draw()
 		ImGui::Text("OpenGL version:");
 		ImGui::SameLine();
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s", glGetString(GL_VERSION));
+
+		ImGui::Text("DirectXTex version:");
+		ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "-----");
 		ImGui::Separator();
 
 		ImGui::Text("CPUs:");
@@ -235,27 +240,27 @@ void PanelConfig::Draw()
 
 		ImGui::Text("GPU:");
 		ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "----------");
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "-----");
 
 		ImGui::Text("Brand:");
 		ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "----------");
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "-----");
 
 		ImGui::Text("VRAM Budget:");
 		ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "----------");
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "-----");
 
 		ImGui::Text("VRAM Usage:");
 		ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "----------");
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "-----");
 
 		ImGui::Text("VRAM Available:");
 		ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "----------");
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "-----");
 
 		ImGui::Text("VRAM Reserved:");
 		ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "----------");
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "-----");
 	}
 
 	this->setFocused(ImGui::IsWindowFocused());
