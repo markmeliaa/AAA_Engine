@@ -12,6 +12,10 @@
 ModuleCamera::ModuleCamera()
 {
 	frustum = new Frustum();
+	//model = float4x4::identity;
+	model_trans = float3(0.0f, 0.0f, 0.0f);
+	model_rot = float4x4::RotateX(rotX) * float4x4::RotateY(rotY) * float4x4::RotateY(rotZ);
+	model_scale = float3(1.0f, 1.0f, 1.0f);
 }
 
 ModuleCamera::~ModuleCamera()
@@ -28,6 +32,7 @@ bool ModuleCamera::Init()
 
 	proj = frustum->ProjectionMatrix();
 	view = frustum->ViewMatrix();
+	model = float4x4::FromTRS(model_trans, model_rot, model_scale);
 
 	return true;
 }
@@ -42,6 +47,8 @@ update_status ModuleCamera::Update()
 {
 	aspectRatio = (float)App->window->getCurrentWidth() / (float)App->window->getCurrentHeight();
 	frustum->SetHorizontalFovAndAspectRatio(frustum->HorizontalFov(), aspectRatio);
+
+	model = float4x4::FromTRS(model_trans, model_rot, model_scale);
 
 	if (App->editor->IsAnyWindowsFocused())
 		return UPDATE_CONTINUE;
@@ -166,6 +173,11 @@ float4x4 ModuleCamera::GetProjMatrix() const
 	return frustum->ProjectionMatrix();
 }
 
+float4x4 ModuleCamera::GetModelMatrix() const
+{
+	return model;
+}
+
 void ModuleCamera::SetPos(const float3& newpos)
 {
 	frustum->SetPos(newpos);
@@ -187,4 +199,44 @@ void ModuleCamera::Rotate(const float3x3& rotationDeltaMatrix)
 	frustum->SetFront(rotationDeltaMatrix.MulDir(oldFront));
 	vec oldUp = frustum->Up().Normalized();
 	frustum->SetUp(rotationDeltaMatrix.MulDir(oldUp));
+}
+
+float3 ModuleCamera::GetModelTrans() const
+{
+	return model_trans;
+}
+
+float ModuleCamera::GetModelRotX() const
+{
+	return rotX;
+}
+
+float ModuleCamera::GetModelRotY() const
+{
+	return rotY;
+}
+
+float ModuleCamera::GetModelRotZ() const
+{
+	return rotZ;
+}
+
+float3 ModuleCamera::GetModelScale() const
+{
+	return model_scale;
+}
+
+void ModuleCamera::SetModelTrans(float3 t)
+{
+	model_trans = t;
+}
+
+void ModuleCamera::SetModelRot(float x, float y, float z)
+{
+	model_rot = float4x4::RotateX(x) * float4x4::RotateY(y) * float4x4::RotateZ(z);
+}
+
+void ModuleCamera::SetModelScale(float3 s)
+{
+	model_scale = s;
 }

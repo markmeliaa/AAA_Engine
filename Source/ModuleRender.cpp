@@ -63,7 +63,7 @@ bool ModuleRender::Start()
 
 	D_LOG("Load the inital model");
 	App->editor->log.emplace_back("Load the initial model");
-	model = new Model("Patricio.fbx");
+	model = new Model("Bakerhouse.fbx");
 
 	D_LOG("***** ASSIMP PROCESS END *****");
 	App->editor->log.emplace_back("***** ASSIMP PROCESS END *****");

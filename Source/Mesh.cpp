@@ -24,17 +24,18 @@ Mesh::~Mesh()
 void Mesh::Draw(const std::vector<GLuint>& model_textures)
 {
 	unsigned program = App->program->program;
-	const float4x4 model = float4x4::FromTRS(float3(0.0f, 0.0f, 0.0f), float4x4::RotateZ(rotation), float3(0.1f, 0.1f, 0.1f));
+
+	const float4x4 model = App->camera->GetModelMatrix();
 	const float4x4& view = App->camera->GetViewMatrix();
 	const float4x4& proj = App->camera->GetProjMatrix();
-	glUseProgram(program);
-	glUniformMatrix4fv(glGetUniformLocation(program, "model"), 1, GL_TRUE, (const float*)&model);
-	glUniformMatrix4fv(glGetUniformLocation(program, "view"), 1, GL_TRUE, (const float*)&view);
-	glUniformMatrix4fv(glGetUniformLocation(program, "proj"), 1, GL_TRUE, (const float*)&proj);
 
-	glActiveTexture(GL_TEXTURE0);
+	glUseProgram(program);
+	glUniformMatrix4fv(1, 1, GL_TRUE, (const float*)&model);
+	glUniformMatrix4fv(2, 1, GL_TRUE, (const float*)&view);
+	glUniformMatrix4fv(3, 1, GL_TRUE, (const float*)&proj);
+
+	glActiveTexture(GL_TEXTURE5);
 	glBindTexture(GL_TEXTURE_2D, model_textures[material_index]);
-	glUniform1i(glGetUniformLocation(program, "mytexture"), 0);
 
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
