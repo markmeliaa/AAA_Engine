@@ -63,6 +63,7 @@ bool ModuleRender::Start()
 
 	D_LOG("Load the inital model");
 	App->editor->log.emplace_back("Load the initial model");
+
 	model = new Model("LinuxPenguin.fbx");
 
 	D_LOG("***** ASSIMP PROCESS END *****");
