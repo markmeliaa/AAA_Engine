@@ -63,7 +63,7 @@ bool ModuleRender::Start()
 
 	D_LOG("Load the inital model");
 	App->editor->log.emplace_back("Load the initial model");
-	model = new Model("Bakerhouse.fbx");
+	model = new Model("LinuxPenguin.obj");
 
 	D_LOG("***** ASSIMP PROCESS END *****");
 	App->editor->log.emplace_back("***** ASSIMP PROCESS END *****");
@@ -109,6 +109,11 @@ bool ModuleRender::CleanUp()
 
 	delete model;
 	return true;
+}
+
+void* ModuleRender::GetContext() const
+{
+	return context;
 }
 
 Model* ModuleRender::GetModel() const
