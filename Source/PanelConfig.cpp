@@ -10,7 +10,7 @@
 #include <string>
 #include <SDL.h>
 #include <GL/glew.h>
-#include <DirectXTex.h>
+#include <assimp/version.h>
 
 PanelConfig::PanelConfig()
 {
@@ -160,20 +160,24 @@ void PanelConfig::Draw()
 
 	if (ImGui::CollapsingHeader("Hardware"))
 	{
-		SDL_version sdl_ver;
+		SDL_version sdl_ver = SDL_version{};
 		SDL_VERSION(&sdl_ver);
 
 		ImGui::Text("SDL version:");
 		ImGui::SameLine();
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%u.%u.%u", sdl_ver.major, sdl_ver.minor, sdl_ver.patch);
 
-		ImGui::Text("OpenGL version:");
+		ImGui::Text("GLEW version:");
 		ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s", glGetString(GL_VERSION));
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i.%i.%i", GLEW_VERSION_MAJOR, GLEW_VERSION_MINOR, GLEW_VERSION_MICRO);
 
-		ImGui::Text("DirectXTex version:");
+		ImGui::Text("GLSL version:");
 		ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "-----");
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s", glGetString(GL_SHADING_LANGUAGE_VERSION));
+
+		ImGui::Text("Assimp version:");
+		ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%i.%i.%i", aiGetVersionMajor(), aiGetVersionMinor(), aiGetVersionRevision());
 		ImGui::Separator();
 
 		ImGui::Text("CPUs:");
@@ -240,11 +244,11 @@ void PanelConfig::Draw()
 
 		ImGui::Text("GPU:");
 		ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "-----");
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s", glGetString(GL_RENDERER));
 
 		ImGui::Text("Brand:");
 		ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "-----");
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s", glGetString(GL_VENDOR));
 
 		ImGui::Text("VRAM Budget:");
 		ImGui::SameLine();

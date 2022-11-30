@@ -8,6 +8,7 @@
 
 #include <SDL.h>
 #include <GL/glew.h>
+#include <string>
 
 ModuleRender::ModuleRender()
 {
@@ -27,24 +28,29 @@ ModuleRender::~ModuleRender()
 // Called before render is available
 bool ModuleRender::Init()
 {
-	D_LOG("Creating Renderer context");
-	App->editor->log.emplace_back("Creating Renderer context");
+	D_LOG("Create render context");
+	App->editor->log.emplace_back("Create render context");
 	context = SDL_GL_CreateContext(App->window->window);
 
 	GLenum err = glewInit();
 	// … check for errors
 	D_LOG("Using Glew %s", glewGetString(GLEW_VERSION));
-	App->editor->log.emplace_back("Using Glew 2.1.0");
+	//App->editor->log.emplace_back("- Glew version:");
+	//App->editor->log.emplace_back("2.1.0");
 	// Should be 2.0
 
 	D_LOG("Vendor: %s", glGetString(GL_VENDOR));
-	App->editor->log.emplace_back("Vendor: Intel");
+	//App->editor->log.emplace_back("- Vendor:");
+	//App->editor->log.emplace_back(reinterpret_cast<char const*>(glGetString(GL_VENDOR)));
 	D_LOG("Renderer: %s", glGetString(GL_RENDERER));
-	App->editor->log.emplace_back("Renderer: Intel(R) Iris(R) Xe Graphics");
+	//App->editor->log.emplace_back("- Renderer:");
+	//App->editor->log.emplace_back(reinterpret_cast<char const*>(glGetString(GL_RENDERER)));
 	D_LOG("OpenGL version supported %s", glGetString(GL_VERSION));
-	App->editor->log.emplace_back("OpenGL version supported 4.6.0 - Build 30.0.101.1029");
-	D_LOG("GLSL: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
-	App->editor->log.emplace_back("GLSL: 4.60 - Build 30.0.101.1029");
+	//App->editor->log.emplace_back("- OpenGL version supported:");
+	//App->editor->log.emplace_back(reinterpret_cast<char const*>(glGetString(GL_VERSION)));
+	D_LOG("GLSL version: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
+	//App->editor->log.emplace_back("- GLSL version:");
+	//App->editor->log.emplace_back(reinterpret_cast<char const*>(glGetString(GL_SHADING_LANGUAGE_VERSION)));
 	
 	glEnable(GL_DEPTH_TEST);	// Enable depth test
 	glEnable(GL_CULL_FACE);		// Enable cull backward faces

@@ -27,7 +27,7 @@ ModuleCamera::~ModuleCamera()
 bool ModuleCamera::Init()
 {
 	D_LOG("Create the camera");
-	App->editor->log.emplace_back("Creating the camera");
+	App->editor->log.emplace_back("Create the camera");
 
 	aspectRatio = (float)App->window->getCurrentWidth() / (float)App->window->getCurrentHeight();
 	SetUpFrustum();
