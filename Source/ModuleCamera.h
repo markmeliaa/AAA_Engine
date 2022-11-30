@@ -3,6 +3,7 @@
 
 #include "Module.h"
 #include "Globals.h"
+#include "Model.h"
 
 #include <Geometry/Frustum.h>
 #include <Math/float3x3.h>
@@ -39,7 +40,9 @@ private:
 	void SetPos(const float& x, const float& y, const float& z);
 
 	void Translate(const float3& translation);
+	void Translate(const float& x, const float& y, const float& z);
 	void Rotate(const float3x3& rotationDeltaMatrix);
+	void Focus(Model* model);
 
 	float aspectRatio = 0.0f;
 	Frustum* frustum;

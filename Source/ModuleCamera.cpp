@@ -72,11 +72,7 @@ update_status ModuleCamera::Update()
 	// Focus model with F
 	if (App->input->GetKey(SDL_SCANCODE_F))
 	{
-		SetPos(model_trans.x + App->renderer->GetModel()->GetModelBounds().Centroid().x - 6.5f, 
-			model_trans.y + App->renderer->GetModel()->GetModelBounds().Centroid().y + 1, 
-			model_trans.z + App->renderer->GetModel()->GetModelBounds().Centroid().z + 6.5f);
-		frustum->SetFront((float3::unitX + -float3::unitZ).Normalized());
-		frustum->SetUp(float3::unitY);
+		Focus(App->renderer->GetModel());
 	}
 
 	// Move camera around while right clicking (translations) with WASD + QE
@@ -200,12 +196,32 @@ void ModuleCamera::Translate(const float3& translation)
 	SetPos(frustum->Pos() + translation);
 }
 
+void ModuleCamera::Translate(const float& x, const float& y, const float& z)
+{
+	SetPos(frustum->Pos() + float3(x, y, z));
+}
+
 void ModuleCamera::Rotate(const float3x3& rotationDeltaMatrix)
 {
 	vec oldFront = frustum->Front().Normalized();
 	frustum->SetFront(rotationDeltaMatrix.MulDir(oldFront));
 	vec oldUp = frustum->Up().Normalized();
 	frustum->SetUp(rotationDeltaMatrix.MulDir(oldUp));
+}
+
+void ModuleCamera::Focus(Model* model)
+{
+	// Set the camera in the center of the model
+	SetPos(model_trans.x + model->GetModelBounds().Centroid().x * Abs(model_scale.x),
+		   model_trans.y + model->GetModelBounds().Centroid().y * model_scale.y,
+		   model_trans.z + model->GetModelBounds().Centroid().z * Abs(model_scale.z));
+
+	// Move the camera away from the center of the model a certain distance
+	float away = model->GetModelBounds().r * Max(Abs(model_scale.x), Abs(model_scale.y), Abs(model_scale.z));
+	Translate(-away * 1.4f, 0.0f, away * 1.4f);
+
+	frustum->SetFront((float3::unitX + -float3::unitZ).Normalized());
+	frustum->SetUp(float3::unitY);
 }
 
 float3 ModuleCamera::GetModelTrans() const
