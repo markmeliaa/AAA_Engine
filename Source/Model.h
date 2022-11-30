@@ -6,7 +6,7 @@
 
 #include <GL/glew.h>
 #include <assimp/scene.h>
-#include <Math/float3.h>
+#include <Geometry/Sphere.h>
 
 #include <vector>
 
@@ -19,16 +19,22 @@ public:
 	void Draw();
 
 	std::vector<Mesh*> GetMeshes() const;
+	int GetNumberVertices() const;
+	int GetNumberIndices() const;
+	Sphere GetModelBounds() const;
 
 private:
 	void Load(const char* file_name);
-	void LoadMaterials(aiMaterial** aiMaterial, const unsigned int& numMaterials);
-	void LoadMeshes(aiMesh** aiMesh, const unsigned int& numMeshes);
-
-	float3 middlePosition = float3(0.0f, 0.0f, 0.0f);
+	void LoadMaterials(aiMaterial** materials, const unsigned int& numMaterials);
+	void LoadMeshes(aiMesh** meshes, const unsigned int& numMeshes);
+	void CreateModelSphere(aiMesh** meshes, const unsigned int& numMeshes);
 
 	std::vector<GLuint> materials;
 	std::vector<Mesh*> meshes;
+
+	int total_num_vertices = 0;
+	int total_num_indices = 0;
+	Sphere model_bounds;
 };
 
 #endif // __Model_H__

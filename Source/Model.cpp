@@ -6,6 +6,7 @@
 
 #include <assimp/cimport.h>
 #include <assimp/postprocess.h>
+#include <Math/float3.h>
 
 Model::Model(const char* file_name)
 {
@@ -45,6 +46,7 @@ void Model::Load(const char* file_name)
 		App->editor->log.emplace_back("Load the materials and the meshes of the model");
 		LoadMaterials(scene->mMaterials, scene->mNumMaterials);
 		LoadMeshes(scene->mMeshes, scene->mNumMeshes);
+		CreateModelSphere(scene->mMeshes, scene->mNumMeshes);
 
 		D_LOG("Once loaded, draw the model");
 		App->editor->log.emplace_back("Once loaded, draw the model");
@@ -57,35 +59,74 @@ void Model::Load(const char* file_name)
 	}
 }
 
-void Model::LoadMaterials(aiMaterial** aiMaterial, const unsigned int& numMaterials)
+void Model::LoadMaterials(aiMaterial** materials, const unsigned int& numMaterials)
 {
 	aiString file;
-	materials.reserve(numMaterials);
+	this->materials.reserve(numMaterials);
 
 	D_LOG("For each material, load its texture");
 	App->editor->log.emplace_back("For each material, load its texture");
 	for (unsigned i = 0; i < numMaterials; ++i)
 	{
-		if (aiMaterial[i]->GetTexture(aiTextureType_DIFFUSE, 0, &file) == AI_SUCCESS)
+		if (materials[i]->GetTexture(aiTextureType_DIFFUSE, 0, &file) == AI_SUCCESS)
 		{
-			materials.emplace_back(App->texture->LoadTexture(file.data));
+			this->materials.emplace_back(App->texture->LoadTexture(file.data));
 		}
 	}
 }
 
-void Model::LoadMeshes(aiMesh** aiMesh, const unsigned int& numMeshes)
+void Model::LoadMeshes(aiMesh** meshes, const unsigned int& numMeshes)
 {
-	meshes.reserve(numMeshes);
+	this->meshes.reserve(numMeshes);
 
 	D_LOG("For each mesh, create and load its VBO, EBO and VAO");
 	App->editor->log.emplace_back("For each mesh, create and load its VBO, EBO and VAO");
 	for (unsigned int i = 0; i < numMeshes; ++i)
 	{
-		meshes.emplace_back(new Mesh(aiMesh[i]));
+		this->meshes.emplace_back(new Mesh(meshes[i]));
 	}
+}
+
+void Model::CreateModelSphere(aiMesh** meshes, const unsigned int& numMeshes)
+{
+	for (int i = 0; i < this->meshes.size(); i++)
+	{
+		total_num_vertices += this->meshes[i]->GetNumVertices();
+		total_num_indices += this->meshes[i]->GetNumIndices();
+	}
+
+	std::vector<float3> sphere_vertices;
+	sphere_vertices.reserve(total_num_vertices);
+	for (unsigned int i = 0; i < numMeshes; i++)
+	{
+		const aiMesh* mesh = meshes[i];
+
+		for (unsigned int j = 0; j < mesh->mNumVertices; j++)
+		{
+			const aiVector3D& vertex = mesh->mVertices[j];
+			sphere_vertices.push_back(vec(vertex.x, vertex.y, vertex.z));
+		}
+	}
+
+	model_bounds = Sphere::FastEnclosingSphere(sphere_vertices.data(), (int)sphere_vertices.size());
 }
 
 std::vector<Mesh*> Model::GetMeshes() const
 {
 	return meshes;
+}
+
+int Model::GetNumberVertices() const
+{
+	return total_num_vertices;
+}
+
+int Model::GetNumberIndices() const
+{
+	return total_num_indices;
+}
+
+Sphere Model::GetModelBounds() const
+{
+	return model_bounds;
 }

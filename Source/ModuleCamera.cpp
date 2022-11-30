@@ -4,10 +4,12 @@
 #include "ModuleEditor.h"
 #include "ModuleInput.h"
 #include "ModuleWindow.h"
+#include "ModuleRender.h"
 
 #include <GL/glew.h>
 #include <SDL.h>
 #include <SDL_scancode.h>
+#include <Geometry/Sphere.h>
 
 ModuleCamera::ModuleCamera()
 {
@@ -70,7 +72,9 @@ update_status ModuleCamera::Update()
 	// Focus model with F
 	if (App->input->GetKey(SDL_SCANCODE_F))
 	{
-		SetPos(model_trans.x - 6.5f, model_trans.y + 3, model_trans.z + 6.5f);
+		SetPos(model_trans.x + App->renderer->GetModel()->GetModelBounds().Centroid().x - 6.5f, 
+			model_trans.y + App->renderer->GetModel()->GetModelBounds().Centroid().y + 1, 
+			model_trans.z + App->renderer->GetModel()->GetModelBounds().Centroid().z + 6.5f);
 		frustum->SetFront((float3::unitX + -float3::unitZ).Normalized());
 		frustum->SetUp(float3::unitY);
 	}

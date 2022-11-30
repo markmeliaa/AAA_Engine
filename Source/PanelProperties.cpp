@@ -64,7 +64,7 @@ void PanelProperties::Draw()
 
 	if (ImGui::CollapsingHeader("Geometry"))
 	{
-		ImGui::TextUnformatted("AMOUNT OF VERTICES:");
+		ImGui::TextUnformatted("AMOUNT OF VERTICES PER MESH:");
 		for (int i = 0; i < App->renderer->GetModel()->GetMeshes().size(); i++)
 		{
 			ImGui::TextUnformatted("Mesh");
@@ -76,9 +76,13 @@ void PanelProperties::Draw()
 			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), 
 				std::to_string(App->renderer->GetModel()->GetMeshes()[i]->GetNumVertices()).c_str());
 		}
+		ImGui::TextUnformatted("TOTAL AMOUNT OF VERTICES IN THE MODEL:");
+		ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f),
+			std::to_string(App->renderer->GetModel()->GetNumberVertices()).c_str());
 		ImGui::Separator();
 
-		ImGui::TextUnformatted("AMOUNT OF TRIANGLES:");
+		ImGui::TextUnformatted("AMOUNT OF TRIANGLES PER MESH:");
 		for (int i = 0; i < App->renderer->GetModel()->GetMeshes().size(); i++)
 		{
 			ImGui::TextUnformatted("Mesh");
@@ -90,6 +94,11 @@ void PanelProperties::Draw()
 			ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f),
 				std::to_string(App->renderer->GetModel()->GetMeshes()[i]->GetNumIndices() / 3).c_str());
 		}
+		ImGui::TextUnformatted("TOTAL AMOUNT OF TRIANGLES IN THE MODEL:");
+		ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f),
+			std::to_string(App->renderer->GetModel()->GetNumberIndices() / 3).c_str());
+		ImGui::Separator();
 	}
 
 	if (ImGui::CollapsingHeader("Texture"))
