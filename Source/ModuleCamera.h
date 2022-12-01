@@ -56,6 +56,7 @@ private:
 	void Translate(const float& x, const float& y, const float& z);
 	void Rotate(const float3x3& rotationDeltaMatrix);
 	void Focus(const Model* model);
+	void Orbit(const Model* model, const float& move_speed, const float& rotate_speed);
 
 	float aspectRatio = 0.0f;
 	Frustum* frustum;

@@ -10,6 +10,7 @@
 #include <SDL.h>
 #include <SDL_scancode.h>
 #include <Geometry/Sphere.h>
+#include <Math/Quat.h>
 
 ModuleCamera::ModuleCamera()
 {
@@ -77,7 +78,7 @@ update_status ModuleCamera::Update()
 		Focus(App->renderer->GetModel());
 	}
 
-	// Move camera around while right clicking (translations) with WASD + QE
+	// Move camera around while right clicking (translations) and WASD + QE pressed
 	if (App->input->GetMouseButton(3))
 	{
 		if (App->input->GetKey(SDL_SCANCODE_A))
@@ -134,8 +135,14 @@ update_status ModuleCamera::Update()
 			Rotate(float3x3::RotateAxisAngle(frustum->WorldRight().Normalized(), -rotate_speed_inc * DEGTORAD * delta_time));
 	}
 
+
+	if (App->input->GetKey(SDL_SCANCODE_LALT) && (App->input->GetMouseButton(1)))
+	{
+		Orbit(App->renderer->GetModel(), move_speed_inc, rotate_speed_inc);
+	}
+
 	// Move camera around (rotations) with Mouse Control
-	if (App->input->GetMouseButton(1))
+	if (App->input->GetMouseButton(1) && !App->input->GetKey(SDL_SCANCODE_LALT))
 	{
 		Rotate(float3x3::RotateY((mouse_input.x * 0.1f) * rotate_speed_inc * DEGTORAD * delta_time));		
 		Rotate(float3x3::RotateAxisAngle(frustum->WorldRight().Normalized(), (mouse_input.y * 0.1f) * rotate_speed_inc * DEGTORAD * delta_time));
@@ -160,7 +167,7 @@ bool ModuleCamera::CleanUp()
 void ModuleCamera::SetUpFrustum()
 {
 	frustum->SetKind(FrustumSpaceGL, FrustumRightHanded);
-	frustum->SetViewPlaneDistances(0.1f, 100.0f);
+	frustum->SetViewPlaneDistances(0.1f, 1000.0f);
 	frustum->SetHorizontalFovAndAspectRatio(DEGTORAD * 90.0f, aspectRatio);
 
 	SetPos(0.0f, 3.0f, 10.0f);
@@ -223,6 +230,16 @@ void ModuleCamera::Focus(const Model* model)
 	Translate(-away * 1.4f, 0.0f, away * 1.4f);
 
 	frustum->SetFront((float3::unitX + -float3::unitZ).Normalized());
+	frustum->SetUp(float3::unitY);
+}
+
+void ModuleCamera::Orbit(const Model* model, const float& move_speed, const float& rotate_speed)
+{
+	float3x3 rotation = float3x3::RotateY((-rotate_speed * 0.5f) * DEGTORAD * App->GetDeltaTime());
+	vec oldFront = (vec(model->GetModelBounds().Centroid().x, model->GetModelBounds().Centroid().y * model_scale.y, model->GetModelBounds().Centroid().z) - frustum->Pos()).Normalized();
+	frustum->SetFront(rotation.MulDir(oldFront));
+
+	Translate((frustum->WorldRight().Normalized() * Max(Abs(model_scale.x), Abs(model_scale.z))) * -move_speed * App->GetDeltaTime());
 	frustum->SetUp(float3::unitY);
 }
 

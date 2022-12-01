@@ -43,16 +43,6 @@ void PanelConfig::Draw()
 		static char org_name[128] = "UPC Tech Talent";
 		ImGui::InputText("Organization", org_name, IM_ARRAYSIZE(org_name));
 
-		static int maax_fps = App->editor->GetMaxFps();
-		if (ImGui::SliderInt("Max FPS", &maax_fps, 0, 60))
-			App->editor->SetMaxFps(maax_fps);
-
-		ImGui::Text("Limit framerate:");
-		ImGui::SameLine();
-		std::string s = std::to_string((int)App->editor->GetMaxFps());
-		char const* char_fps = s.c_str();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), char_fps);
-
 		ImGui::PlotHistogram("##framerate", App->editor->fps_log, IM_ARRAYSIZE(App->editor->fps_log), 0, "Framerate", 0.0f, 100.0f, ImVec2(385.0f, 100.0f));
 		ImGui::PlotHistogram("##milliseconds", App->editor->milisec_log, IM_ARRAYSIZE(App->editor->milisec_log), 0, "Milliseconds", 0.0f, 40.0f, ImVec2(385.0f, 100.0f));
 		ImGui::Separator();
@@ -196,10 +186,10 @@ void PanelConfig::Draw()
 		static float nearplane = App->camera->GetNearPlane();
 		static float farplane = App->camera->GetFarPlane();
 
-		if (ImGui::SliderFloat("Near plane dist", &nearplane, 0.1f, 100.0f))
+		if (ImGui::SliderFloat("Near plane dist", &nearplane, 0.1f, 1000.0f))
 			App->camera->SetNearPlane(nearplane);
 
-		if (ImGui::SliderFloat("Far plane dist", &farplane, 0.1f, 100.0f))
+		if (ImGui::SliderFloat("Far plane dist", &farplane, 0.1f, 1000.0f))
 			App->camera->SetFarPlane(farplane);
 		ImGui::Separator();
 	}
