@@ -20,12 +20,13 @@ public:
 
 	void* GetContext() const;
 	Model* GetModel() const;
+	void LoadNewModel(const char* load_file);
 
 	float background_color[3] = { 0.1f, 0.1f, 0.1f };
 
 private:
 	void* context = nullptr;
-	Model* model;
+	Model* model = nullptr;
 };
 
 #endif // __ModuleRender_H__

@@ -25,7 +25,7 @@ public:
 
 private:
 	void Load(const char* file_name);
-	void LoadMaterials(aiMaterial** materials, const unsigned int& numMaterials);
+	void LoadMaterials(aiMaterial** materials, const unsigned int& numMaterials, const char* file_name);
 	void LoadMeshes(aiMesh** meshes, const unsigned int& numMeshes);
 	void CreateModelSphere(aiMesh** meshes, const unsigned int& numMeshes);
 

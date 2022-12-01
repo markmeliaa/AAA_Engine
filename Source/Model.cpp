@@ -7,6 +7,7 @@
 #include <assimp/cimport.h>
 #include <assimp/postprocess.h>
 #include <Math/float3.h>
+#include <string>
 
 Model::Model(const char* file_name)
 {
@@ -44,12 +45,12 @@ void Model::Load(const char* file_name)
 	{
 		D_LOG("Load the materials and the meshes of the model");
 		App->editor->log.emplace_back("Load the materials and the meshes of the model");
-		LoadMaterials(scene->mMaterials, scene->mNumMaterials);
+		LoadMaterials(scene->mMaterials, scene->mNumMaterials, file_name);
 		LoadMeshes(scene->mMeshes, scene->mNumMeshes);
 		CreateModelSphere(scene->mMeshes, scene->mNumMeshes);
 
-		D_LOG("Once loaded, draw the model");
-		App->editor->log.emplace_back("Once loaded, draw the model");
+		D_LOG("Once everything is loaded, draw the model and adjust the view to its size");
+		App->editor->log.emplace_back("Once loaded, draw the model and adjust the view to its size");
 	}
 	else
 	{
@@ -59,18 +60,77 @@ void Model::Load(const char* file_name)
 	}
 }
 
-void Model::LoadMaterials(aiMaterial** materials, const unsigned int& numMaterials)
+void Model::LoadMaterials(aiMaterial** materials, const unsigned int& numMaterials, const char* file_name)
 {
 	aiString file;
 	this->materials.reserve(numMaterials);
 
-	D_LOG("For each material, load its texture");
-	App->editor->log.emplace_back("For each material, load its texture");
+	D_LOG("TRY TO LOAD TEXTURE");
+	App->editor->log.emplace_back("-- TRY TO LOAD TEXTURE --");
 	for (unsigned i = 0; i < numMaterials; ++i)
 	{
 		if (materials[i]->GetTexture(aiTextureType_DIFFUSE, 0, &file) == AI_SUCCESS)
 		{
-			this->materials.emplace_back(App->texture->LoadTexture(file.data));
+			D_LOG("* First, try to load the texture on the path described by the FBX");
+			App->editor->log.emplace_back("* First, try to load the texture on the path described by the FBX");
+
+			std::string string_file = file.C_Str();
+			int last_bar = 0;
+
+			for (int i = 0; i < string_file.length(); ++i)
+			{
+				if (string_file[i] == 47 || string_file[i] == 92)
+				{
+					last_bar = i;
+					last_bar++;
+				}
+			}
+
+			std::string short_file = string_file.substr(last_bar, string_file.length() - last_bar);
+
+			unsigned texture = App->texture->LoadTexture(short_file.c_str());
+
+			if (texture == 0)
+			{
+				D_LOG("* If that fails, load the texture on the same folder as the FBX");
+				App->editor->log.emplace_back("* If that fails, load the texture on the same folder as the FBX");
+
+				std::string model_file_dir = file_name;
+				size_t last_slash = model_file_dir.find_last_of('/');
+				if (last_slash == std::string::npos)
+				{
+					last_slash = model_file_dir.find_last_of('/');
+				}
+				std::string model_folder_dir = model_file_dir.substr(0, last_slash + 1);
+				std::string model_folder_material_file_dir = model_folder_dir + short_file;
+
+				texture = App->texture->LoadTexture(model_folder_material_file_dir.c_str());
+			}
+
+			// Try to load relative to the textures folder
+			if (texture == 0)
+			{
+				D_LOG("* Last, if both fail, load the texture on the Textures/ folder");
+				App->editor->log.emplace_back("* Last, if both fail, load the texture on the Textures/ folder");
+
+				std::string textures_folder_dir = "Textures/";
+				std::string textures_folder_material_file_dir = textures_folder_dir + short_file;
+				texture = App->texture->LoadTexture(textures_folder_material_file_dir.c_str());
+			}
+
+			if (texture == 0)
+			{
+				D_LOG("Unable to correctly load the given texture");
+				App->editor->log.emplace_back("-- !!! Unable to correctly load the given texture !!! --");
+			}
+
+			else
+			{
+				D_LOG("TEXTURE LOADED CORRECTLY");
+				App->editor->log.emplace_back("-- TEXTURE LOADED CORRECTLY --");
+			}
+
+			this->materials.emplace_back(texture);
 		}
 	}
 }

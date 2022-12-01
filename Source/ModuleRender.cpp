@@ -69,7 +69,7 @@ bool ModuleRender::Start()
 
 	D_LOG("Load the inital model");
 	App->editor->log.emplace_back("Load the initial model");
-	model = new Model("BakerHouse.fbx");
+	LoadNewModel("Assets/LinuxPenguin.fbx");
 
 	D_LOG("***** ASSIMP PROCESS END *****");
 	App->editor->log.emplace_back("***** ASSIMP PROCESS END *****");
@@ -125,4 +125,10 @@ void* ModuleRender::GetContext() const
 Model* ModuleRender::GetModel() const
 {
 	return model;
+}
+
+void ModuleRender::LoadNewModel(const char* file_name)
+{
+	model = new Model(file_name);
+	App->camera->Focus(model);
 }
