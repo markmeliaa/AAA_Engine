@@ -2,6 +2,7 @@
 #include "PanelConfig.h"
 #include "ModuleWindow.h"
 #include "ModuleEditor.h"
+#include "ModuleCamera.h"
 
 #include <imgui.h>
 #include <imgui_impl_sdl.h>
@@ -53,6 +54,7 @@ void PanelConfig::Draw()
 
 		ImGui::PlotHistogram("##framerate", App->editor->fps_log, IM_ARRAYSIZE(App->editor->fps_log), 0, "Framerate", 0.0f, 100.0f, ImVec2(385.0f, 100.0f));
 		ImGui::PlotHistogram("##milliseconds", App->editor->milisec_log, IM_ARRAYSIZE(App->editor->milisec_log), 0, "Milliseconds", 0.0f, 40.0f, ImVec2(385.0f, 100.0f));
+		ImGui::Separator();
 	}
 
 	if (ImGui::CollapsingHeader("Window"))
@@ -156,6 +158,36 @@ void PanelConfig::Draw()
 				App->window->SetWindowSize(BASE_SCREEN_WIDTH, BASE_SCREEN_HEIGHT);
 			}
 		}
+		ImGui::Separator();
+	}
+
+	if (ImGui::CollapsingHeader("Camera"))
+	{
+		ImGui::Text("Camera speed:");
+		static float movespeed = App->camera->GetMoveSpeed();
+		static float rotspeed = App->camera->GetRotSpeed();
+		static float zoomspeed = App->camera->GetZoomSpeed();
+
+		if (ImGui::SliderFloat("Move speed", &movespeed, 1.0f, 10.0f))
+			App->camera->SetMoveSpeed(movespeed);
+
+		if (ImGui::SliderFloat("Rotation speed", &rotspeed, 1.0f, 50.0f))
+			App->camera->SetRotSpeed(rotspeed);
+
+		if (ImGui::SliderFloat("Zoom speed", &zoomspeed, 1.0f, 10.0f))
+			App->camera->SetZoomSpeed(zoomspeed);
+		ImGui::Separator();
+
+		ImGui::Text("Frustum planes:");
+		static float nearplane = App->camera->GetNearPlane();
+		static float farplane = App->camera->GetFarPlane();
+
+		if (ImGui::SliderFloat("Near plane dist", &nearplane, 0.1f, 100.0f))
+			App->camera->SetNearPlane(nearplane);
+
+		if (ImGui::SliderFloat("Far plane dist", &farplane, 0.1f, 100.0f))
+			App->camera->SetFarPlane(farplane);
+		ImGui::Separator();
 	}
 
 	if (ImGui::CollapsingHeader("Hardware"))
@@ -250,11 +282,7 @@ void PanelConfig::Draw()
 		ImGui::SameLine();
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s", glGetString(GL_VENDOR));
 
-		ImGui::Text("VRAM Budget:");
-		ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "-----");
-
-		ImGui::Text("VRAM Usage:");
+		ImGui::Text("VRAM Size:");
 		ImGui::SameLine();
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "-----");
 
@@ -262,9 +290,10 @@ void PanelConfig::Draw()
 		ImGui::SameLine();
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "-----");
 
-		ImGui::Text("VRAM Reserved:");
+		ImGui::Text("VRAM Usage:");
 		ImGui::SameLine();
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "-----");
+		ImGui::Separator();
 	}
 
 	this->setFocused(ImGui::IsWindowFocused());

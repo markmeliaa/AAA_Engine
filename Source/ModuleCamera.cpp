@@ -59,6 +59,7 @@ update_status ModuleCamera::Update()
 
 	float move_speed_inc = move_speed;
 	float rotate_speed_inc = rotate_speed;
+	float zoom_speed_inc = zoom_speed;
 
 	float2 mouse_input = App->input->GetMouseInput();
 
@@ -67,6 +68,7 @@ update_status ModuleCamera::Update()
 	{
 		move_speed_inc *= 2;
 		rotate_speed_inc *= 2;
+		zoom_speed_inc *= 2;
 	}
 
 	// Focus model with F
@@ -100,12 +102,12 @@ update_status ModuleCamera::Update()
 
 		if (App->input->GetKey(SDL_SCANCODE_W))
 		{
-			Translate(frustum->Front().Normalized() * move_speed_inc * delta_time);
+			Translate(frustum->Front().Normalized() * zoom_speed_inc * delta_time);
 		}
 
 		if (App->input->GetKey(SDL_SCANCODE_S))
 		{
-			Translate(frustum->Front().Normalized() * -move_speed_inc * delta_time);
+			Translate(frustum->Front().Normalized() * -zoom_speed_inc * delta_time);
 		}
 	}
 
@@ -135,14 +137,14 @@ update_status ModuleCamera::Update()
 	// Move camera around (rotations) with Mouse Control
 	if (App->input->GetMouseButton(1))
 	{
-		Rotate(float3x3::RotateY(mouse_input.x * move_speed_inc * DEGTORAD * delta_time));		
-		Rotate(float3x3::RotateAxisAngle(frustum->WorldRight().Normalized(), mouse_input.y * move_speed_inc * DEGTORAD * delta_time));
+		Rotate(float3x3::RotateY((mouse_input.x * 0.1f) * rotate_speed_inc * DEGTORAD * delta_time));		
+		Rotate(float3x3::RotateAxisAngle(frustum->WorldRight().Normalized(), (mouse_input.y * 0.1f) * rotate_speed_inc * DEGTORAD * delta_time));
 	}
 
 	// Move camera onwards and backwards with Mouse Wheel
 	if (App->input->GetMouseWheel())
 	{
-		Translate(frustum->Front().Normalized() * move_speed_inc * delta_time * App->input->GetMouseWheelInput().y);
+		Translate(frustum->Front().Normalized() * zoom_speed_inc * delta_time * App->input->GetMouseWheelInput().y);
 		App->input->SetMouseWheel(false);
 	}
 
@@ -158,7 +160,7 @@ bool ModuleCamera::CleanUp()
 void ModuleCamera::SetUpFrustum()
 {
 	frustum->SetKind(FrustumSpaceGL, FrustumRightHanded);
-	frustum->SetViewPlaneDistances(0.1f, 1000.0f);
+	frustum->SetViewPlaneDistances(0.1f, 100.0f);
 	frustum->SetHorizontalFovAndAspectRatio(DEGTORAD * 90.0f, aspectRatio);
 
 	SetPos(0.0f, 3.0f, 10.0f);
@@ -209,7 +211,7 @@ void ModuleCamera::Rotate(const float3x3& rotationDeltaMatrix)
 	frustum->SetUp(rotationDeltaMatrix.MulDir(oldUp));
 }
 
-void ModuleCamera::Focus(Model* model)
+void ModuleCamera::Focus(const Model* model)
 {
 	// Set the camera in the center of the model
 	SetPos(model_trans.x + model->GetModelBounds().Centroid().x * Abs(model_scale.x),
@@ -229,6 +231,11 @@ float3 ModuleCamera::GetModelTrans() const
 	return model_trans;
 }
 
+void ModuleCamera::SetModelTrans(const float3& t)
+{
+	model_trans = t;
+}
+
 float ModuleCamera::GetModelRotX() const
 {
 	return rotX;
@@ -244,22 +251,67 @@ float ModuleCamera::GetModelRotZ() const
 	return rotZ;
 }
 
+void ModuleCamera::SetModelRot(const float& x, const float& y, const float& z)
+{
+	model_rot = float4x4::RotateX(x) * float4x4::RotateY(y) * float4x4::RotateZ(z);
+}
+
 float3 ModuleCamera::GetModelScale() const
 {
 	return model_scale;
 }
 
-void ModuleCamera::SetModelTrans(float3 t)
-{
-	model_trans = t;
-}
-
-void ModuleCamera::SetModelRot(float x, float y, float z)
-{
-	model_rot = float4x4::RotateX(x) * float4x4::RotateY(y) * float4x4::RotateZ(z);
-}
-
-void ModuleCamera::SetModelScale(float3 s)
+void ModuleCamera::SetModelScale(const float3& s)
 {
 	model_scale = s;
+}
+
+float ModuleCamera::GetNearPlane() const
+{
+	return frustum->NearPlaneDistance();
+}
+
+void ModuleCamera::SetNearPlane(const float& np)
+{
+	frustum->SetViewPlaneDistances(np, frustum->FarPlaneDistance());
+}
+
+float ModuleCamera::GetFarPlane() const
+{
+	return frustum->FarPlaneDistance();
+}
+
+void ModuleCamera::SetFarPlane(const float& fp)
+{
+	frustum->SetViewPlaneDistances(frustum->NearPlaneDistance(), fp);
+}
+
+float ModuleCamera::GetMoveSpeed() const
+{
+	return move_speed;
+}
+
+void ModuleCamera::SetMoveSpeed(const float& m)
+{
+	move_speed = m;
+}
+
+float ModuleCamera::GetRotSpeed() const
+{
+	return rotate_speed;
+}
+
+void ModuleCamera::SetRotSpeed(const float& r)
+{
+	rotate_speed = r;
+}
+
+float ModuleCamera::GetZoomSpeed() const
+{
+	return zoom_speed;
+}
+
+void ModuleCamera::SetZoomSpeed(const float& z)
+{
+	zoom_speed = z;
 }

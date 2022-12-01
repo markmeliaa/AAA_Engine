@@ -24,14 +24,27 @@ public:
 	float4x4 GetModelMatrix() const;
 
 	float3 GetModelTrans() const;
+	void SetModelTrans(const float3& t);
+
 	float GetModelRotX() const;
 	float GetModelRotY() const;
 	float GetModelRotZ() const;
-	float3 GetModelScale() const;
+	void SetModelRot(const float& x, const float& y, const float& z);
 
-	void SetModelTrans(float3 t);
-	void SetModelRot(float x, float y, float z);
-	void SetModelScale(float3 s);
+	float3 GetModelScale() const;
+	void SetModelScale(const float3& s);
+
+	float GetNearPlane() const;
+	void SetNearPlane(const float& np);
+	float GetFarPlane() const;
+	void SetFarPlane(const float& fp);
+
+	float GetMoveSpeed() const;
+	void SetMoveSpeed(const float& m);
+	float GetRotSpeed() const;
+	void SetRotSpeed(const float& r);
+	float GetZoomSpeed() const;
+	void SetZoomSpeed(const float& z);
 
 private:
 	void SetUpFrustum();
@@ -42,7 +55,7 @@ private:
 	void Translate(const float3& translation);
 	void Translate(const float& x, const float& y, const float& z);
 	void Rotate(const float3x3& rotationDeltaMatrix);
-	void Focus(Model* model);
+	void Focus(const Model* model);
 
 	float aspectRatio = 0.0f;
 	Frustum* frustum;
@@ -52,8 +65,9 @@ private:
 	float rotX, rotY, rotZ = 0.0f;
 	float4x4 model_rot;
 
-	float move_speed = 4.0f;
+	float move_speed = 3.0f;
 	float rotate_speed = 25.0f;
+	float zoom_speed = 3.0f;
 };
 
 #endif // __ModuleCamera_H__
