@@ -3,6 +3,7 @@
 #include "ModuleInput.h"
 #include "ModuleWindow.h"
 #include "ModuleEditor.h"
+#include "ModuleRender.h"
 
 #include <SDL.h>
 #include <imgui.h>
@@ -88,8 +89,21 @@ update_status ModuleInput::PreUpdate()
 
 			case SDL_DROPFILE:
 				char* dropped_filedir = sdlEvent.drop.file;
-				D_LOG("Dropped file: %s", dropped_filedir);
-				App->editor->log.emplace_back("File dropped!!");
+
+				// Check if the file is an .fbx
+				std::string a = dropped_filedir;
+				a = a.substr(a.length() - 4, 4);
+				if (a == ".fbx")
+				{
+					D_LOG("A new file is dropped into the scene: %s", dropped_filedir);
+					App->editor->log.emplace_back("A new file is dropped into the scene");
+					App->renderer->LoadNewModel(dropped_filedir);
+				}
+				else
+				{
+					D_LOG("Please drop an .fbx to load correctly a model");
+					App->editor->log.emplace_back("!!! PLEASE DROP AN .fbx TO LOAD CORRECTLY A MODEL !!!");
+				}
 				break;
         }
     }

@@ -96,7 +96,7 @@ void Model::LoadMaterials(aiMaterial** materials, const unsigned int& numMateria
 				App->editor->log.emplace_back("* If that fails, load the texture on the same folder as the FBX");
 
 				std::string model_file_dir = file_name;
-				size_t last_slash = model_file_dir.find_last_of('/');
+				size_t last_slash = model_file_dir.find_last_of('\\');
 				if (last_slash == std::string::npos)
 				{
 					last_slash = model_file_dir.find_last_of('/');

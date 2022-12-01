@@ -34,8 +34,16 @@ void Mesh::Draw(const std::vector<GLuint>& model_textures)
 	glUniformMatrix4fv(2, 1, GL_TRUE, (const float*)&view);
 	glUniformMatrix4fv(3, 1, GL_TRUE, (const float*)&proj);
 
-	glActiveTexture(GL_TEXTURE5);
-	glBindTexture(GL_TEXTURE_2D, model_textures[material_index]);
+	if (model_textures.size() != 0)
+	{
+		glActiveTexture(GL_TEXTURE5);
+		glBindTexture(GL_TEXTURE_2D, model_textures[material_index]);
+	}
+
+	else
+	{
+		glBindTexture(GL_TEXTURE_2D, 0);
+	}
 
 	glBindVertexArray(vao);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
