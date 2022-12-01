@@ -21,6 +21,8 @@ public:
 	void* GetContext() const;
 	Model* GetModel() const;
 
+	float background_color[3] = { 0.1f, 0.1f, 0.1f };
+
 private:
 	void* context = nullptr;
 	Model* model;

@@ -2,6 +2,7 @@
 #include "PanelConfig.h"
 #include "ModuleWindow.h"
 #include "ModuleEditor.h"
+#include "ModuleRender.h"
 #include "ModuleCamera.h"
 
 #include <imgui.h>
@@ -54,6 +55,19 @@ void PanelConfig::Draw()
 
 		ImGui::PlotHistogram("##framerate", App->editor->fps_log, IM_ARRAYSIZE(App->editor->fps_log), 0, "Framerate", 0.0f, 100.0f, ImVec2(385.0f, 100.0f));
 		ImGui::PlotHistogram("##milliseconds", App->editor->milisec_log, IM_ARRAYSIZE(App->editor->milisec_log), 0, "Milliseconds", 0.0f, 40.0f, ImVec2(385.0f, 100.0f));
+		ImGui::Separator();
+	}
+
+	if (ImGui::CollapsingHeader("Renderer"))
+	{
+		float background[3] = { App->renderer->background_color[0], App->renderer->background_color[1], App->renderer->background_color[2] };
+
+		if (ImGui::ColorEdit3("Background color", background))
+		{
+			App->renderer->background_color[0] = background[0];
+			App->renderer->background_color[1] = background[1];
+			App->renderer->background_color[2] = background[2];
+		}
 		ImGui::Separator();
 	}
 

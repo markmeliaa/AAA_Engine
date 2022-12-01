@@ -46,6 +46,8 @@ update_status ModuleInput::PreUpdate()
 
     while (SDL_PollEvent(&sdlEvent) != 0)
     {
+		ImGui_ImplSDL2_ProcessEvent(&sdlEvent);
+
         switch (sdlEvent.type)
         {
             case SDL_QUIT:
@@ -63,7 +65,6 @@ update_status ModuleInput::PreUpdate()
 							return UPDATE_STOP;
 					}
 				}
-
 				break;
 
 			case SDL_MOUSEBUTTONDOWN:
@@ -84,6 +85,12 @@ update_status ModuleInput::PreUpdate()
 				mouseWheel.y = (float)sdlEvent.wheel.y;
 				mouseWheelMoving = true;
 				break;
+
+			case SDL_DROPFILE:
+				char* dropped_filedir = sdlEvent.drop.file;
+				D_LOG("Dropped file: %s", dropped_filedir);
+				App->editor->log.emplace_back("File dropped!!");
+				break;
         }
     }
 
@@ -92,8 +99,6 @@ update_status ModuleInput::PreUpdate()
 	{
 		return UPDATE_STOP;
 	}
-
-	ImGui_ImplSDL2_ProcessEvent(&sdlEvent);
 
 	int mouseX = 0;
 	int mouseY = 0;
