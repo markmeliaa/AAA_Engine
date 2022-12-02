@@ -34,6 +34,8 @@ public:
 	float3 GetModelScale() const;
 	void SetModelScale(const float3& s);
 
+	void ResetModelMat();
+
 	float GetNearPlane() const;
 	void SetNearPlane(const float& np);
 	float GetFarPlane() const;

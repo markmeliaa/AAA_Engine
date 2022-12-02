@@ -130,5 +130,6 @@ Model* ModuleRender::GetModel() const
 void ModuleRender::LoadNewModel(const char* file_name)
 {
 	model = new Model(file_name);
+	App->camera->ResetModelMat();
 	App->camera->Focus(model);
 }

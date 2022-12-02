@@ -37,7 +37,7 @@ void PanelProperties::Draw()
 	{
 		ImGui::Text("Position	");
 		ImGui::SameLine();
-		static float pos[3] = { App->camera->GetModelTrans().x, App->camera->GetModelTrans().y ,App->camera->GetModelTrans().z };
+		float pos[3] = { App->camera->GetModelTrans().x, App->camera->GetModelTrans().y ,App->camera->GetModelTrans().z };
 		if (ImGui::DragFloat3(" ", pos, 0.005f))
 		{
 			App->camera->SetModelTrans(float3(pos[0], pos[1], pos[2]));
@@ -45,7 +45,7 @@ void PanelProperties::Draw()
 
 		ImGui::Text("Rotation	");
 		ImGui::SameLine();
-		static float rot[3] = { App->camera->GetModelRotX(), App->camera->GetModelRotY(), App->camera->GetModelRotZ()};
+		float rot[3] = { App->camera->GetModelRotX(), App->camera->GetModelRotY(), App->camera->GetModelRotZ()};
 		if (ImGui::DragFloat3("  ", rot, 0.005f))
 		{
 			App->camera->SetModelRot(rot[0], rot[1], rot[2]);
@@ -53,7 +53,7 @@ void PanelProperties::Draw()
 
 		ImGui::Text("Scale	   ");
 		ImGui::SameLine();
-		static float scale[3] = { App->camera->GetModelScale().x, App->camera->GetModelScale().y, App->camera->GetModelScale().z };
+		float scale[3] = { App->camera->GetModelScale().x, App->camera->GetModelScale().y, App->camera->GetModelScale().z };
 		if (ImGui::DragFloat3("   ", scale, 0.005f))
 		{
 			App->camera->SetModelScale(float3(scale[0], scale[1], scale[2]));

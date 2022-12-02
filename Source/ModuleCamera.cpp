@@ -283,6 +283,13 @@ void ModuleCamera::SetModelScale(const float3& s)
 	model_scale = s;
 }
 
+void ModuleCamera::ResetModelMat()
+{
+	SetModelTrans(float3(0.0f, 0.0f, 0.0f));
+	SetModelRot(0.0f, 0.0f, 0.0f);
+	SetModelScale(float3(1.0f, 1.0f, 1.0f));
+}
+
 float ModuleCamera::GetNearPlane() const
 {
 	return frustum->NearPlaneDistance();
