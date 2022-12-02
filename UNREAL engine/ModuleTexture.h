@@ -17,7 +17,7 @@ public:
 
 	GLuint LoadTexture(const char* image_file_name);
 
-	DirectX::TexMetadata GetImageMetadata() const;
+	inline DirectX::TexMetadata GetImageMetadata() const { return image_metadata; }
 
 private:
 	GLuint CheckImageMetadata() const;

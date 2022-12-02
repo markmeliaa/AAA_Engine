@@ -101,9 +101,3 @@ void ModuleTexture::SetTextureOptions() const
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 }
-
-
-DirectX::TexMetadata ModuleTexture::GetImageMetadata() const
-{
-	return image_metadata;
-}

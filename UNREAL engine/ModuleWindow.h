@@ -24,22 +24,19 @@ public:
 	bool CleanUp() override;
 
 	void SetWindowSize(const int& width, const int& height);
-	void SetWindowResizable(const bool& resize) const;
-	void SetWindowBorderless(const bool& borders) const;
+	inline void SetWindowResizable(const bool& resize) const { resize ? SDL_SetWindowResizable(window, SDL_TRUE) : SDL_SetWindowResizable(window, SDL_FALSE); }
+	inline void SetWindowBorderless(const bool& borders) const { borders ? SDL_SetWindowBordered(window, SDL_FALSE) : SDL_SetWindowBordered(window, SDL_TRUE); }
 
-	void SetWindowBrightness(const float& brightness) const;
-	float GetWindowBrightness() const;
+	inline int getCurrentWidth() const { return currentWidth; }
+	inline void setCurrentWidth(const int& w) { currentWidth = w; }
+	inline int getMaxWindowsWidth() const { return max_win_size.w; }
+	inline int getCurrentHeight() const { return currentHeight; }
+	inline void setCurrentHeight(const int& h) { currentHeight = h; }
+	inline int getMaxWindowsHeight() const { return max_win_size.h; }
 
-	int getCurrentWidth() const;
-	void setCurrentWidth(const int& w);
+	inline void SetWindowBrightness(const float& brightness) const { SDL_SetWindowBrightness(window, brightness); }
+	inline float GetWindowBrightness() const { return SDL_GetWindowBrightness(window); }
 
-	int getCurrentHeight() const;
-	void setCurrentHeight(const int& h);
-
-	int getMaxWindowsWidth() const;
-	int getMaxWindowsHeight() const;
-
-public:
 	//The window we'll be rendering to
 	SDL_Window* window = NULL;
 

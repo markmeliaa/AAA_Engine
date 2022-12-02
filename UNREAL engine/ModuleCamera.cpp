@@ -31,10 +31,8 @@ bool ModuleCamera::Init()
 	App->editor->log.emplace_back("Create the camera");
 
 	aspectRatio = (float)App->window->getCurrentWidth() / (float)App->window->getCurrentHeight();
-	SetUpFrustum();
+	InitFrustum();
 
-	proj = frustum->ProjectionMatrix();
-	view = frustum->ViewMatrix();
 	model = float4x4::FromTRS(model_trans, model_rot, model_scale);
 
 	return true;
@@ -148,8 +146,8 @@ update_status ModuleCamera::Update()
 		Rotate(float3x3::RotateAxisAngle(frustum->WorldRight().Normalized(), (mouse_input.y * 0.1f) * rotate_speed_inc * DEGTORAD * delta_time));
 	}
 
-	// Move camera onwards and backwards with Mouse Wheel
-	if (App->input->GetMouseWheel())
+	// Move camera onwards and backwards when the mouse wheel moves onwards or backwards
+	if (App->input->GetMouseWheelMoving())
 	{
 		Translate(frustum->Front().Normalized() * zoom_speed_inc * delta_time * App->input->GetMouseWheelInput().y);
 		App->input->SetMouseWheel(false);
@@ -164,50 +162,45 @@ bool ModuleCamera::CleanUp()
 	return true;
 }
 
-void ModuleCamera::SetUpFrustum()
+void ModuleCamera::SetModelRot(const float& x, const float& y, const float& z)
+{
+	model_rot = float4x4::RotateX(x) * float4x4::RotateY(y) * float4x4::RotateZ(z);
+}
+
+void ModuleCamera::ResetModelMat()
+{
+	SetModelTrans(float3(0.0f, 0.0f, 0.0f));
+	SetModelRotX(0.0f);
+	SetModelRotY(0.0f);
+	SetModelRotZ(0.0f);
+	SetModelRot(0.0f, 0.0f, 0.0f);
+	SetModelScale(float3(1.0f, 1.0f, 1.0f));
+}
+
+void ModuleCamera::Focus(const Model* model)
+{
+	// Set the camera in the center of the model
+	SetPos(model_trans.x + model->GetCurrentModelBounds().Centroid().x * Abs(model_scale.x),
+		model_trans.y + model->GetCurrentModelBounds().Centroid().y * model_scale.y,
+		model_trans.z + model->GetCurrentModelBounds().Centroid().z * Abs(model_scale.z));
+
+	// Move the camera away from the center of the model a certain distance
+	float away = model->GetCurrentModelBounds().r * Max(Abs(model_scale.x), Abs(model_scale.y), Abs(model_scale.z));
+	Translate(-away * 1.4f, 0.0f, away * 1.4f);
+
+	frustum->SetFront((float3::unitX + -float3::unitZ).Normalized());
+	frustum->SetUp(float3::unitY);
+}
+
+void ModuleCamera::InitFrustum()
 {
 	frustum->SetKind(FrustumSpaceGL, FrustumRightHanded);
 	frustum->SetViewPlaneDistances(0.1f, 1000.0f);
 	frustum->SetHorizontalFovAndAspectRatio(DEGTORAD * 90.0f, aspectRatio);
 
-	SetPos(0.0f, 3.0f, 10.0f);
+	SetPos(0.0f, 0.0f, 0.0f);
 	frustum->SetFront(-float3::unitZ);
 	frustum->SetUp(float3::unitY);
-}
-
-float4x4 ModuleCamera::GetViewMatrix() const
-{
-	return frustum->ViewMatrix();
-}
-
-float4x4 ModuleCamera::GetProjMatrix() const
-{
-	return frustum->ProjectionMatrix();
-}
-
-float4x4 ModuleCamera::GetModelMatrix() const
-{
-	return model;
-}
-
-void ModuleCamera::SetPos(const float3& newpos)
-{
-	frustum->SetPos(newpos);
-}
-
-void ModuleCamera::SetPos(const float& x, const float& y, const float& z)
-{
-	frustum->SetPos(float3(x, y, z));
-}
-
-void ModuleCamera::Translate(const float3& translation)
-{
-	SetPos(frustum->Pos() + translation);
-}
-
-void ModuleCamera::Translate(const float& x, const float& y, const float& z)
-{
-	SetPos(frustum->Pos() + float3(x, y, z));
 }
 
 void ModuleCamera::Rotate(const float3x3& rotationDeltaMatrix)
@@ -218,24 +211,11 @@ void ModuleCamera::Rotate(const float3x3& rotationDeltaMatrix)
 	frustum->SetUp(rotationDeltaMatrix.MulDir(oldUp));
 }
 
-void ModuleCamera::Focus(const Model* model)
-{
-	// Set the camera in the center of the model
-	SetPos(model_trans.x + model->GetCurrentModelBounds().Centroid().x * Abs(model_scale.x),
-		   model_trans.y + model->GetCurrentModelBounds().Centroid().y * model_scale.y,
-		   model_trans.z + model->GetCurrentModelBounds().Centroid().z * Abs(model_scale.z));
-
-	// Move the camera away from the center of the model a certain distance
-	float away = model->GetCurrentModelBounds().r * Max(Abs(model_scale.x), Abs(model_scale.y), Abs(model_scale.z));
-	Translate(-away * 1.4f, 0.0f, away * 1.4f);
-
-	frustum->SetFront((float3::unitX + -float3::unitZ).Normalized());
-	frustum->SetUp(float3::unitY);
-}
-
 void ModuleCamera::Orbit(const Model* model, const float2& mouse_input, const float& rotate_speed)
 {
-	float3 center_sphere_model = App->renderer->GetModel()->GetCurrentModelBounds().Centroid();
+	float3 center_sphere_model = float3(App->renderer->GetModel()->GetCurrentModelBounds().Centroid().x * model_scale.x,
+										App->renderer->GetModel()->GetCurrentModelBounds().Centroid().y * model_scale.y,
+										App->renderer->GetModel()->GetCurrentModelBounds().Centroid().z * model_scale.z);
 	float3 distance_from_model = frustum->Pos() - center_sphere_model;
 
 	Quat rotX = Quat(frustum->Up(), -mouse_input.x * rotate_speed * App->GetDeltaTime() * DEGTORAD);
@@ -260,125 +240,10 @@ void ModuleCamera::Orbit(const Model* model, const float2& mouse_input, const fl
 	LookAt(center_sphere_model);
 }
 
-void ModuleCamera::LookAt(float3 objective)
+void ModuleCamera::LookAt(const float3& objective)
 {
 	float3 direction = objective - frustum->Pos();
 	float3x3 looking_direction = float3x3::LookAt(frustum->Front(), direction.Normalized(), frustum->Up(), float3::unitY);
 
 	Rotate(looking_direction);
-}
-
-float3 ModuleCamera::GetModelTrans() const
-{
-	return model_trans;
-}
-
-void ModuleCamera::SetModelTrans(const float3& t)
-{
-	model_trans = t;
-}
-
-float ModuleCamera::GetModelRotX() const
-{
-	return rotX;
-}
-
-float ModuleCamera::GetModelRotY() const
-{
-	return rotY;
-}
-
-float ModuleCamera::GetModelRotZ() const
-{
-	return rotZ;
-}
-
-void ModuleCamera::SetModelRotX(const float& x)
-{
-	rotX = x;
-}
-
-void ModuleCamera::SetModelRotY(const float& y)
-{
-	rotY = y;
-}
-
-void ModuleCamera::SetModelRotZ(const float& z)
-{
-	rotZ = z;
-}
-
-void ModuleCamera::SetModelRot(const float& x, const float& y, const float& z)
-{
-	model_rot = float4x4::RotateX(x) * float4x4::RotateY(y) * float4x4::RotateZ(z);
-}
-
-float3 ModuleCamera::GetModelScale() const
-{
-	return model_scale;
-}
-
-void ModuleCamera::SetModelScale(const float3& s)
-{
-	model_scale = s;
-}
-
-void ModuleCamera::ResetModelMat()
-{
-	SetModelTrans(float3(0.0f, 0.0f, 0.0f));
-	SetModelRotX(0.0f);
-	SetModelRotY(0.0f);
-	SetModelRotZ(0.0f);
-	SetModelRot(0.0f, 0.0f, 0.0f);
-	SetModelScale(float3(1.0f, 1.0f, 1.0f));
-}
-
-float ModuleCamera::GetNearPlane() const
-{
-	return frustum->NearPlaneDistance();
-}
-
-void ModuleCamera::SetNearPlane(const float& np)
-{
-	frustum->SetViewPlaneDistances(np, frustum->FarPlaneDistance());
-}
-
-float ModuleCamera::GetFarPlane() const
-{
-	return frustum->FarPlaneDistance();
-}
-
-void ModuleCamera::SetFarPlane(const float& fp)
-{
-	frustum->SetViewPlaneDistances(frustum->NearPlaneDistance(), fp);
-}
-
-float ModuleCamera::GetMoveSpeed() const
-{
-	return move_speed;
-}
-
-void ModuleCamera::SetMoveSpeed(const float& m)
-{
-	move_speed = m;
-}
-
-float ModuleCamera::GetRotSpeed() const
-{
-	return rotate_speed;
-}
-
-void ModuleCamera::SetRotSpeed(const float& r)
-{
-	rotate_speed = r;
-}
-
-float ModuleCamera::GetZoomSpeed() const
-{
-	return zoom_speed;
-}
-
-void ModuleCamera::SetZoomSpeed(const float& z)
-{
-	zoom_speed = z;
 }

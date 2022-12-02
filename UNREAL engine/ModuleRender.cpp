@@ -32,25 +32,16 @@ bool ModuleRender::Init()
 	App->editor->log.emplace_back("Create render context");
 	context = SDL_GL_CreateContext(App->window->window);
 
+	// NOT necessary to console log this stuff because it is in the hardware info panel
 	GLenum err = glewInit();
 	// … check for errors
 	D_LOG("Using Glew %s", glewGetString(GLEW_VERSION));
-	//App->editor->log.emplace_back("- Glew version:");
-	//App->editor->log.emplace_back("2.1.0");
 	// Should be 2.0
 
 	D_LOG("Vendor: %s", glGetString(GL_VENDOR));
-	//App->editor->log.emplace_back("- Vendor:");
-	//App->editor->log.emplace_back(reinterpret_cast<char const*>(glGetString(GL_VENDOR)));
 	D_LOG("Renderer: %s", glGetString(GL_RENDERER));
-	//App->editor->log.emplace_back("- Renderer:");
-	//App->editor->log.emplace_back(reinterpret_cast<char const*>(glGetString(GL_RENDERER)));
 	D_LOG("OpenGL version supported %s", glGetString(GL_VERSION));
-	//App->editor->log.emplace_back("- OpenGL version supported:");
-	//App->editor->log.emplace_back(reinterpret_cast<char const*>(glGetString(GL_VERSION)));
 	D_LOG("GLSL version: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
-	//App->editor->log.emplace_back("- GLSL version:");
-	//App->editor->log.emplace_back(reinterpret_cast<char const*>(glGetString(GL_SHADING_LANGUAGE_VERSION)));
 	
 	glEnable(GL_DEPTH_TEST);	// Enable depth test
 	glEnable(GL_CULL_FACE);		// Enable cull backward faces
@@ -115,16 +106,6 @@ bool ModuleRender::CleanUp()
 
 	delete model;
 	return true;
-}
-
-void* ModuleRender::GetContext() const
-{
-	return context;
-}
-
-Model* ModuleRender::GetModel() const
-{
-	return model;
 }
 
 void ModuleRender::LoadNewModel(const char* file_name)

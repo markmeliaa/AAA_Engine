@@ -28,12 +28,14 @@ public:
 	update_status PreUpdate() override;
 	bool CleanUp() override;
 
-	bool GetKey(const int& key) const;
-	bool GetMouseButton(const int& button) const;
-	float2 GetMouseInput() const;
-	float2 GetMouseWheelInput() const;
-	bool GetMouseWheel() const;
-	void SetMouseWheel(const bool& wheel);
+	inline bool GetKey(const int& key) const { return keyboard[key]; }
+
+	inline bool GetMouseButton(const int& button) const { return mouseButtons[button] == MouseButtonStates::DOWN; }
+	inline float2 GetMouseInput() const { return mouseCurrentPos; }
+	inline float2 GetMouseWheelInput() const { return mouseWheel; }
+
+	inline bool GetMouseWheelMoving() const { return mouseWheelMoving; }
+	inline void SetMouseWheel(const bool& wheel) { mouseWheelMoving = wheel; }
 
 private:
 	const Uint8 *keyboard = NULL;

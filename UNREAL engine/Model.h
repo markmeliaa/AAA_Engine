@@ -18,12 +18,12 @@ public:
 
 	void Draw();
 
-	std::vector<Mesh*> GetMeshes() const;
-	int GetNumberVertices() const;
-	int GetNumberIndices() const;
-	Sphere GetBaseModelBounds() const;
-	Sphere GetCurrentModelBounds() const;
-	void SetCurrentModelBounds(const Sphere& s);
+	inline std::vector<Mesh*> GetMeshes() const { return meshes; }
+	inline int GetNumberVertices() const { return total_num_vertices; }
+	inline int GetNumberIndices() const { return total_num_indices; }
+	inline Sphere GetBaseModelBounds() const { return base_model_bounds; }
+	inline Sphere GetCurrentModelBounds() const { return current_model_bounds; }
+	inline void SetCurrentModelBounds(const Sphere& s) { current_model_bounds = s; }
 
 private:
 	void Load(const char* file_name);

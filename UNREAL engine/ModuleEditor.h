@@ -36,16 +36,12 @@ public:
 	float fps_log[85] = {};
 	float milisec_log[85] = {};
 
-	void SetMaxFps(const int& fps);
-	int GetMaxFps() const;
-
-	void GetFpsPerFrame();
-	void GetMilisecPerFrame();
+	void CalculateFpsPerFrame();
+	void CalculateMilisecPerFrame();
 	bool IsAnyWindowsFocused();
 
 private:
 	std::list<Panel*> panels;
-	int limited_fps = 60;
 
 	update_status DrawMainMenu();
 };

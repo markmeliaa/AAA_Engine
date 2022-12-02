@@ -168,36 +168,6 @@ void Model::CreateModelSphere(aiMesh** meshes, const unsigned int& numMeshes)
 		}
 	}
 
-	base_model_bounds = Sphere::FastEnclosingSphere(sphere_vertices.data(), (int)sphere_vertices.size());
+	base_model_bounds = Sphere::OptimalEnclosingSphere(sphere_vertices.data(), (int)sphere_vertices.size());
 	current_model_bounds = base_model_bounds;
-}
-
-std::vector<Mesh*> Model::GetMeshes() const
-{
-	return meshes;
-}
-
-int Model::GetNumberVertices() const
-{
-	return total_num_vertices;
-}
-
-int Model::GetNumberIndices() const
-{
-	return total_num_indices;
-}
-
-Sphere Model::GetBaseModelBounds() const
-{
-	return base_model_bounds;
-}
-
-Sphere Model::GetCurrentModelBounds() const
-{
-	return current_model_bounds;
-}
-
-void Model::SetCurrentModelBounds(const Sphere& s)
-{
-	current_model_bounds = s;
 }

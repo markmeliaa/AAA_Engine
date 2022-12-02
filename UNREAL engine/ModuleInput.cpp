@@ -134,33 +134,3 @@ bool ModuleInput::CleanUp()
 	SDL_QuitSubSystem(SDL_INIT_EVENTS);
 	return true;
 }
-
-bool ModuleInput::GetKey(const int& key) const
-{
-	return keyboard[key];
-}
-
-bool ModuleInput::GetMouseButton(const int& button) const
-{
-	return mouseButtons[button] == MouseButtonStates::DOWN;
-}
-
-float2 ModuleInput::GetMouseInput() const
-{
-	return mouseCurrentPos;
-}
-
-float2 ModuleInput::GetMouseWheelInput() const
-{
-	return mouseWheel;
-}
-
-bool ModuleInput::GetMouseWheel() const
-{
-	return mouseWheelMoving;
-}
-
-void ModuleInput::SetMouseWheel(const bool& wheel)
-{
-	mouseWheelMoving = wheel;
-}

@@ -98,56 +98,7 @@ void ModuleWindow::SetWindowSize(const int& width, const int& height)
 	int display_index = SDL_GetWindowDisplayIndex(window);
 	SDL_SetWindowSize(window, width, height);
 	SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED_DISPLAY(display_index), SDL_WINDOWPOS_CENTERED_DISPLAY(display_index));
+
 	setCurrentWidth(width);
 	setCurrentHeight(height);
-}
-
-void ModuleWindow::SetWindowResizable(const bool& resize) const
-{
-	resize ? SDL_SetWindowResizable(window, SDL_TRUE) : SDL_SetWindowResizable(window, SDL_FALSE);
-}
-
-void ModuleWindow::SetWindowBorderless(const bool& borders) const
-{
-	borders ? SDL_SetWindowBordered(window, SDL_FALSE) : SDL_SetWindowBordered(window, SDL_TRUE);
-}
-
-void ModuleWindow::setCurrentWidth(const int& w)
-{
-	currentWidth = w;
-}
-
-int ModuleWindow::getCurrentWidth() const
-{
-	return currentWidth;
-}
-
-void ModuleWindow::setCurrentHeight(const int& h)
-{
-	currentHeight = h;
-}
-
-int ModuleWindow::getCurrentHeight() const
-{
-	return currentHeight;
-}
-
-int ModuleWindow::getMaxWindowsWidth() const
-{
-	return max_win_size.w;
-}
-
-int ModuleWindow::getMaxWindowsHeight() const
-{
-	return max_win_size.h;
-}
-
-void ModuleWindow::SetWindowBrightness(const float& brightness) const
-{
-	SDL_SetWindowBrightness(window, brightness);
-}
-
-float ModuleWindow::GetWindowBrightness() const
-{
-	return SDL_GetWindowBrightness(window);
 }
