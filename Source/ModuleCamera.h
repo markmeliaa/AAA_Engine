@@ -29,6 +29,9 @@ public:
 	float GetModelRotX() const;
 	float GetModelRotY() const;
 	float GetModelRotZ() const;
+	void SetModelRotX(const float& x);
+	void SetModelRotY(const float& y);
+	void SetModelRotZ(const float& z);
 	void SetModelRot(const float& x, const float& y, const float& z);
 
 	float3 GetModelScale() const;

@@ -48,7 +48,10 @@ void PanelProperties::Draw()
 		float rot[3] = { App->camera->GetModelRotX(), App->camera->GetModelRotY(), App->camera->GetModelRotZ()};
 		if (ImGui::DragFloat3("  ", rot, 0.005f))
 		{
-			App->camera->SetModelRot(rot[0], rot[1], rot[2]);
+			App->camera->SetModelRotX(rot[0]);
+			App->camera->SetModelRotY(rot[1]);
+			App->camera->SetModelRotZ(rot[2]);
+			App->camera->SetModelRot(App->camera->GetModelRotX(), App->camera->GetModelRotY(), App->camera->GetModelRotZ());
 		}
 
 		ImGui::Text("Scale	   ");

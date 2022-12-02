@@ -268,6 +268,21 @@ float ModuleCamera::GetModelRotZ() const
 	return rotZ;
 }
 
+void ModuleCamera::SetModelRotX(const float& x)
+{
+	rotX = x;
+}
+
+void ModuleCamera::SetModelRotY(const float& y)
+{
+	rotY = y;
+}
+
+void ModuleCamera::SetModelRotZ(const float& z)
+{
+	rotZ = z;
+}
+
 void ModuleCamera::SetModelRot(const float& x, const float& y, const float& z)
 {
 	model_rot = float4x4::RotateX(x) * float4x4::RotateY(y) * float4x4::RotateZ(z);
@@ -286,6 +301,9 @@ void ModuleCamera::SetModelScale(const float3& s)
 void ModuleCamera::ResetModelMat()
 {
 	SetModelTrans(float3(0.0f, 0.0f, 0.0f));
+	SetModelRotX(0.0f);
+	SetModelRotY(0.0f);
+	SetModelRotZ(0.0f);
 	SetModelRot(0.0f, 0.0f, 0.0f);
 	SetModelScale(float3(1.0f, 1.0f, 1.0f));
 }
