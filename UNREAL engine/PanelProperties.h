@@ -11,7 +11,6 @@ public:
 	~PanelProperties();
 
 	void Draw() override;
-	bool CleanUp() override;
 
 private:
 	IDXGIFactory2* pDXGI_factory = nullptr;

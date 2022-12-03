@@ -191,6 +191,11 @@ void PanelConfig::Draw()
 		ImGui::Separator();
 	}
 
+	if (ImGui::CollapsingHeader("Textures"))
+	{
+		
+	}
+
 	this->setFocused(ImGui::IsWindowFocused());
 
 	ImGui::End();

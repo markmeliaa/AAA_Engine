@@ -254,17 +254,12 @@ void PanelProperties::Draw()
 		ImGui::SameLine();
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%.2f Mb", local_video_memory_info.CurrentReservation * 0.00000001f);
 		ImGui::Separator();
+
+		pDXGI_factory->Release();
+		pDXGI_adapter->Release();
 	}
 
 	this->setFocused(ImGui::IsWindowFocused());
 
 	ImGui::End();
-}
-
-bool PanelProperties::CleanUp()
-{
-	pDXGI_factory->Release();
-	pDXGI_adapter->Release();
-
-	return true;
 }
