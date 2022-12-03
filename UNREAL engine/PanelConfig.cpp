@@ -142,16 +142,6 @@ void PanelConfig::Draw()
 
 		if (ImGui::Checkbox("FULLSCREEN     ", &win_fullscreen))
 		{
-			if (win_fullscreen)
-			{
-				App->window->setCurrentWidth(App->window->getMaxWindowsWidth());
-				width = App->window->getMaxWindowsWidth();
-				App->window->setCurrentHeight(App->window->getMaxWindowsHeight());
-				height = App->window->getMaxWindowsHeight();
-
-				App->window->SetWindowSize(App->window->getCurrentWidth(), App->window->getCurrentHeight());
-			}
-
 			App->window->SetWindowFullscreen(win_fullscreen);
 		}
 		ImGui::SameLine();
