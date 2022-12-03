@@ -110,7 +110,12 @@ bool ModuleRender::CleanUp()
 
 void ModuleRender::LoadNewModel(const char* file_name)
 {
+	// Delete last model from the heap before charging a new one
+	Model* last_model = model;
+	delete last_model;
+
 	model = new Model(file_name);
+
 	App->camera->ResetModelMat();
 	App->camera->Focus(model);
 }

@@ -50,6 +50,10 @@ GLuint ModuleTexture::LoadTexture(const char* image_file_name)
 
 	image_metadata = this_image_metadata;
 
+	// Allocated memory on the heap must be deallocated
+	delete flip;
+	delete[] w_image_file_name;
+
 	return CheckImageMetadata();
 }
 

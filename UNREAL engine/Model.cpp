@@ -19,12 +19,12 @@ Model::~Model()
 	D_LOG("Delete the textures, the meshes and the buffers at the end");
 	App->editor->log.emplace_back("Delete the textures, the meshes and the buffers at the end");
 
-	for (int i = 0; i < materials.size(); i++) 
+	for (int i = 0; i < materials.size(); ++i) 
 	{
 		glDeleteTextures(1, &materials[i]);
 	}
 
-	for (int i = 0; i < meshes.size(); i++) 
+	for (int i = 0; i < meshes.size(); ++i) 
 	{
 		delete meshes[i];
 	}
@@ -32,7 +32,7 @@ Model::~Model()
 
 void Model::Draw()
 {
-	for (int i = 0; i < meshes.size(); i++)
+	for (int i = 0; i < meshes.size(); ++i)
 	{
 		meshes[i]->Draw(materials);
 	}
@@ -149,7 +149,7 @@ void Model::LoadMeshes(aiMesh** meshes, const unsigned int& numMeshes)
 
 void Model::CreateModelSphere(aiMesh** meshes, const unsigned int& numMeshes)
 {
-	for (int i = 0; i < this->meshes.size(); i++)
+	for (int i = 0; i < this->meshes.size(); ++i)
 	{
 		total_num_vertices += this->meshes[i]->GetNumVertices();
 		total_num_indices += this->meshes[i]->GetNumIndices();
@@ -157,7 +157,7 @@ void Model::CreateModelSphere(aiMesh** meshes, const unsigned int& numMeshes)
 
 	std::vector<float3> sphere_vertices;
 	sphere_vertices.reserve(total_num_vertices);
-	for (unsigned int i = 0; i < numMeshes; i++)
+	for (unsigned int i = 0; i < numMeshes; ++i)
 	{
 		const aiMesh* mesh = meshes[i];
 

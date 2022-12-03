@@ -106,7 +106,7 @@ bool ModuleEditor::CleanUp()
 void ModuleEditor::CalculateFpsPerFrame()
 {
 	int last_checked = 0;
-	for (int i = 0; i < sizeof(fps_log) / sizeof(float); i++)
+	for (int i = 0; i < sizeof(fps_log) / sizeof(float); ++i)
 	{
 		last_checked = i;
 		if (fps_log[last_checked] == NULL)
@@ -132,7 +132,7 @@ void ModuleEditor::CalculateFpsPerFrame()
 void ModuleEditor::CalculateMilisecPerFrame()
 {
 	int last_checked = 0;
-	for (int i = 0; i < sizeof(milisec_log) / sizeof(float); i++)
+	for (int i = 0; i < sizeof(milisec_log) / sizeof(float); ++i)
 	{
 		last_checked = i;
 		if (milisec_log[last_checked] == NULL)

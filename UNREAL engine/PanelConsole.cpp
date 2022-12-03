@@ -28,7 +28,7 @@ void PanelConsole::Draw()
 	ImGui::SetNextWindowBgAlpha(1.0f);
 	ImGui::Begin("Console Log", &visible);
 
-	for (int i = 0; i < App->editor->log.size(); i++)
+	for (int i = 0; i < App->editor->log.size(); ++i)
 	{
 		ImGui::TextUnformatted(App->editor->log[i]);
 		if (ImGui::GetScrollY() >= ImGui::GetScrollMaxY())

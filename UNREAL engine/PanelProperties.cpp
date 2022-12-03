@@ -84,11 +84,11 @@ void PanelProperties::Draw()
 	if (ImGui::CollapsingHeader("Geometry"))
 	{
 		ImGui::TextUnformatted("AMOUNT OF VERTICES PER MESH:");
-		for (int i = 0; i < App->renderer->GetModel()->GetMeshes().size(); i++)
+		for (int i = 0; i < App->renderer->GetModel()->GetMeshes().size(); ++i)
 		{
 			ImGui::TextUnformatted("Mesh");
 			ImGui::SameLine();
-			ImGui::TextUnformatted(std::to_string(i).c_str());
+			ImGui::TextUnformatted(std::to_string(i + 1).c_str());
 			ImGui::SameLine();
 			ImGui::TextUnformatted(":");
 			ImGui::SameLine();
@@ -102,11 +102,11 @@ void PanelProperties::Draw()
 		ImGui::Separator();
 
 		ImGui::TextUnformatted("AMOUNT OF TRIANGLES PER MESH:");
-		for (int i = 0; i < App->renderer->GetModel()->GetMeshes().size(); i++)
+		for (int i = 0; i < App->renderer->GetModel()->GetMeshes().size(); ++i)
 		{
 			ImGui::TextUnformatted("Mesh");
 			ImGui::SameLine();
-			ImGui::TextUnformatted(std::to_string(i).c_str());
+			ImGui::TextUnformatted(std::to_string(i + 1).c_str());
 			ImGui::SameLine();
 			ImGui::TextUnformatted(":");
 			ImGui::SameLine();
@@ -201,7 +201,7 @@ void PanelProperties::Draw()
 		if (SDL_HasSSE42())
 			caps.emplace_back("SSE42");
 
-		for (int i = 0; i < caps.size(); i++)
+		for (int i = 0; i < caps.size(); ++i)
 		{
 			if (i == 5)
 				ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), caps[i]);
