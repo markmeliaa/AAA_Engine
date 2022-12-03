@@ -68,8 +68,8 @@ unsigned ModuleProgram::CreateProgram()
 {
 	D_LOG("Load shaders from .glsl files and create shader objects");
 	App->editor->log.emplace_back("Load shaders from .glsl files and create shader objects");
-	unsigned vertex = CompileShader(GL_VERTEX_SHADER, LoadShaderSource("Shaders/default_vertex.glsl"));
 	unsigned fragment = CompileShader(GL_FRAGMENT_SHADER, LoadShaderSource("Shaders/default_fragment.glsl"));
+	unsigned vertex = CompileShader(GL_VERTEX_SHADER, LoadShaderSource("Shaders/default_vertex.glsl"));
 
 	D_LOG("Create and link program");
 	App->editor->log.emplace_back("Create and link program");

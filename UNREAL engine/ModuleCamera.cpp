@@ -179,14 +179,10 @@ void ModuleCamera::ResetModelMat()
 
 void ModuleCamera::Focus(const Model* model)
 {
-	// Set the camera in the center of the model
-	SetPos(model_trans.x + model->GetCurrentModelBounds().Centroid().x * Abs(model_scale.x),
-		model_trans.y + model->GetCurrentModelBounds().Centroid().y * model_scale.y,
-		model_trans.z + model->GetCurrentModelBounds().Centroid().z * Abs(model_scale.z));
+	SetPos(model->GetCurrentModelBounds().Centroid());
 
-	// Move the camera away from the center of the model a certain distance
-	float away = model->GetCurrentModelBounds().r * Max(Abs(model_scale.x), Abs(model_scale.y), Abs(model_scale.z));
-	Translate(-away * 1.4f, 0.0f, away * 1.4f);
+	float away = model->GetCurrentModelBounds().r * 1.4f;
+	Translate(-away, 0.0f, away);
 
 	frustum->SetFront((float3::unitX + -float3::unitZ).Normalized());
 	frustum->SetUp(float3::unitY);
@@ -213,9 +209,7 @@ void ModuleCamera::Rotate(const float3x3& rotationDeltaMatrix)
 
 void ModuleCamera::Orbit(const Model* model, const float2& mouse_input, const float& rotate_speed)
 {
-	float3 center_sphere_model = float3(App->renderer->GetModel()->GetCurrentModelBounds().Centroid().x * model_scale.x,
-										App->renderer->GetModel()->GetCurrentModelBounds().Centroid().y * model_scale.y,
-										App->renderer->GetModel()->GetCurrentModelBounds().Centroid().z * model_scale.z);
+	float3 center_sphere_model = App->renderer->GetModel()->GetCurrentModelBounds().Centroid();
 	float3 distance_from_model = frustum->Pos() - center_sphere_model;
 
 	Quat rotX = Quat(frustum->Up(), -mouse_input.x * rotate_speed * App->GetDeltaTime() * DEGTORAD);

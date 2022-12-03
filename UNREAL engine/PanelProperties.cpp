@@ -15,6 +15,8 @@
 #include <GL/glew.h>
 #include <assimp/version.h>
 
+#pragma comment(lib, "dxgi")
+
 PanelProperties::PanelProperties()
 {
 }
@@ -31,7 +33,7 @@ void PanelProperties::Draw()
 		return;
 	}
 
-	ImGui::SetNextWindowSize(ImVec2(400, (float)App->window->getCurrentHeight() / 2 - 10), ImGuiCond_Always);
+	ImGui::SetNextWindowSize(ImVec2(400, (float)App->window->getCurrentHeight() / 2 - 15), ImGuiCond_Always);
 	ImGui::SetNextWindowPos(ImVec2((float)App->window->getCurrentWidth() - 400, (float)App->window->getCurrentHeight() / 2 + 18), ImGuiCond_Always);
 	ImGui::SetNextWindowBgAlpha(1.0f);
 	ImGui::Begin("Properties", &visible);
@@ -64,6 +66,17 @@ void PanelProperties::Draw()
 		{
 			App->camera->SetModelScale(float3(scale[0], scale[1], scale[2]));
 		}
+
+		float4 rotation_result = float4(App->renderer->GetModel()->GetBaseModelBounds().Centroid().x,
+			App->renderer->GetModel()->GetBaseModelBounds().Centroid().y,
+			App->renderer->GetModel()->GetBaseModelBounds().Centroid().z, 1.0f) * (float4x4::RotateX(-rot[0]) *
+				float4x4::RotateY(rot[1]) * float4x4::RotateZ(-rot[2]));
+
+		App->renderer->GetModel()->SetCurrentModelBounds(
+				Sphere(float3((rotation_result.x + pos[0]) * Abs(scale[0]),
+							  (rotation_result.y + pos[1]) * scale[1],
+							  (rotation_result.z + pos[2]) * Abs(scale[2])),
+				App->renderer->GetModel()->GetBaseModelBounds().r * Max(Abs(scale[0]), Abs(scale[1]), Abs(scale[2]))));
 
 		ImGui::Separator();
 	}
@@ -145,12 +158,12 @@ void PanelProperties::Draw()
 		ImGui::SameLine();
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%d", SDL_GetCPUCount());
 		ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "(Cache: %dkb)", SDL_GetCPUCacheLineSize());
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "(Cache: %d kb)", SDL_GetCPUCacheLineSize());
 
 		ImGui::Text("System RAM:");
 		ImGui::SameLine();
 		float gb = static_cast<float>(SDL_GetSystemRAM());
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%.1fGb", (gb * 0.00104858));
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%.1f Gb", (gb * 0.00104858));
 
 		ImGui::Text("Caps:");
 		ImGui::SameLine();
@@ -211,21 +224,47 @@ void PanelProperties::Draw()
 		ImGui::SameLine();
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%s", glGetString(GL_VENDOR));
 
-		ImGui::Text("VRAM Size:");
-		ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "-----");
+		UINT dxgi_fact_flags = 0;
+		dxgi_fact_flags |= DXGI_CREATE_FACTORY_DEBUG;
+		CreateDXGIFactory2(dxgi_fact_flags, IID_PPV_ARGS(&pDXGI_factory));
 
-		ImGui::Text("VRAM Available:");
+		IDXGIAdapter* temp_adapter;
+		UINT ordinal_adapter = 0;
+		pDXGI_factory->EnumAdapters(ordinal_adapter, &temp_adapter); // Get first adapter
+
+		DXGI_ADAPTER_DESC desc;
+		temp_adapter->GetDesc(&desc);
+		temp_adapter->QueryInterface(&pDXGI_adapter);
+		temp_adapter->Release();
+		pDXGI_adapter->QueryVideoMemoryInfo(0, DXGI_MEMORY_SEGMENT_GROUP_LOCAL, &local_video_memory_info);
+
+		ImGui::Text("VRAM Budget:");
 		ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "-----");
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%.2f Mb", local_video_memory_info.Budget * 0.00000001f);
 
 		ImGui::Text("VRAM Usage:");
 		ImGui::SameLine();
-		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "-----");
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%.2f Mb", local_video_memory_info.CurrentUsage * 0.00000001f);
+
+		ImGui::Text("VRAM Available:");
+		ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%.2f Mb", local_video_memory_info.AvailableForReservation * 0.00000001f);
+
+		ImGui::Text("VRAM Reserved:");
+		ImGui::SameLine();
+		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "%.2f Mb", local_video_memory_info.CurrentReservation * 0.00000001f);
 		ImGui::Separator();
 	}
 
 	this->setFocused(ImGui::IsWindowFocused());
 
 	ImGui::End();
+}
+
+bool PanelProperties::CleanUp()
+{
+	pDXGI_factory->Release();
+	pDXGI_adapter->Release();
+
+	return true;
 }
