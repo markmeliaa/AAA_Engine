@@ -4,6 +4,7 @@
 #include "ModuleEditor.h"
 #include "ModuleRender.h"
 #include "ModuleCamera.h"
+#include "ModuleTexture.h"
 
 #include <imgui.h>
 #include <imgui_impl_sdl.h>
@@ -191,9 +192,27 @@ void PanelConfig::Draw()
 		ImGui::Separator();
 	}
 
-	if (ImGui::CollapsingHeader("Textures"))
+	if (ImGui::CollapsingHeader("Texture"))
 	{
-		
+		ImGui::Text("Modify the texture:");
+		if (ImGui::Button("Change WRAP mode", ImVec2(121.5f, 25.0f)))
+		{
+			App->texture->SetWrapMode();
+			App->texture->SetTextureOptions();
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Change MAG filt.", ImVec2(121.5f, 25.0f)))
+		{
+			App->texture->SetMagFilter();
+			App->texture->SetTextureOptions();
+		}
+		ImGui::SameLine();
+		if (ImGui::Button("Change MIN filt.", ImVec2(121.5f, 25.0f)))
+		{
+			App->texture->SetMinFilter();
+			App->texture->SetTextureOptions();
+		}
+		ImGui::Separator();
 	}
 
 	this->setFocused(ImGui::IsWindowFocused());

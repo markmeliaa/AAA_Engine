@@ -57,6 +57,54 @@ GLuint ModuleTexture::LoadTexture(const char* image_file_name)
 	return CheckImageMetadata();
 }
 
+void ModuleTexture::SetMinFilter()
+{
+	if (min_filter == GL_NEAREST_MIPMAP_NEAREST)
+		min_filter = GL_LINEAR_MIPMAP_NEAREST;
+
+	else if (min_filter == GL_LINEAR_MIPMAP_NEAREST)
+		min_filter = GL_NEAREST_MIPMAP_LINEAR;
+
+	else if (min_filter == GL_NEAREST_MIPMAP_LINEAR)
+		min_filter = GL_LINEAR_MIPMAP_LINEAR;
+
+	else if (min_filter == GL_LINEAR_MIPMAP_LINEAR)
+		min_filter = GL_NEAREST_MIPMAP_NEAREST;
+}
+
+void ModuleTexture::SetMagFilter()
+{
+	if (mag_filter == GL_NEAREST)
+		mag_filter = GL_LINEAR;
+
+	else if (mag_filter == GL_LINEAR)
+		mag_filter = GL_NEAREST;
+}
+
+void ModuleTexture::SetWrapMode()
+{
+	if (wrap_mode == GL_REPEAT)
+		wrap_mode = GL_MIRRORED_REPEAT;
+
+	else if (wrap_mode == GL_MIRRORED_REPEAT)
+		wrap_mode = GL_CLAMP_TO_BORDER;
+
+	else if (wrap_mode == GL_CLAMP_TO_BORDER)
+		wrap_mode = GL_CLAMP_TO_EDGE;
+
+	else if (wrap_mode == GL_CLAMP_TO_EDGE)
+		wrap_mode = GL_REPEAT;
+}
+
+void ModuleTexture::SetTextureOptions() const
+{
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GetMinFilter());
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GetMagFilter());
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GetWrapMode());
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GetWrapMode());
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GetWrapMode());
+}
+
 GLuint ModuleTexture::CheckImageMetadata() const
 {
 	GLuint texture_object;
@@ -95,13 +143,4 @@ GLuint ModuleTexture::CheckImageMetadata() const
 	glGenerateMipmap(GL_TEXTURE_2D);
 
 	return texture_object;
-}
-
-void ModuleTexture::SetTextureOptions() const
-{
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 }

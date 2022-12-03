@@ -19,12 +19,24 @@ public:
 
 	inline DirectX::TexMetadata GetImageMetadata() const { return image_metadata; }
 
+	inline int GetMinFilter() const { return min_filter; }
+	void SetMinFilter();
+	inline int GetMagFilter() const { return mag_filter; }
+	void SetMagFilter();
+	inline int GetWrapMode() const { return wrap_mode; }
+	void SetWrapMode();
+
+	void SetTextureOptions() const;
+
 private:
 	GLuint CheckImageMetadata() const;
-	void SetTextureOptions() const;
 
 	DirectX::ScratchImage* loaded_image = nullptr;
 	DirectX::TexMetadata image_metadata;
+
+	unsigned int min_filter = GL_LINEAR_MIPMAP_LINEAR;
+	unsigned int mag_filter = GL_LINEAR;
+	unsigned int wrap_mode = GL_CLAMP_TO_EDGE;
 };
 
 #endif // __ModuleTexture_H__
