@@ -26,6 +26,7 @@ public:
 	void SetWindowSize(const int& width, const int& height);
 	inline void SetWindowResizable(const bool& resize) const { resize ? SDL_SetWindowResizable(window, SDL_TRUE) : SDL_SetWindowResizable(window, SDL_FALSE); }
 	inline void SetWindowBorderless(const bool& borders) const { borders ? SDL_SetWindowBordered(window, SDL_FALSE) : SDL_SetWindowBordered(window, SDL_TRUE); }
+	inline void SetWindowFullscreen(const bool& full_scr) const { full_scr ? SDL_SetWindowFullscreen(window, SDL_TRUE) : SDL_SetWindowFullscreen(window, SDL_FALSE); }
 
 	inline int getCurrentWidth() const { return currentWidth; }
 	inline void setCurrentWidth(const int& w) { currentWidth = w; }

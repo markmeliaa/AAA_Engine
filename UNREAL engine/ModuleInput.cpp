@@ -59,7 +59,6 @@ update_status ModuleInput::PreUpdate()
 					switch (sdlEvent.window.event)
 					{
 						case SDL_WINDOWEVENT_RESIZED:
-							App->editor->log.emplace_back("Windows resized!!!");
 							App->window->SetWindowSize(sdlEvent.window.data1, sdlEvent.window.data2);
 							break;
 						case SDL_WINDOWEVENT_CLOSE:

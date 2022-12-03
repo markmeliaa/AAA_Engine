@@ -48,9 +48,19 @@ void PanelConfig::Draw()
 
 	if (ImGui::CollapsingHeader("Renderer"))
 	{
-		float background[3] = { App->renderer->background_color[0], App->renderer->background_color[1], App->renderer->background_color[2] };
+		ImGui::TextUnformatted("Change the color of the background:");
 
-		if (ImGui::ColorEdit3("Background color", background))
+		float background[3] = { App->renderer->background_color[0], App->renderer->background_color[1], App->renderer->background_color[2] };
+		ImGui::SetNextItemWidth(195);
+		if (ImGui::ColorPicker3("##MyColor##1", (float*)&background, ImGuiColorEditFlags_PickerHueBar | ImGuiColorEditFlags_NoSidePreview | ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoAlpha))
+		{
+			App->renderer->background_color[0] = background[0];
+			App->renderer->background_color[1] = background[1];
+			App->renderer->background_color[2] = background[2];
+		}
+		ImGui::SameLine();
+		ImGui::SetNextItemWidth(195);
+		if (ImGui::ColorPicker3("##MyColor##2", (float*)&background, ImGuiColorEditFlags_PickerHueWheel | ImGuiColorEditFlags_NoSidePreview | ImGuiColorEditFlags_NoInputs | ImGuiColorEditFlags_NoAlpha))
 		{
 			App->renderer->background_color[0] = background[0];
 			App->renderer->background_color[1] = background[1];
@@ -66,50 +76,63 @@ void PanelConfig::Draw()
 		static bool win_borderless = false;
 		static bool win_fullscreen_dsktp = false;
 
+		static bool changing_screen_size_w = false;
+		static bool changing_screen_size_h = false;
+
+		static int static_width = 0;
+		static int static_height = 0;
+
 		static float bright = App->window->GetWindowBrightness();
 		if (ImGui::SliderFloat("Brightness", &bright, 0.0f, 1.0f))
 			App->window->SetWindowBrightness(bright);
 
-		static int width = App->window->getCurrentWidth();
-		ImGui::SliderInt("Screen Width", &width, 0, App->window->getMaxWindowsWidth());
-
-		if (!ImGui::IsAnyMouseDown())
+		int width = App->window->getCurrentWidth();
+		if (ImGui::SliderInt("Screen Width", &width, 820, App->window->getMaxWindowsWidth()))
 		{
-			if (width < 820)
-				width = 820;
-
-			App->window->setCurrentWidth(width);
-
-			if (width < App->window->getMaxWindowsWidth())
-			{
-				win_fullscreen = false;
-				win_fullscreen_dsktp = false;
-			}
+			changing_screen_size_w = true;
+			static_width = width;
 		}
 
-		static int height = App->window->getCurrentHeight();
-		ImGui::SliderInt("Screen Height", &height, 0, App->window->getMaxWindowsHeight());
-
-		if (!ImGui::IsAnyMouseDown())
+		if (!ImGui::IsAnyMouseDown() && changing_screen_size_w)
 		{
-			if (height < 685)
-				height = 685;
-			App->window->setCurrentHeight(height);
+			App->window->setCurrentWidth(static_width);
 
-			if (height < App->window->getMaxWindowsHeight())
+			if (static_width < App->window->getMaxWindowsWidth())
 			{
-				win_fullscreen = false;
 				win_fullscreen_dsktp = false;
 			}
 
-			else if (width == App->window->getMaxWindowsWidth() && height == App->window->getMaxWindowsHeight())
-			{
-				if (!win_fullscreen && !win_fullscreen_dsktp)
-					win_fullscreen = true;
-			}
+			App->window->SetWindowSize(App->window->getCurrentWidth(), App->window->getCurrentHeight());
+
+			changing_screen_size_w = false;
 		}
 
-		App->window->SetWindowSize(App->window->getCurrentWidth(), App->window->getCurrentHeight());
+		int height = App->window->getCurrentHeight();
+		if (ImGui::SliderInt("Screen Height", &height, 685, App->window->getMaxWindowsHeight()))
+		{
+			changing_screen_size_h = true;
+			static_height = height;
+		}
+
+		if (!ImGui::IsAnyMouseDown() && changing_screen_size_h)
+		{
+			App->window->setCurrentHeight(static_height);
+
+			if (static_height < App->window->getMaxWindowsHeight())
+			{
+				win_fullscreen_dsktp = false;
+			}
+
+			else if (static_width == App->window->getMaxWindowsWidth() && static_height == App->window->getMaxWindowsHeight() && !win_fullscreen)
+			{
+				if (!win_fullscreen_dsktp)
+					win_fullscreen_dsktp = true;
+			}
+
+			App->window->SetWindowSize(App->window->getCurrentWidth(), App->window->getCurrentHeight());
+
+			changing_screen_size_h = false;
+		}
 
 		ImGui::Text("Refresh rate: ");
 		ImGui::SameLine();
@@ -121,17 +144,15 @@ void PanelConfig::Draw()
 		{
 			if (win_fullscreen)
 			{
+				App->window->setCurrentWidth(App->window->getMaxWindowsWidth());
 				width = App->window->getMaxWindowsWidth();
+				App->window->setCurrentHeight(App->window->getMaxWindowsHeight());
 				height = App->window->getMaxWindowsHeight();
-				App->window->SetWindowSize(App->window->getMaxWindowsWidth(), App->window->getMaxWindowsHeight());
+
+				App->window->SetWindowSize(App->window->getCurrentWidth(), App->window->getCurrentHeight());
 			}
 
-			else
-			{
-				width = BASE_SCREEN_WIDTH;
-				height = BASE_SCREEN_HEIGHT;
-				App->window->SetWindowSize(BASE_SCREEN_WIDTH, BASE_SCREEN_HEIGHT);
-			}
+			App->window->SetWindowFullscreen(win_fullscreen);
 		}
 		ImGui::SameLine();
 		if (ImGui::Checkbox("RESIZABLE", &win_resizable))
@@ -160,6 +181,7 @@ void PanelConfig::Draw()
 				App->window->SetWindowSize(BASE_SCREEN_WIDTH, BASE_SCREEN_HEIGHT);
 			}
 		}
+
 		ImGui::Separator();
 	}
 
@@ -216,6 +238,8 @@ void PanelConfig::Draw()
 	}
 
 	this->setFocused(ImGui::IsWindowFocused());
+
+	ImGui::ShowDemoWindow();
 
 	ImGui::End();
 }
