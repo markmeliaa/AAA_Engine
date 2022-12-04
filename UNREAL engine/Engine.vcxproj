@@ -317,6 +317,7 @@
     <ClInclude Include="PanelConfig.h" />
     <ClInclude Include="PanelConsole.h" />
     <ClInclude Include="PanelProperties.h" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="lib\MathGeoLib\Geometry\KDTree.inl" />
@@ -326,6 +327,12 @@
     <None Include="lib\MathGeoLib\Geometry\TriangleMesh_IntersectRay_SSE.inl" />
     <None Include="lib\MathGeoLib\Math\float2.inl" />
     <None Include="lib\MathGeoLib\Math\Matrix.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Engine.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\..\..\Downloads\UEicon.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

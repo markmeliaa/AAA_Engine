@@ -17,10 +17,10 @@ using namespace std;
 
 ModuleEditor::ModuleEditor()
 {
-	panels.push_back(about = new PanelAbout());
-	panels.push_back(console = new PanelConsole());
-	panels.push_back(config = new PanelConfig());
 	panels.push_back(props = new PanelProperties());
+	panels.push_back(config = new PanelConfig());
+	panels.push_back(console = new PanelConsole());
+	panels.push_back(about = new PanelAbout());
 }
 
 ModuleEditor::~ModuleEditor()

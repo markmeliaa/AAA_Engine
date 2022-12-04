@@ -453,7 +453,6 @@
     <ClInclude Include="lib\MathGeoLib\Math\vec2d.h">
       <Filter>Libs\MathGeoLib</Filter>
     </ClInclude>
-    <ClInclude Include="Dummy.h" />
     <ClInclude Include="ModuleCamera.h">
       <Filter>Modules</Filter>
     </ClInclude>
@@ -514,6 +513,10 @@
     <ClInclude Include="lib\ImGui\imstb_truetype.h">
       <Filter>Libs\ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="Dummy.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Modules">
@@ -540,6 +543,9 @@
     <Filter Include="Scene">
       <UniqueIdentifier>{5d860134-d50c-4284-bb72-8ea80f53b16b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{23a02f51-fdc2-4677-9db4-579c8e70bad4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <None Include="lib\MathGeoLib\Math\float2.inl">
@@ -563,5 +569,15 @@
     <None Include="lib\MathGeoLib\Geometry\TriangleMesh_IntersectRay_SSE.inl">
       <Filter>Libs\MathGeoLib</Filter>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Engine.rc">
+      <Filter>Resources</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\..\..\Downloads\UEicon.ico">
+      <Filter>Resources</Filter>
+    </Image>
   </ItemGroup>
 </Project>
