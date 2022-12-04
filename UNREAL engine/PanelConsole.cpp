@@ -23,8 +23,8 @@ void PanelConsole::Draw()
 		return;
 	}
 
-	ImGui::SetNextWindowSize(ImVec2((float)App->window->getCurrentWidth()/2, 200), ImGuiCond_Always);
-	ImGui::SetNextWindowPos(ImVec2(0, (float)App->window->getCurrentHeight() - 200), ImGuiCond_Always);
+	ImGui::SetNextWindowSize(ImVec2((float)App->window->GetCurrentWidth()/2, 200), ImGuiCond_Always);
+	ImGui::SetNextWindowPos(ImVec2(0, (float)App->window->GetCurrentHeight() - 200), ImGuiCond_Always);
 	ImGui::SetNextWindowBgAlpha(1.0f);
 	ImGui::Begin("Console Log", &visible);
 

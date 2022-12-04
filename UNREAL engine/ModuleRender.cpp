@@ -84,7 +84,7 @@ update_status ModuleRender::Update()
 {
 	model->Draw();
 
-	App->draw->Draw(App->camera->GetViewMatrix(), App->camera->GetProjMatrix(), App->window->getCurrentWidth(), App->window->getCurrentHeight());
+	App->draw->Draw(App->camera->GetViewMatrix(), App->camera->GetProjMatrix(), App->window->GetCurrentWidth(), App->window->GetCurrentHeight());
 
 	return UPDATE_CONTINUE;
 }

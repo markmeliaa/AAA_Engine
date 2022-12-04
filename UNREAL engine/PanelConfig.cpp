@@ -28,8 +28,8 @@ void PanelConfig::Draw()
 		return;
 	}
 
-	ImGui::SetNextWindowSize(ImVec2(400, (float)App->window->getCurrentHeight() / 2), ImGuiCond_Always);
-	ImGui::SetNextWindowPos(ImVec2((float)App->window->getCurrentWidth() - 400, 18), ImGuiCond_Always);
+	ImGui::SetNextWindowSize(ImVec2(400, (float)App->window->GetCurrentHeight() / 2), ImGuiCond_Always);
+	ImGui::SetNextWindowPos(ImVec2((float)App->window->GetCurrentWidth() - 400, 18), ImGuiCond_Always);
 	ImGui::SetNextWindowBgAlpha(1.0f);
 	ImGui::Begin("Configuration", &visible);
 
@@ -99,8 +99,8 @@ void PanelConfig::Draw()
 		if (ImGui::SliderFloat("Brightness", &bright, 0.0f, 1.0f))
 			App->window->SetWindowBrightness(bright);
 
-		int width = App->window->getCurrentWidth();
-		if (ImGui::SliderInt("Screen Width", &width, 820, App->window->getMaxWindowsWidth()))
+		int width = App->window->GetCurrentWidth();
+		if (ImGui::SliderInt("Screen Width", &width, 820, App->window->GetMaxWindowsWidth()))
 		{
 			changing_screen_size_w = true;
 			static_width = width;
@@ -108,20 +108,20 @@ void PanelConfig::Draw()
 
 		if (!ImGui::IsAnyMouseDown() && changing_screen_size_w)
 		{
-			App->window->setCurrentWidth(static_width);
+			App->window->SetCurrentWidth(static_width);
 
-			if (static_width < App->window->getMaxWindowsWidth())
+			if (static_width < App->window->GetMaxWindowsWidth())
 			{
 				win_fullscreen_dsktp = false;
 			}
 
-			App->window->SetWindowSize(App->window->getCurrentWidth(), App->window->getCurrentHeight());
+			App->window->SetWindowSize(App->window->GetCurrentWidth(), App->window->GetCurrentHeight());
 
 			changing_screen_size_w = false;
 		}
 
-		int height = App->window->getCurrentHeight();
-		if (ImGui::SliderInt("Screen Height", &height, 685, App->window->getMaxWindowsHeight()))
+		int height = App->window->GetCurrentHeight();
+		if (ImGui::SliderInt("Screen Height", &height, 685, App->window->GetMaxWindowsHeight()))
 		{
 			changing_screen_size_h = true;
 			static_height = height;
@@ -129,20 +129,20 @@ void PanelConfig::Draw()
 
 		if (!ImGui::IsAnyMouseDown() && changing_screen_size_h)
 		{
-			App->window->setCurrentHeight(static_height);
+			App->window->SetCurrentHeight(static_height);
 
-			if (static_height < App->window->getMaxWindowsHeight())
+			if (static_height < App->window->GetMaxWindowsHeight())
 			{
 				win_fullscreen_dsktp = false;
 			}
 
-			else if (static_width == App->window->getMaxWindowsWidth() && static_height == App->window->getMaxWindowsHeight() && !win_fullscreen)
+			else if (static_width == App->window->GetMaxWindowsWidth() && static_height == App->window->GetMaxWindowsHeight() && !win_fullscreen)
 			{
 				if (!win_fullscreen_dsktp)
 					win_fullscreen_dsktp = true;
 			}
 
-			App->window->SetWindowSize(App->window->getCurrentWidth(), App->window->getCurrentHeight());
+			App->window->SetWindowSize(App->window->GetCurrentWidth(), App->window->GetCurrentHeight());
 
 			changing_screen_size_h = false;
 		}
@@ -172,9 +172,9 @@ void PanelConfig::Draw()
 		{
 			if (win_fullscreen_dsktp)
 			{
-				width = App->window->getMaxWindowsWidth();
-				height = App->window->getMaxWindowsHeight();
-				App->window->SetWindowSize(App->window->getMaxWindowsWidth(), App->window->getMaxWindowsHeight());
+				width = App->window->GetMaxWindowsWidth();
+				height = App->window->GetMaxWindowsHeight();
+				App->window->SetWindowSize(App->window->GetMaxWindowsWidth(), App->window->GetMaxWindowsHeight());
 			}
 
 			else

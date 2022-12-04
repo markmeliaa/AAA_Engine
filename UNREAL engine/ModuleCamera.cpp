@@ -30,7 +30,7 @@ bool ModuleCamera::Init()
 	D_LOG("Create the camera");
 	App->editor->log.emplace_back("Create the camera");
 
-	aspectRatio = (float)App->window->getCurrentWidth() / (float)App->window->getCurrentHeight();
+	aspectRatio = (float)App->window->GetCurrentWidth() / (float)App->window->GetCurrentHeight();
 	InitFrustum();
 
 	model = float4x4::FromTRS(model_trans, model_rot, model_scale);
@@ -40,13 +40,13 @@ bool ModuleCamera::Init()
 
 bool ModuleCamera::Start()
 {
-	SDL_WarpMouseInWindow(App->window->window, App->window->getCurrentWidth() / 2, App->window->getCurrentHeight() / 2);
+	SDL_WarpMouseInWindow(App->window->window, App->window->GetCurrentWidth() / 2, App->window->GetCurrentHeight() / 2);
 	return true;
 }
 
 update_status ModuleCamera::Update()
 {
-	aspectRatio = (float)App->window->getCurrentWidth() / (float)App->window->getCurrentHeight();
+	aspectRatio = (float)App->window->GetCurrentWidth() / (float)App->window->GetCurrentHeight();
 	frustum->SetHorizontalFovAndAspectRatio(frustum->HorizontalFov(), aspectRatio);
 
 	model = float4x4::FromTRS(model_trans, model_rot, model_scale);

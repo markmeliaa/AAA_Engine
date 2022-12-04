@@ -513,10 +513,10 @@
     <ClInclude Include="lib\ImGui\imstb_truetype.h">
       <Filter>Libs\ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="Dummy.h" />
     <ClInclude Include="resource.h">
       <Filter>Resources</Filter>
     </ClInclude>
-    <ClInclude Include="Dummy.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Modules">
@@ -571,13 +571,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Image Include="Game\Assets\UEicon.ico">
+      <Filter>Resources</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
     <ResourceCompile Include="Engine.rc">
       <Filter>Resources</Filter>
     </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\..\..\..\..\..\Downloads\UEicon.ico">
-      <Filter>Resources</Filter>
-    </Image>
   </ItemGroup>
 </Project>

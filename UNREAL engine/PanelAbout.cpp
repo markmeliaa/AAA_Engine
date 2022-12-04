@@ -31,20 +31,20 @@ void PanelAbout::Draw()
 	colors = ImGui::GetStyle().Colors;
 	colors[ImGuiCol_Text] = ImVec4(1, 1, 1, 1);
 
-	ImGui::Text(TITLE);
-	ImGui::Text("- You get the name? This is not (yet) a real engine");
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), TITLE);
+	ImGui::Text("- Get the name? This is not (yet) a real engine");
 	ImGui::Text("");
 	ImGui::Text("Developed by Mark Meliaa.");
 	ImGui::Separator();
 
 	ImGui::Text("So far, the libraries being used are:");
-	ImGui::Text("	- SDL");
-	ImGui::Text("	- GLEW");
-	ImGui::Text("	- MathGeoLib");
-	ImGui::Text("	- ImGui");
-	ImGui::Text("	- DebugDraw");
-	ImGui::Text("	- DirectXTex");
-	ImGui::Text("	- Assimp");
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "	- SDL");
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "	- GLEW");
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "	- MathGeoLib");
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "	- ImGui");
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "	- DebugDraw");
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "	- DirectXTex");
+	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "	- Assimp");
 	ImGui::Separator();
 
 	ImGui::Text("Copyright (c) 2022 Marc Alcon Melia");

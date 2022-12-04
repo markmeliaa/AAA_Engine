@@ -44,6 +44,7 @@ private:
 	std::list<Panel*> panels;
 
 	update_status DrawMainMenu();
+	void SetUpEditorColors();
 };
 
 #endif // __ModuleEditor_H__

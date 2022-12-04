@@ -34,8 +34,8 @@ void PanelProperties::Draw()
 		return;
 	}
 
-	ImGui::SetNextWindowSize(ImVec2(400, (float)App->window->getCurrentHeight() / 2 - 13), ImGuiCond_Always);
-	ImGui::SetNextWindowPos(ImVec2((float)App->window->getCurrentWidth() - 400, (float)App->window->getCurrentHeight() / 2 + 18), ImGuiCond_Always);
+	ImGui::SetNextWindowSize(ImVec2(400, (float)App->window->GetCurrentHeight() / 2 - 13), ImGuiCond_Always);
+	ImGui::SetNextWindowPos(ImVec2((float)App->window->GetCurrentWidth() - 400, (float)App->window->GetCurrentHeight() / 2 + 18), ImGuiCond_Always);
 	ImGui::SetNextWindowBgAlpha(1.0f);
 	ImGui::Begin("Properties", &visible);
 
@@ -291,32 +291,7 @@ void PanelProperties::Draw()
 
 	this->setFocused(ImGui::IsWindowFocused());
 
-	colors[ImGuiCol_TitleBg] = ImVec4(0.75f, 0.75f, 0.75f, 1.0f);
-	colors[ImGuiCol_TitleBgActive] = ImVec4(0.95f, 0.65f, 0.0f, 1.0f);
-
-	colors[ImGuiCol_Header] = ImVec4(0.95f, 0.80f, 0.0f, 1.0f);
-	colors[ImGuiCol_HeaderActive] = ImVec4(0.95f, 0.75f, 0.0f, 1.0f);
-	colors[ImGuiCol_HeaderHovered] = ImVec4(0.95f, 0.75f, 0.0f, 1.0f);
-
-	colors[ImGuiCol_Button] = ImVec4(0.95f, 0.80f, 0.0f, 1.0f);
-	colors[ImGuiCol_ButtonHovered] = ImVec4(0.95f, 0.75f, 0.0f, 1.0f);
-	colors[ImGuiCol_ButtonActive] = ImVec4(0.95f, 0.70f, 0.0f, 1.0f);
-
-	colors[ImGuiCol_CheckMark] = ImVec4(0.95f, 0.80f, 0.0f, 1.0f);
-	colors[ImGuiCol_FrameBg] = ImVec4(0.1f, 0.1f, 0.1f, 1.0f);
-	colors[ImGuiCol_FrameBgHovered] = ImVec4(0.15f, 0.15f, 0.15f, 1.0f);
-	colors[ImGuiCol_FrameBgActive] = ImVec4(0.15f, 0.15f, 0.15f, 1.0f);
-	colors[ImGuiCol_SliderGrab] = ImVec4(0.95f, 0.80f, 0.0f, 1.0f);
-	colors[ImGuiCol_SliderGrabActive] = ImVec4(0.95f, 0.75f, 0.0f, 1.0f);
-
-	colors[ImGuiCol_ResizeGrip] = ImVec4(0.95f, 0.80f, 0.0f, 0.2f);
-	colors[ImGuiCol_ResizeGripActive] = ImVec4(0.95f, 0.80f, 0.0f, 1.0f);
-	colors[ImGuiCol_ResizeGripHovered] = ImVec4(0.95f, 0.80f, 0.0f, 1.0f);
-	colors[ImGuiCol_NavWindowingHighlight] = ImVec4(0.95f, 0.80f, 0.0f, 1.0f);
-	colors[ImGuiCol_Separator] = ImVec4(0.95f, 0.80f, 0.0f, 1.0f);
-
 	colors[ImGuiCol_Text] = ImVec4(0, 0, 0, 1);
-	colors[ImGuiCol_TextSelectedBg] = ImVec4(0.95f, 0.75f, 0.0f, 1.0f);
 
 	ImGui::End();
 }

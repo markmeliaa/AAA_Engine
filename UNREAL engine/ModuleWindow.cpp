@@ -99,6 +99,6 @@ void ModuleWindow::SetWindowSize(const int& width, const int& height)
 	SDL_SetWindowSize(window, width, height);
 	SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED_DISPLAY(display_index), SDL_WINDOWPOS_CENTERED_DISPLAY(display_index));
 
-	setCurrentWidth(width);
-	setCurrentHeight(height);
+	SetCurrentWidth(width);
+	SetCurrentHeight(height);
 }
