@@ -23,7 +23,7 @@ enum update_status
 #define BASE_SCREEN_WIDTH 1200 // previous 640
 #define BASE_SCREEN_HEIGHT 700 // previous 480
 #define FULLSCREEN false
-#define BORDERLESS false
+#define BORDERLESS true
 #define RESIZABLE false
 #define FULLSCREEN_DSKTP false
 #define VSYNC true

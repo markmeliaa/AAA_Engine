@@ -4,6 +4,10 @@
 #include "Globals.h"
 #include "Application.h"
 
+#include <imgui.h>
+#include <imgui_impl_sdl.h>
+#include <imgui_impl_opengl3.h>
+
 class Panel
 {
 public:
@@ -26,6 +30,9 @@ public:
 
 private:
 	bool focused = false;
+
+protected:
+	ImVec4* colors;
 };
 
 #endif // __Panel_H__

@@ -168,6 +168,9 @@ bool ModuleEditor::IsAnyWindowsFocused()
 
 update_status ModuleEditor::DrawMainMenu()
 {
+	ImVec4* colors = ImGui::GetStyle().Colors;
+	colors[ImGuiCol_Text] = ImVec4(1, 1, 1, 1);
+
 	if (ImGui::BeginMainMenuBar())
 	{
 		if (ImGui::BeginMenu("File"))
@@ -211,6 +214,8 @@ update_status ModuleEditor::DrawMainMenu()
 
 		ImGui::EndMainMenuBar();
 	}
+
+	colors[ImGuiCol_Text] = ImVec4(0, 0, 0, 1);
 
 	return UPDATE_CONTINUE;
 }

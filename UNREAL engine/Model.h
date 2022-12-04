@@ -9,6 +9,7 @@
 #include <Geometry/Sphere.h>
 
 #include <vector>
+#include <string>
 
 class Model
 {
@@ -25,6 +26,9 @@ public:
 	inline Sphere GetCurrentModelBounds() const { return current_model_bounds; }
 	inline void SetCurrentModelBounds(const Sphere& s) { current_model_bounds = s; }
 
+	inline GLuint GetTexture() const { return current_texture; }
+	inline std::string GetTextureName() const { return texture_name; }
+
 private:
 	void Load(const char* file_name);
 	void LoadMaterials(aiMaterial** materials, const unsigned int& numMaterials, const char* file_name);
@@ -38,6 +42,9 @@ private:
 	int total_num_indices = 0;
 	Sphere base_model_bounds;
 	Sphere current_model_bounds;
+
+	GLuint current_texture = 0;
+	std::string texture_name;
 };
 
 #endif // __Model_H__

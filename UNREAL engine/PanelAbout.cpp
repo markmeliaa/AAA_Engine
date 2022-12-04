@@ -28,6 +28,9 @@ void PanelAbout::Draw()
 	ImGui::SetNextWindowPos(ImVec2(0, 18), ImGuiCond_Always);
 	ImGui::Begin("About...", &visible);
 
+	colors = ImGui::GetStyle().Colors;
+	colors[ImGuiCol_Text] = ImVec4(1, 1, 1, 1);
+
 	ImGui::Text(TITLE);
 	ImGui::Text("- You get the name? This is not (yet) a real engine");
 	ImGui::Text("");
@@ -48,6 +51,8 @@ void PanelAbout::Draw()
 	ImGui::Separator();
 
 	this->setFocused(ImGui::IsWindowFocused());
+
+	colors[ImGuiCol_Text] = ImVec4(0, 0, 0, 1);
 
 	ImGui::End();
 }

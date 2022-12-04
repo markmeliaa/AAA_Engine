@@ -33,8 +33,13 @@ void PanelConfig::Draw()
 	ImGui::SetNextWindowBgAlpha(1.0f);
 	ImGui::Begin("Configuration", &visible);
 
+	colors = ImGui::GetStyle().Colors;
+	colors[ImGuiCol_Text] = ImVec4(0, 0, 0, 1);
+
 	if (ImGui::CollapsingHeader("Application"))
 	{
+		colors[ImGuiCol_Text] = ImVec4(1, 1, 1, 1);
+
 		static char eng_name[128] = "\"UNREAL\" engine";
 		ImGui::InputText("Engine name", eng_name, IM_ARRAYSIZE(eng_name));
 
@@ -44,10 +49,14 @@ void PanelConfig::Draw()
 		ImGui::PlotHistogram("##framerate", App->editor->fps_log, IM_ARRAYSIZE(App->editor->fps_log), 0, "Framerate", 0.0f, 100.0f, ImVec2(385.0f, 100.0f));
 		ImGui::PlotHistogram("##milliseconds", App->editor->milisec_log, IM_ARRAYSIZE(App->editor->milisec_log), 0, "Milliseconds", 0.0f, 40.0f, ImVec2(385.0f, 100.0f));
 		ImGui::Separator();
+
+		colors[ImGuiCol_Text] = ImVec4(0, 0, 0, 1);
 	}
 
 	if (ImGui::CollapsingHeader("Renderer"))
 	{
+		colors[ImGuiCol_Text] = ImVec4(1, 1, 1, 1);
+
 		ImGui::TextUnformatted("Change the color of the background:");
 
 		float background[3] = { App->renderer->background_color[0], App->renderer->background_color[1], App->renderer->background_color[2] };
@@ -67,14 +76,18 @@ void PanelConfig::Draw()
 			App->renderer->background_color[2] = background[2];
 		}
 		ImGui::Separator();
+
+		colors[ImGuiCol_Text] = ImVec4(0, 0, 0, 1);
 	}
 
 	if (ImGui::CollapsingHeader("Window"))
 	{
-		static bool win_fullscreen = false;
-		static bool win_resizable = false;
-		static bool win_borderless = false;
-		static bool win_fullscreen_dsktp = false;
+		colors[ImGuiCol_Text] = ImVec4(1, 1, 1, 1);
+
+		static bool win_fullscreen = FULLSCREEN;
+		static bool win_resizable = RESIZABLE;
+		static bool win_borderless = BORDERLESS;
+		static bool win_fullscreen_dsktp = FULLSCREEN_DSKTP;
 
 		static bool changing_screen_size_w = false;
 		static bool changing_screen_size_h = false;
@@ -173,10 +186,14 @@ void PanelConfig::Draw()
 		}
 
 		ImGui::Separator();
+
+		colors[ImGuiCol_Text] = ImVec4(0, 0, 0, 1);
 	}
 
 	if (ImGui::CollapsingHeader("Camera"))
 	{
+		colors[ImGuiCol_Text] = ImVec4(1, 1, 1, 1);
+
 		ImGui::Text("Camera speed:");
 		static float movespeed = App->camera->GetMoveSpeed();
 		static float rotspeed = App->camera->GetRotSpeed();
@@ -202,11 +219,17 @@ void PanelConfig::Draw()
 		if (ImGui::SliderFloat("Far plane dist", &farplane, 0.1f, 2000.0f))
 			App->camera->SetFarPlane(farplane);
 		ImGui::Separator();
+
+		colors[ImGuiCol_Text] = ImVec4(0, 0, 0, 1);
 	}
 
 	if (ImGui::CollapsingHeader("Texture"))
 	{
+		colors[ImGuiCol_Text] = ImVec4(1, 1, 1, 1);
+
 		ImGui::Text("Modify the texture:");
+
+		colors[ImGuiCol_Text] = ImVec4(0, 0, 0, 1);
 		if (ImGui::Button("Change WRAP mode", ImVec2(121.5f, 25.0f)))
 		{
 			App->texture->SetWrapMode();
@@ -225,11 +248,13 @@ void PanelConfig::Draw()
 			App->texture->SetTextureOptions();
 		}
 		ImGui::Separator();
+
+		colors[ImGuiCol_Text] = ImVec4(0, 0, 0, 1);
 	}
 
 	this->setFocused(ImGui::IsWindowFocused());
 
-	ImGui::ShowDemoWindow();
+	colors[ImGuiCol_Text] = ImVec4(0, 0, 0, 1);
 
 	ImGui::End();
 }

@@ -87,10 +87,11 @@ void Model::LoadMaterials(aiMaterial** materials, const unsigned int& numMateria
 			}
 
 			std::string short_file = string_file.substr(last_bar, string_file.length() - last_bar);
+			texture_name = short_file;
 
-			unsigned texture = App->texture->LoadTexture(short_file.c_str());
+			current_texture = App->texture->LoadTexture(short_file.c_str());
 
-			if (texture == 0)
+			if (current_texture == 0)
 			{
 				D_LOG("* If that fails, load the texture on the same folder as the FBX");
 				App->editor->log.emplace_back("* If that fails, load the texture on the same folder as the FBX");
@@ -104,21 +105,21 @@ void Model::LoadMaterials(aiMaterial** materials, const unsigned int& numMateria
 				std::string model_folder_dir = model_file_dir.substr(0, last_slash + 1);
 				std::string model_folder_material_file_dir = model_folder_dir + short_file;
 
-				texture = App->texture->LoadTexture(model_folder_material_file_dir.c_str());
+				current_texture = App->texture->LoadTexture(model_folder_material_file_dir.c_str());
 			}
 
 			// Try to load relative to the textures folder
-			if (texture == 0)
+			if (current_texture == 0)
 			{
 				D_LOG("* Last, if both fail, load the texture on the Textures/ folder");
 				App->editor->log.emplace_back("* Last, if both fail, load the texture on the Textures/ folder");
 
 				std::string textures_folder_dir = "Textures/";
 				std::string textures_folder_material_file_dir = textures_folder_dir + short_file;
-				texture = App->texture->LoadTexture(textures_folder_material_file_dir.c_str());
+				current_texture = App->texture->LoadTexture(textures_folder_material_file_dir.c_str());
 			}
 
-			if (texture == 0)
+			if (current_texture == 0)
 			{
 				D_LOG("Unable to correctly load the given texture");
 				App->editor->log.emplace_back("-- !!! Unable to correctly load the given texture !!! --");
@@ -130,7 +131,7 @@ void Model::LoadMaterials(aiMaterial** materials, const unsigned int& numMateria
 				App->editor->log.emplace_back("-- TEXTURE LOADED CORRECTLY --");
 			}
 
-			this->materials.emplace_back(texture);
+			this->materials.emplace_back(current_texture);
 		}
 	}
 }

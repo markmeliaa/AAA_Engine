@@ -1,3 +1,5 @@
+#pragma once
+#pragma warning( disable : 4312 )
 #include "Application.h"
 #include "PanelProperties.h"
 #include "ModuleWindow.h"
@@ -12,7 +14,6 @@
 
 #include <string>
 #include <SDL.h>
-#include <GL/glew.h>
 #include <assimp/version.h>
 
 #pragma comment(lib, "dxgi")
@@ -33,23 +34,31 @@ void PanelProperties::Draw()
 		return;
 	}
 
-	ImGui::SetNextWindowSize(ImVec2(400, (float)App->window->getCurrentHeight() / 2 - 15), ImGuiCond_Always);
+	ImGui::SetNextWindowSize(ImVec2(400, (float)App->window->getCurrentHeight() / 2 - 13), ImGuiCond_Always);
 	ImGui::SetNextWindowPos(ImVec2((float)App->window->getCurrentWidth() - 400, (float)App->window->getCurrentHeight() / 2 + 18), ImGuiCond_Always);
 	ImGui::SetNextWindowBgAlpha(1.0f);
 	ImGui::Begin("Properties", &visible);
 
+	colors = ImGui::GetStyle().Colors;
+	colors[ImGuiCol_Text] = ImVec4(0, 0, 0, 1);
+
 	if (ImGui::CollapsingHeader("Transformation"))
 	{
+		colors[ImGuiCol_Text] = ImVec4(1, 1, 1, 1);
+
 		ImGui::Text("Position	");
 		ImGui::SameLine();
+		colors[ImGuiCol_Text] = ImVec4(1, 1, 0, 1);
 		float pos[3] = { App->camera->GetModelTrans().x, App->camera->GetModelTrans().y ,App->camera->GetModelTrans().z };
 		if (ImGui::DragFloat3(" ", pos, 0.005f))
 		{
 			App->camera->SetModelTrans(float3(pos[0], pos[1], pos[2]));
 		}
+		colors[ImGuiCol_Text] = ImVec4(1, 1, 1, 1);
 
 		ImGui::Text("Rotation	");
 		ImGui::SameLine();
+		colors[ImGuiCol_Text] = ImVec4(1, 1, 0, 1);
 		float rot[3] = { App->camera->GetModelRotX(), App->camera->GetModelRotY(), App->camera->GetModelRotZ()};
 		if (ImGui::DragFloat3("  ", rot, 0.005f, ImGuiInputTextFlags_ReadOnly))
 		{
@@ -58,9 +67,11 @@ void PanelProperties::Draw()
 			App->camera->SetModelRotZ(rot[2]);
 			App->camera->SetModelRot(App->camera->GetModelRotX(), App->camera->GetModelRotY(), App->camera->GetModelRotZ());
 		}
+		colors[ImGuiCol_Text] = ImVec4(1, 1, 1, 1);
 
 		ImGui::Text("Scale	   ");
 		ImGui::SameLine();
+		colors[ImGuiCol_Text] = ImVec4(1, 1, 0, 1);
 		float scale[3] = { App->camera->GetModelScale().x, App->camera->GetModelScale().y, App->camera->GetModelScale().z };
 		if (ImGui::DragFloat3("   ", scale, 0.005f))
 		{
@@ -79,10 +90,14 @@ void PanelProperties::Draw()
 				App->renderer->GetModel()->GetBaseModelBounds().r * Max(Abs(scale[0]), Abs(scale[1]), Abs(scale[2]))));
 
 		ImGui::Separator();
+
+		colors[ImGuiCol_Text] = ImVec4(0, 0, 0, 1);
 	}
 
 	if (ImGui::CollapsingHeader("Geometry"))
 	{
+		colors[ImGuiCol_Text] = ImVec4(1, 1, 1, 1);
+
 		ImGui::TextUnformatted("AMOUNT OF VERTICES PER MESH:");
 		for (int i = 0; i < App->renderer->GetModel()->GetMeshes().size(); ++i)
 		{
@@ -118,10 +133,14 @@ void PanelProperties::Draw()
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f),
 			std::to_string(App->renderer->GetModel()->GetNumberIndices() / 3).c_str());
 		ImGui::Separator();
+
+		colors[ImGuiCol_Text] = ImVec4(0, 0, 0, 1);
 	}
 
 	if (ImGui::CollapsingHeader("Texture"))
 	{
+		colors[ImGuiCol_Text] = ImVec4(1, 1, 1, 1);
+
 		ImGui::TextUnformatted("Size of the texture:");
 		ImGui::SameLine();
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), std::to_string(App->texture->GetImageMetadata().width).c_str());
@@ -129,11 +148,20 @@ void PanelProperties::Draw()
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "x");
 		ImGui::SameLine();
 		ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), std::to_string(App->texture->GetImageMetadata().height).c_str());
+
+		current_texture = App->renderer->GetModel()->GetTexture();
+		ImGui::Image((void*)current_texture, ImVec2(100, 100));
+		ImGui::SameLine();
+		ImGui::TextUnformatted(App->renderer->GetModel()->GetTextureName().c_str());
 		ImGui::Separator();
+
+		colors[ImGuiCol_Text] = ImVec4(0, 0, 0, 1);
 	}
 
 	if (ImGui::CollapsingHeader("Hardware"))
 	{
+		colors[ImGuiCol_Text] = ImVec4(1, 1, 1, 1);
+
 		SDL_version sdl_ver = SDL_version{};
 		SDL_VERSION(&sdl_ver);
 
@@ -257,9 +285,38 @@ void PanelProperties::Draw()
 
 		pDXGI_factory->Release();
 		pDXGI_adapter->Release();
+
+		colors[ImGuiCol_Text] = ImVec4(0, 0, 0, 1);
 	}
 
 	this->setFocused(ImGui::IsWindowFocused());
+
+	colors[ImGuiCol_TitleBg] = ImVec4(0.75f, 0.75f, 0.75f, 1.0f);
+	colors[ImGuiCol_TitleBgActive] = ImVec4(0.95f, 0.65f, 0.0f, 1.0f);
+
+	colors[ImGuiCol_Header] = ImVec4(0.95f, 0.80f, 0.0f, 1.0f);
+	colors[ImGuiCol_HeaderActive] = ImVec4(0.95f, 0.75f, 0.0f, 1.0f);
+	colors[ImGuiCol_HeaderHovered] = ImVec4(0.95f, 0.75f, 0.0f, 1.0f);
+
+	colors[ImGuiCol_Button] = ImVec4(0.95f, 0.80f, 0.0f, 1.0f);
+	colors[ImGuiCol_ButtonHovered] = ImVec4(0.95f, 0.75f, 0.0f, 1.0f);
+	colors[ImGuiCol_ButtonActive] = ImVec4(0.95f, 0.70f, 0.0f, 1.0f);
+
+	colors[ImGuiCol_CheckMark] = ImVec4(0.95f, 0.80f, 0.0f, 1.0f);
+	colors[ImGuiCol_FrameBg] = ImVec4(0.1f, 0.1f, 0.1f, 1.0f);
+	colors[ImGuiCol_FrameBgHovered] = ImVec4(0.15f, 0.15f, 0.15f, 1.0f);
+	colors[ImGuiCol_FrameBgActive] = ImVec4(0.15f, 0.15f, 0.15f, 1.0f);
+	colors[ImGuiCol_SliderGrab] = ImVec4(0.95f, 0.80f, 0.0f, 1.0f);
+	colors[ImGuiCol_SliderGrabActive] = ImVec4(0.95f, 0.75f, 0.0f, 1.0f);
+
+	colors[ImGuiCol_ResizeGrip] = ImVec4(0.95f, 0.80f, 0.0f, 0.2f);
+	colors[ImGuiCol_ResizeGripActive] = ImVec4(0.95f, 0.80f, 0.0f, 1.0f);
+	colors[ImGuiCol_ResizeGripHovered] = ImVec4(0.95f, 0.80f, 0.0f, 1.0f);
+	colors[ImGuiCol_NavWindowingHighlight] = ImVec4(0.95f, 0.80f, 0.0f, 1.0f);
+	colors[ImGuiCol_Separator] = ImVec4(0.95f, 0.80f, 0.0f, 1.0f);
+
+	colors[ImGuiCol_Text] = ImVec4(0, 0, 0, 1);
+	colors[ImGuiCol_TextSelectedBg] = ImVec4(0.95f, 0.75f, 0.0f, 1.0f);
 
 	ImGui::End();
 }
