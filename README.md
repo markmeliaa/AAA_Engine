@@ -4,12 +4,12 @@
 
 ---
 ## - **Required developed tasks**
-1. The build should is compiled in Release with only the necessary material needed for execution
+1. The build is compiled in Release with only the necessary material needed for execution
 (including two other sample geometries to load, _LinuxPenguin.fbx_ and _RedGuard.fbx_).
 2. _Baker_house.fbx_ is automatically loaded at the start of the execution.
-3. The own two models are in FBX format with one diffuse texture.
+3. The own two models are in _.fbx_ format with one diffuse texture.
 4. It accepts _"drag & drop"_ of any _.fbx_ files and textures (only to show the last dropped) from anywhere in the Hard Drive. The current geometry is removed if a new one is dropped.
-5. To find a texture every time (every step is shown through the LOG):
+5. To find a texture (every step is shown through the LOG):
      a. First, the path described in the FBX gets checked.
      b. Then, if that fails, it checks on the same folder from where the _.fbx_ was loaded.
      c. And last, it tries in the own _“Textures/”_ folder of the Engine.
