@@ -10,20 +10,32 @@
 3. The own two models are in _.fbx_ format with one diffuse texture.
 4. It accepts _"drag & drop"_ of any _.fbx_ files and textures (only to show the last dropped) from anywhere in the Hard Drive. The current geometry is removed if a new one is dropped.
 5. To find a texture (every step is shown through the LOG):
+
      a. First, the path described in the FBX gets checked.
+     
      b. Then, if that fails, it checks on the same folder from where the _.fbx_ was loaded.
+     
      c. And last, it tries in the own _“Textures/”_ folder of the Engine.
 6. It features Unity-like camera controls:
+
      a. While Right clicking, “W-A-S-D” fps-like movement and free look are enabled, also "Q-E" move the camera up and down.
+     
      b. Mouse wheel zooms in and out.
+     
      c. Left click drag rotates the camera around.
+     
      d. Alt + Left click orbit the object.
+     
      e. Pressing “F” focuses the camera around the current loaded geometry.
+     
      f. Holding SHIFT duplicates any movement speed.
 7. The Console window correctly LOGS the geometry loading process from ASSIMP.
 8. There is a **Configuration** window containg the following:
+
      a. A graph for the frames per second, in the "Application" section.
+     
      b. Configuration for the variables on each module (renderer, window, camera and textures in their corresponding sections of the window).
+     
      c. There is information about memory consumption, hardware detection and software versions (SDL, OpenGL, GLSL, Assimp), it is located in the "Hardware" section of the **Properties** window (I decided to include this section in the **Properties** window rather than in the **Configuration** because it does not configure anything, it just shows the properties of the Hardware).
 9. The camera adapts to the size of the geometry after being dropped to move far or close depending on the scale of the geometry.
 10. There is a main menu at the top with option to quit (File section), visit the github page (GitHub section, with possibility to check the Wiki, check any new Releases and report a Bug), and get info about the engine (**About** window). It also shows the possiblity to turn **ON** closed windows in the Window section (in order to turn them **OFF**, just close each desired window with their own close (x) button).
