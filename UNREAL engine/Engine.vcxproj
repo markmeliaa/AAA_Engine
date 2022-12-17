@@ -108,7 +108,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>./lib/glew-2.1.0/lib/Release/x64;.\lib\DirectXTex\DirectXTex\Bin\Desktop_2019_Win10\x64\Debug;.\lib\assimp\lib</AdditionalLibraryDirectories>
       <AdditionalDependencies>assimp-vc142-mt.lib;DirectXTex.lib;glew32.lib;opengl32.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
-      <OutputFile>UNREAL Engine</OutputFile>
+      <OutputFile>%(Link.OutputFile)</OutputFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">

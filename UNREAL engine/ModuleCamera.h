@@ -19,9 +19,9 @@ public:
 	update_status Update() override;
 	bool CleanUp() override;
 
-	const float4x4& GetViewMatrix() const { return frustum->ViewMatrix(); }
-	const float4x4& GetProjMatrix() const { return frustum->ProjectionMatrix(); }
-	const float4x4& GetModelMatrix() const { return model; }
+	float4x4 GetViewMatrix() const { return frustum->ViewMatrix(); }
+	float4x4 GetProjMatrix() const { return frustum->ProjectionMatrix(); }
+	float4x4 GetModelMatrix() const { return model; }
 
 	const float3& GetModelTrans() const { return model_trans; }
 	void SetModelTrans(const float3& t) { model_trans = t; }
