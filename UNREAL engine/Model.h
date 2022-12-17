@@ -19,15 +19,15 @@ public:
 
 	void Draw();
 
-	inline std::vector<Mesh*> GetMeshes() const { return meshes; }
-	inline int GetNumberVertices() const { return total_num_vertices; }
-	inline int GetNumberIndices() const { return total_num_indices; }
-	inline Sphere GetBaseModelBounds() const { return base_model_bounds; }
-	inline Sphere GetCurrentModelBounds() const { return current_model_bounds; }
-	inline void SetCurrentModelBounds(const Sphere& s) { current_model_bounds = s; }
+	std::vector<Mesh*> GetMeshes() const { return meshes; }
+	int GetNumberVertices() const { return total_num_vertices; }
+	int GetNumberIndices() const { return total_num_indices; }
+	Sphere GetBaseModelBounds() const { return base_model_bounds; }
+	Sphere GetCurrentModelBounds() const { return current_model_bounds; }
+	void SetCurrentModelBounds(const Sphere& s) { current_model_bounds = s; }
 
-	inline GLuint GetTexture() const { return current_texture; }
-	inline std::string GetTextureName() const { return texture_name; }
+	GLuint GetTexture() const { return current_texture; }
+	std::string GetTextureName() const { return texture_name; }
 
 private:
 	void Load(const char* file_name);

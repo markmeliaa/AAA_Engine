@@ -1,4 +1,3 @@
-#pragma once
 #include "Application.h"
 #include "Model.h"
 #include "ModuleTexture.h"

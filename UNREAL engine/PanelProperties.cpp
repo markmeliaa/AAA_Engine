@@ -1,4 +1,3 @@
-#pragma once
 #pragma warning( disable : 4312 )
 #include "Application.h"
 #include "PanelProperties.h"

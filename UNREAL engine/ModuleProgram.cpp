@@ -1,4 +1,3 @@
-#pragma once
 #include "Application.h"
 #include "ModuleProgram.h"
 #include "ModuleEditor.h"

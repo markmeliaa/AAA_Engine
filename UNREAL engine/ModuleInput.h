@@ -15,8 +15,6 @@ enum MouseButtonStates
 	DOWN
 };
 
-typedef unsigned __int8 Uint8;
-
 class ModuleInput : public Module
 {
 public:
@@ -28,14 +26,14 @@ public:
 	update_status PreUpdate() override;
 	bool CleanUp() override;
 
-	inline bool GetKey(const int& key) const { return keyboard[key]; }
+	bool GetKey(const int& key) const { return keyboard[key]; }
 
-	inline bool GetMouseButton(const int& button) const { return mouseButtons[button] == MouseButtonStates::DOWN; }
-	inline float2 GetMouseInput() const { return mouseCurrentPos; }
-	inline float2 GetMouseWheelInput() const { return mouseWheel; }
+	bool GetMouseButton(const int& button) const { return mouseButtons[button] == MouseButtonStates::DOWN; }
+	float2 GetMouseInput() const { return mouseCurrentPos; }
+	float2 GetMouseWheelInput() const { return mouseWheel; }
 
-	inline bool GetMouseWheelMoving() const { return mouseWheelMoving; }
-	inline void SetMouseWheel(const bool& wheel) { mouseWheelMoving = wheel; }
+	bool GetMouseWheelMoving() const { return mouseWheelMoving; }
+	void SetMouseWheel(const bool& wheel) { mouseWheelMoving = wheel; }
 
 private:
 	const Uint8 *keyboard = NULL;

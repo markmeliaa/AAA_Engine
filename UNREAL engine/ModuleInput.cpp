@@ -1,4 +1,3 @@
-#pragma once
 #include "Application.h"
 #include "ModuleInput.h"
 #include "ModuleWindow.h"

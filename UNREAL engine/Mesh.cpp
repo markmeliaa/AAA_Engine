@@ -1,4 +1,3 @@
-#pragma once
 #include "Application.h"
 #include "Mesh.h"
 #include "ModuleProgram.h"

@@ -1,4 +1,3 @@
-#pragma once
 #include "Application.h"
 #include "ModuleCamera.h"
 #include "ModuleEditor.h"
@@ -15,7 +14,7 @@
 ModuleCamera::ModuleCamera()
 {
 	frustum = new Frustum();
-	//model = float4x4::identity;
+
 	model_trans = float3(0.0f, 0.0f, 0.0f);
 	model_rot = float4x4::RotateX(rotX) * float4x4::RotateY(rotY) * float4x4::RotateY(rotZ);
 	model_scale = float3(1.0f, 1.0f, 1.0f);

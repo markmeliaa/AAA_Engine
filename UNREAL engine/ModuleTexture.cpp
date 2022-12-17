@@ -1,4 +1,3 @@
-#pragma once
 #pragma warning( disable : 4267 )
 #include "Application.h"
 #include "ModuleTexture.h"

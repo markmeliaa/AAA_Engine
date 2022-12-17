@@ -14,8 +14,8 @@ public:
 
 	void Draw(const std::vector<GLuint>& model_textures);
 
-	inline int GetNumVertices() const { return num_vertices; }
-	inline int GetNumIndices() const { return num_indices; }
+	int GetNumVertices() const { return num_vertices; }
+	int GetNumIndices() const { return num_indices; }
 
 private:
 	void LoadVBO(const aiMesh* mesh);

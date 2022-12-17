@@ -18,9 +18,9 @@ public:
 	update_status PostUpdate() override;
 	bool CleanUp() override;
 
-	inline void* GetContext() const { return context; }
-	inline Model* GetModel() const { return model; }
-	inline void LoadNewModel(const char* load_file);
+	void* GetContext() const { return context; }
+	Model* GetModel() const { return model; }
+	void LoadNewModel(const char* load_file);
 
 	float background_color[3] = { 0.1f, 0.1f, 0.1f };
 

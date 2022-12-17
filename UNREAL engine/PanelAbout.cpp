@@ -1,4 +1,3 @@
-#pragma once
 #include "PanelAbout.h"
 
 #include <imgui.h>

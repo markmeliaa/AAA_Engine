@@ -17,14 +17,14 @@ public:
 
 	GLuint LoadTexture(const char* image_file_name);
 
-	inline DirectX::TexMetadata GetImageMetadata() const { return image_metadata; }
-	inline DirectX::ScratchImage* GetLoadedImage() const { return loaded_image; }
+	DirectX::TexMetadata GetImageMetadata() const { return image_metadata; }
+	DirectX::ScratchImage* GetLoadedImage() const { return loaded_image; }
 
-	inline int GetMinFilter() const { return min_filter; }
+	int GetMinFilter() const { return min_filter; }
 	void SetMinFilter();
-	inline int GetMagFilter() const { return mag_filter; }
+	int GetMagFilter() const { return mag_filter; }
 	void SetMagFilter();
-	inline int GetWrapMode() const { return wrap_mode; }
+	int GetWrapMode() const { return wrap_mode; }
 	void SetWrapMode();
 
 	void SetTextureOptions() const;
