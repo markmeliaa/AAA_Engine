@@ -1,9 +1,6 @@
 #ifndef __Panel_H__
 #define __Panel_H__
 
-#include "Globals.h"
-#include "Application.h"
-
 #include <imgui.h>
 #include <imgui_impl_sdl.h>
 #include <imgui_impl_opengl3.h>
@@ -13,6 +10,10 @@ class Panel
 public:
 
 	Panel()
+	{
+	}
+
+	virtual ~Panel()
 	{
 	}
 
@@ -32,7 +33,7 @@ private:
 	bool focused = false;
 
 protected:
-	ImVec4* colors;
+	ImVec4* colors = nullptr;
 };
 
 #endif // __Panel_H__

@@ -2,7 +2,6 @@
 #define __Model_H__
 
 #include "Globals.h"
-#include "Mesh.h"
 
 #include <GL/glew.h>
 #include <assimp/scene.h>
@@ -10,6 +9,8 @@
 
 #include <vector>
 #include <string>
+
+class Mesh;
 
 class Model
 {

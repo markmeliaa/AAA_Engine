@@ -2,7 +2,6 @@
 #define __ModuleProgram_H__
 
 #include "Module.h"
-#include "Globals.h"
 
 class ModuleProgram : public Module
 {

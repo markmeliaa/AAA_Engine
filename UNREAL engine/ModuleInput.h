@@ -2,7 +2,6 @@
 #define __ModuleInput_H__
 
 #include "Module.h"
-#include "Globals.h"
 
 #include <Math/float2.h>
 
@@ -36,7 +35,7 @@ public:
 	void SetMouseWheel(const bool& wheel) { mouseWheelMoving = wheel; }
 
 private:
-	const uint8_t *keyboard = NULL;
+	const uint8_t* keyboard = NULL;
 	MouseButtonStates mouseButtons[MOUSEBUTTONS] = { MouseButtonStates::REST };
 
 	float2 mouseLastPos = { 0, 0 };

@@ -4,6 +4,7 @@
 #include "ModuleEditor.h"
 #include "ModuleDebugDraw.h"
 #include "ModuleCamera.h"
+#include "Model.h"
 
 #include <SDL.h>
 #include <GL/glew.h>

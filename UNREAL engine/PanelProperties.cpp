@@ -6,6 +6,8 @@
 #include "ModuleTexture.h"
 #include "ModuleRender.h"
 #include "ModuleCamera.h"
+#include "Model.h"
+#include "Mesh.h"
 
 #include <imgui.h>
 #include <imgui_impl_sdl.h>

@@ -1,4 +1,5 @@
 #include "PanelAbout.h"
+#include "Globals.h"
 
 #include <imgui.h>
 #include <imgui_impl_sdl.h>
@@ -36,7 +37,7 @@ void PanelAbout::Draw()
 	ImGui::Text("Developed by Mark Meliaa.");
 	ImGui::Separator();
 
-	ImGui::Text("So far, the libraries being used are:");
+	ImGui::Text("The libraries that were used for this engine are:");
 	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "	- SDL");
 	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "	- GLEW");
 	ImGui::TextColored(ImVec4(1.0f, 1.0f, 0.0f, 1.0f), "	- MathGeoLib");

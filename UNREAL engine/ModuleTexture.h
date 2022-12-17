@@ -2,7 +2,6 @@
 #define __ModuleTexture_H__
 
 #include "Module.h"
-#include "Globals.h"
 
 #include <GL/glew.h>
 #include <DirectXTex.h>

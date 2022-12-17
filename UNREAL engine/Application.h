@@ -2,10 +2,10 @@
 #define __Application_H__
 
 #include "Globals.h"
-#include "Module.h"
 
 #include <list>
 
+class Module;
 class ModuleRender;
 class ModuleWindow;
 class ModuleTextures;

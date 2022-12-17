@@ -2,11 +2,11 @@
 #define __ModuleCamera_H__
 
 #include "Module.h"
-#include "Globals.h"
-#include "Model.h"
 
 #include <Geometry/Frustum.h>
 #include <Math/float3x3.h>
+
+class Model;
 
 class ModuleCamera : public Module
 {

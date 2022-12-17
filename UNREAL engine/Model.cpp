@@ -1,5 +1,6 @@
 #include "Application.h"
 #include "Model.h"
+#include "Mesh.h"
 #include "ModuleTexture.h"
 #include "ModuleEditor.h"
 

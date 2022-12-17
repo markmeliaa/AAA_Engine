@@ -4,6 +4,7 @@
 #include "ModuleInput.h"
 #include "ModuleWindow.h"
 #include "ModuleRender.h"
+#include "Model.h"
 
 #include <GL/glew.h>
 #include <SDL.h>
