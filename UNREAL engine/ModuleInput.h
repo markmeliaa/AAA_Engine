@@ -36,7 +36,7 @@ public:
 	void SetMouseWheel(const bool& wheel) { mouseWheelMoving = wheel; }
 
 private:
-	const Uint8 *keyboard = NULL;
+	const uint8_t *keyboard = NULL;
 	MouseButtonStates mouseButtons[MOUSEBUTTONS] = { MouseButtonStates::REST };
 
 	float2 mouseLastPos = { 0, 0 };
