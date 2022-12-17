@@ -17,7 +17,7 @@ public:
 
 	GLuint LoadTexture(const char* image_file_name);
 
-	DirectX::TexMetadata GetImageMetadata() const { return image_metadata; }
+	const DirectX::TexMetadata& GetImageMetadata() const { return image_metadata; }
 	DirectX::ScratchImage* GetLoadedImage() const { return loaded_image; }
 
 	int GetMinFilter() const { return min_filter; }

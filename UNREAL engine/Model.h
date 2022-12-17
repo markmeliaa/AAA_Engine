@@ -22,12 +22,11 @@ public:
 	std::vector<Mesh*> GetMeshes() const { return meshes; }
 	int GetNumberVertices() const { return total_num_vertices; }
 	int GetNumberIndices() const { return total_num_indices; }
-	Sphere GetBaseModelBounds() const { return base_model_bounds; }
-	Sphere GetCurrentModelBounds() const { return current_model_bounds; }
+	const Sphere& GetCurrentModelBounds() const { return current_model_bounds; }
 	void SetCurrentModelBounds(const Sphere& s) { current_model_bounds = s; }
 
 	GLuint GetTexture() const { return current_texture; }
-	std::string GetTextureName() const { return texture_name; }
+	const std::string& GetTextureName() const { return texture_name; }
 
 private:
 	void Load(const char* file_name);

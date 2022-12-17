@@ -29,8 +29,8 @@ public:
 	bool GetKey(const int& key) const { return keyboard[key]; }
 
 	bool GetMouseButton(const int& button) const { return mouseButtons[button] == MouseButtonStates::DOWN; }
-	float2 GetMouseInput() const { return mouseCurrentPos; }
-	float2 GetMouseWheelInput() const { return mouseWheel; }
+	const float2& GetMouseInput() const { return mouseCurrentPos; }
+	const float2& GetMouseWheelInput() const { return mouseWheel; }
 
 	bool GetMouseWheelMoving() const { return mouseWheelMoving; }
 	void SetMouseWheel(const bool& wheel) { mouseWheelMoving = wheel; }
