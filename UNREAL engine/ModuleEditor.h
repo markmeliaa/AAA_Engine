@@ -3,7 +3,6 @@
 
 #include "Module.h"
 
-#include <list>
 #include <vector>
 
 class Panel;
@@ -40,7 +39,7 @@ public:
 	bool IsAnyWindowsFocused();
 
 private:
-	std::list<Panel*> panels;
+	std::vector<Panel*> panels;
 
 	update_status DrawMainMenu();
 	void SetUpEditorColors();

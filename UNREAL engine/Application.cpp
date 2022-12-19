@@ -1,3 +1,5 @@
+#pragma warning( disable : 4267 )
+
 #include "Application.h"
 #include "ModuleWindow.h"
 #include "ModuleInput.h"
@@ -29,9 +31,9 @@ Application::Application()
 
 Application::~Application()
 {
-	for(list<Module*>::iterator it = modules.begin(); it != modules.end(); ++it)
+	for(int i = 0; i < modules.size(); ++i)
     {
-        delete *it;
+        delete modules[i];
     }
 }
 
@@ -39,14 +41,14 @@ bool Application::Init()
 {
 	bool ret = true;
 
-	for(list<Module*>::iterator it = modules.begin(); it != modules.end() && ret; ++it)
-		ret = (*it)->Init();
+	for(int i = 0; i < modules.size(); ++i)
+		ret = modules[i]->Init();
 
 	D_LOG("Application Start --------------")
 	App->editor->log.emplace_back("-------------- Application Start --------------");
 
-	for (list<Module*>::iterator it = modules.begin(); it != modules.end() && ret; ++it)
-		ret = (*it)->Start();
+	for (int i = 0; i < modules.size(); ++i)
+		ret = modules[i]->Start();
 
 	return ret;
 }
@@ -61,14 +63,14 @@ update_status Application::Update()
 		unsigned delta_ms = now_time - previous_time;
 		delta_time = delta_ms / 1000.0f;
 
-		for (list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
-			ret = (*it)->PreUpdate();
+		for (int i = 0; i < modules.size() && ret == UPDATE_CONTINUE; ++i)
+			ret = modules[i]->PreUpdate();
 
-		for (list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
-			ret = (*it)->Update();
+		for (int i = 0; i < modules.size() && ret == UPDATE_CONTINUE; ++i)
+			ret = modules[i]->Update();
 
-		for (list<Module*>::iterator it = modules.begin(); it != modules.end() && ret == UPDATE_CONTINUE; ++it)
-			ret = (*it)->PostUpdate();
+		for (int i = 0; i < modules.size() && ret == UPDATE_CONTINUE; ++i)
+			ret = modules[i]->PostUpdate();
 	}
 	previous_time = now_time;
 
@@ -79,8 +81,8 @@ bool Application::CleanUp()
 {
 	bool ret = true;
 
-	for(list<Module*>::reverse_iterator it = modules.rbegin(); it != modules.rend() && ret; ++it)
-		ret = (*it)->CleanUp();
+	for(int i = modules.size() - 1; i >= 0; --i)
+		ret = modules[i]->CleanUp();
 
 	return ret;
 }

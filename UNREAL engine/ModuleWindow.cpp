@@ -92,8 +92,11 @@ bool ModuleWindow::CleanUp()
 	return true;
 }
 
-void ModuleWindow::SetWindowSize(const int& width, const int& height)
+void ModuleWindow::SetWindowSize(int width, int height)
 {
+	if (width < 820) width = 820;
+	if (height < 685) height = 685;
+
 	int display_index = SDL_GetWindowDisplayIndex(window);
 	SDL_SetWindowSize(window, width, height);
 	SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED_DISPLAY(display_index), SDL_WINDOWPOS_CENTERED_DISPLAY(display_index));

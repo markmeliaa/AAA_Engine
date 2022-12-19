@@ -3,7 +3,7 @@
 
 #include "Globals.h"
 
-#include <list>
+#include <vector>
 
 class Module;
 class ModuleRender;
@@ -42,7 +42,7 @@ public:
 	float GetDeltaTime() const;
 
 private:
-	std::list<Module*> modules;
+	std::vector<Module*> modules;
 
 	unsigned previous_time = 0;
 	float delta_time = 0.0f;

@@ -19,6 +19,12 @@ bool ModuleTexture::CleanUp()
 
 GLuint ModuleTexture::LoadTexture(const char* image_file_name)
 {
+	if (loaded_image != nullptr)
+	{
+		DirectX::ScratchImage* last_loaded_image = loaded_image;
+		delete last_loaded_image;
+	}
+
 	loaded_image = new DirectX::ScratchImage;
 	DirectX::ScratchImage* flip = new DirectX::ScratchImage;
 	DirectX::TexMetadata this_image_metadata;
@@ -36,6 +42,9 @@ GLuint ModuleTexture::LoadTexture(const char* image_file_name)
 			loadResult = LoadFromWICFile(w_image_file_name, DirectX::WIC_FLAGS_NONE, &this_image_metadata, *flip);
 			if (FAILED(loadResult))
 			{
+				DirectX::ScratchImage* last_flip = flip;
+				delete last_flip;
+
 				flip = nullptr;
 				D_LOG("Loading texture FAILED with: %s", image_file_name);
 				//App->editor->log.emplace_back("Loading texture FAILED with:");
@@ -50,7 +59,8 @@ GLuint ModuleTexture::LoadTexture(const char* image_file_name)
 	image_metadata = this_image_metadata;
 
 	// Allocated memory on the heap must be deallocated
-	delete flip;
+	if (flip != nullptr)
+		delete flip;
 	delete[] w_image_file_name;
 
 	return CheckImageMetadata();

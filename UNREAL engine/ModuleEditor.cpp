@@ -24,10 +24,12 @@ ModuleEditor::ModuleEditor()
 
 ModuleEditor::~ModuleEditor()
 {
-	for (list<Panel*>::iterator it = panels.begin(); it != panels.end(); ++it)
+	for (int i = 0; i < panels.size(); ++i)
 	{
-		delete* it;
+		delete panels[i];
 	}
+
+	log = {};
 }
 
 bool ModuleEditor::Init()
@@ -71,8 +73,8 @@ update_status ModuleEditor::Update()
 	SetUpEditorColors();
 	update_status ret = DrawMainMenu();
 
-	for (list<Panel*>::iterator it = panels.begin(); it != panels.end(); ++it)
-		(*it)->Draw();
+	for (int i = 0; i < panels.size(); ++i)
+		panels[i]->Draw();
 
 	return ret;
 }
@@ -97,8 +99,8 @@ bool ModuleEditor::CleanUp()
 
 	bool ret = true;
 
-	for (list<Panel*>::reverse_iterator it = panels.rbegin(); it != panels.rend() && ret; ++it)
-		ret = (*it)->CleanUp();
+	for (int i = 0; i < panels.size(); ++i)
+		ret = panels[i]->CleanUp();
 
 	return ret;
 }
@@ -157,9 +159,9 @@ void ModuleEditor::CalculateMilisecPerFrame()
 
 bool ModuleEditor::IsAnyWindowsFocused()
 {
-	for (list<Panel*>::iterator it = panels.begin(); it != panels.end(); ++it)
+	for (int i = 0; i < panels.size(); ++i)
 	{
-		if ((*it)->getFocused())
+		if (panels[i]->getFocused())
 			return true;
 	}
 
