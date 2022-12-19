@@ -9,6 +9,7 @@
 #include <SDL.h>
 #include <GL/glew.h>
 #include <string>
+#include <assert.h>
 
 ModuleRender::ModuleRender()
 {
@@ -110,6 +111,8 @@ bool ModuleRender::CleanUp()
 
 void ModuleRender::LoadNewModel(const char* file_name)
 {
+	assert(file_name != nullptr);
+
 	// Delete last model from the heap before charging a new one
 	Model* last_model = model;
 	delete last_model;

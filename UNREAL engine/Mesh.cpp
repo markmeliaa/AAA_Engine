@@ -4,6 +4,7 @@
 #include "ModuleCamera.h"
 
 #include <Math/float2.h>
+#include <assert.h>
 
 Mesh::Mesh(const aiMesh* mesh)
 {
@@ -51,6 +52,8 @@ void Mesh::Draw(const std::vector<GLuint>& model_textures)
 
 void Mesh::LoadVBO(const aiMesh* mesh)
 {
+	assert(mesh != nullptr);
+
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 
@@ -76,6 +79,8 @@ void Mesh::LoadVBO(const aiMesh* mesh)
 
 void Mesh::LoadEBO(const aiMesh* mesh)
 {
+	assert(mesh != nullptr);
+
 	glGenBuffers(1, &ebo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 

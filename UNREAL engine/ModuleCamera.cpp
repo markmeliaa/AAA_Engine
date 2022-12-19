@@ -11,6 +11,7 @@
 #include <SDL_scancode.h>
 #include <Geometry/Sphere.h>
 #include <Math/Quat.h>
+#include <assert.h>
 
 ModuleCamera::ModuleCamera()
 {
@@ -179,6 +180,8 @@ void ModuleCamera::ResetModelMat()
 
 void ModuleCamera::Focus(const Model* model)
 {
+	assert(model != nullptr);
+
 	SetPos(model->GetCurrentModelBounds().Centroid());
 
 	float away = model->GetCurrentModelBounds().r * 1.4f;
@@ -209,6 +212,8 @@ void ModuleCamera::Rotate(const float3x3& rotationDeltaMatrix)
 
 void ModuleCamera::Orbit(const Model* model, const float2& mouse_input, const float& rotate_speed)
 {
+	assert(model != nullptr);
+
 	float3 center_sphere_model = App->renderer->GetModel()->GetCurrentModelBounds().Centroid();
 	float3 distance_from_model = frustum->Pos() - center_sphere_model;
 

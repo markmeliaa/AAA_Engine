@@ -23,6 +23,7 @@ public:
 	std::vector<Mesh*> GetMeshes() const { return meshes; }
 	int GetNumberVertices() const { return total_num_vertices; }
 	int GetNumberIndices() const { return total_num_indices; }
+	const Sphere& GetBaseModelBounds() const { return base_model_bounds; }
 	const Sphere& GetCurrentModelBounds() const { return current_model_bounds; }
 	void SetCurrentModelBounds(const Sphere& s) { current_model_bounds = s; }
 

@@ -25,7 +25,7 @@ public:
 	update_status PreUpdate() override;
 	bool CleanUp() override;
 
-	bool GetKey(const int& key) const { return keyboard[key]; }
+	bool GetKey(int key) const { return keyboard[key]; }
 
 	bool GetMouseButton(int button) const { return mouseButtons[button] == MouseButtonStates::DOWN; }
 	const float2& GetMouseInput() const { return mouseCurrentPos; }

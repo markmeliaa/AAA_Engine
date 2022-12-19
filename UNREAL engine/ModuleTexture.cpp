@@ -3,6 +3,8 @@
 #include "ModuleTexture.h"
 #include "ModuleEditor.h"
 
+#include <assert.h>
+
 ModuleTexture::ModuleTexture()
 {
 }
@@ -19,6 +21,8 @@ bool ModuleTexture::CleanUp()
 
 GLuint ModuleTexture::LoadTexture(const char* image_file_name)
 {
+	assert(image_file_name != nullptr);
+
 	if (loaded_image != nullptr)
 	{
 		DirectX::ScratchImage* last_loaded_image = loaded_image;

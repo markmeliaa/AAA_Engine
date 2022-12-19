@@ -79,16 +79,16 @@ void PanelProperties::Draw()
 			App->camera->SetModelScale(float3(scale[0], scale[1], scale[2]));
 		}
 
-		float4 rotation_result = float4(App->renderer->GetModel()->GetCurrentModelBounds().Centroid().x,
-			App->renderer->GetModel()->GetCurrentModelBounds().Centroid().y,
-			App->renderer->GetModel()->GetCurrentModelBounds().Centroid().z, 1.0f) * (float4x4::RotateX(-rot[0]) *
+		float4 rotation_result = float4(App->renderer->GetModel()->GetBaseModelBounds().Centroid().x,
+			App->renderer->GetModel()->GetBaseModelBounds().Centroid().y,
+			App->renderer->GetModel()->GetBaseModelBounds().Centroid().z, 1.0f) * (float4x4::RotateX(-rot[0]) *
 				float4x4::RotateY(rot[1]) * float4x4::RotateZ(-rot[2]));
 
 		App->renderer->GetModel()->SetCurrentModelBounds(
 				Sphere(float3((rotation_result.x + pos[0]) * Abs(scale[0]),
 							  (rotation_result.y + pos[1]) * scale[1],
 							  (rotation_result.z + pos[2]) * Abs(scale[2])),
-				App->renderer->GetModel()->GetCurrentModelBounds().r * Max(Abs(scale[0]), Abs(scale[1]), Abs(scale[2]))));
+				App->renderer->GetModel()->GetBaseModelBounds().r * Max(Abs(scale[0]), Abs(scale[1]), Abs(scale[2]))));
 
 		ImGui::Separator();
 

@@ -3,6 +3,7 @@
 #include "ModuleEditor.h"
 
 #include <GL/glew.h>
+#include <assert.h>
 
 ModuleProgram::ModuleProgram()
 {
@@ -10,6 +11,7 @@ ModuleProgram::ModuleProgram()
 
 ModuleProgram::~ModuleProgram()
 {
+	glDeleteProgram(program);
 }
 
 bool ModuleProgram::Start()
@@ -20,6 +22,8 @@ bool ModuleProgram::Start()
 
 char* ModuleProgram::LoadShaderSource(const char* shader_file_name)
 {
+	assert(shader_file_name != nullptr);
+
 	char* data = nullptr;
 	FILE* file = nullptr;
 
@@ -37,10 +41,12 @@ char* ModuleProgram::LoadShaderSource(const char* shader_file_name)
 	return data;
 }
 
-unsigned ModuleProgram::CompileShader(unsigned type, const char* source)
+unsigned ModuleProgram::CompileShader(unsigned type, const char* shader_source)
 {
+	assert(shader_source != nullptr);
+
 	unsigned shader_id = glCreateShader(type);
-	glShaderSource(shader_id, 1, &source, 0);
+	glShaderSource(shader_id, 1, &shader_source, 0);
 	glCompileShader(shader_id);
 
 	int res = GL_FALSE;

@@ -8,6 +8,7 @@
 #include <assimp/postprocess.h>
 #include <Math/float3.h>
 #include <string>
+#include <assert.h>
 
 Model::Model(const char* file_name)
 {
@@ -40,6 +41,8 @@ void Model::Draw()
 
 void Model::Load(const char* file_name)
 {
+	assert(file_name != nullptr);
+
 	const aiScene* scene = aiImportFile(file_name, aiProcessPreset_TargetRealtime_MaxQuality);
 	if (scene)
 	{
@@ -62,6 +65,8 @@ void Model::Load(const char* file_name)
 
 void Model::LoadMaterials(aiMaterial** materials, unsigned int numMaterials, const char* file_name)
 {
+	assert(materials != nullptr && file_name != nullptr);
+
 	aiString file;
 	this->materials.reserve(numMaterials);
 
@@ -138,6 +143,8 @@ void Model::LoadMaterials(aiMaterial** materials, unsigned int numMaterials, con
 
 void Model::LoadMeshes(aiMesh** meshes, unsigned int numMeshes)
 {
+	assert(meshes != nullptr);
+
 	this->meshes.reserve(numMeshes);
 
 	D_LOG("For each mesh, create and load its VBO, EBO and VAO");
@@ -150,6 +157,8 @@ void Model::LoadMeshes(aiMesh** meshes, unsigned int numMeshes)
 
 void Model::CreateModelSphere(aiMesh** meshes, unsigned int numMeshes)
 {
+	assert(meshes != nullptr);
+
 	for (int i = 0; i < this->meshes.size(); ++i)
 	{
 		total_num_vertices += this->meshes[i]->GetNumVertices();
