@@ -22,12 +22,12 @@ private:
 	void LoadEBO(const aiMesh* mesh);
 	void CreateVAO();
 
-	GLuint vbo;
-	GLuint ebo;
-	GLuint vao;
-	int num_vertices;
-	int num_indices;
-	int material_index;
+	GLuint vbo = 0;
+	GLuint ebo = 0;
+	GLuint vao = 0;
+	int num_vertices = 0;
+	int num_indices = 0;
+	int material_index = 0;
 };
 
 #endif // __Mesh_H__

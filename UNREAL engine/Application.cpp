@@ -11,20 +11,21 @@
 #include "ModuleRender.h"
 
 #include <SDL_timer.h>
+#include <assert.h>
 
 using namespace std;
 
 Application::Application()
 {
-	// Order matters: they will Init/start/update in this order
+	// Order matters: they will Init/start/update in this order and clean up in reverse order
 	modules.push_back(window = new ModuleWindow());
 	modules.push_back(input = new ModuleInput());
 
 	modules.push_back(program = new ModuleProgram());
-	modules.push_back(editor = new ModuleEditor());
-	modules.push_back(draw = new ModuleDebugDraw());
 	modules.push_back(camera = new ModuleCamera());
+	modules.push_back(draw = new ModuleDebugDraw());
 	modules.push_back(texture = new ModuleTexture());
+	modules.push_back(editor = new ModuleEditor());
 
 	modules.push_back(renderer = new ModuleRender());
 }
@@ -89,6 +90,8 @@ bool Application::CleanUp()
 
 void Application::RequestBrowser(const char* url)
 {
+	assert(url != nullptr);
+
 	ShellExecuteA(NULL, "open", url, NULL, NULL, SW_SHOWNORMAL);
 }
 

@@ -45,8 +45,8 @@ public:
 	SDL_Surface* screen_surface = NULL;
 
 private:
-	int currentWidth;
-	int currentHeight;
+	int currentWidth = 0;
+	int currentHeight = 0;
 
 	SDL_DisplayMode max_win_size;
 };

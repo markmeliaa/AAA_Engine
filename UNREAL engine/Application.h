@@ -42,7 +42,7 @@ public:
 	float GetDeltaTime() const;
 
 private:
-	std::vector<Module*> modules;
+	std::vector<Module*> modules = {};
 
 	unsigned previous_time = 0;
 	float delta_time = 0.0f;

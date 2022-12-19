@@ -36,16 +36,16 @@ private:
 	void LoadMeshes(aiMesh** meshes, unsigned int numMeshes);
 	void CreateModelSphere(aiMesh** meshes, unsigned int numMeshes);
 
-	std::vector<GLuint> materials;
-	std::vector<Mesh*> meshes;
+	std::vector<GLuint> materials = {};
+	std::vector<Mesh*> meshes = {};
 
 	int total_num_vertices = 0;
 	int total_num_indices = 0;
-	Sphere base_model_bounds;
-	Sphere current_model_bounds;
+	Sphere base_model_bounds = Sphere();
+	Sphere current_model_bounds = Sphere();
 
 	GLuint current_texture = 0;
-	std::string texture_name;
+	std::string texture_name = "";
 };
 
 #endif // __Model_H__

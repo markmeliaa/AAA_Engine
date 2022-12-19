@@ -24,7 +24,7 @@ public:
 	update_status PostUpdate() override;
 	bool CleanUp() override;
 
-	std::vector<const char*> log;
+	std::vector<const char*> log = {};
 
 	PanelAbout* about = nullptr;
 	PanelConsole* console = nullptr;
@@ -39,7 +39,7 @@ public:
 	bool IsAnyWindowsFocused();
 
 private:
-	std::vector<Panel*> panels;
+	std::vector<Panel*> panels = {};
 
 	update_status DrawMainMenu();
 	void SetUpEditorColors();

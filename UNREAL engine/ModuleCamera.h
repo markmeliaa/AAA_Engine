@@ -67,12 +67,12 @@ private:
 	void LookAt(const float3& objective);
 
 	float aspectRatio = 0.0f;
-	Frustum* frustum;
+	Frustum* frustum = nullptr;
 
-	float4x4 model;
-	float3 model_trans, model_scale;
+	float4x4 model = float4x4::zero;
+	float3 model_trans, model_scale = float3::zero;
 	float rotX, rotY, rotZ = 0.0f;
-	float4x4 model_rot;
+	float4x4 model_rot = float4x4::zero;
 
 	float move_speed = 3.0f;
 	float rotate_speed = 15.0f;
