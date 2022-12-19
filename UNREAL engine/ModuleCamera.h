@@ -29,10 +29,10 @@ public:
 	float GetModelRotX() const { return rotX; }
 	float GetModelRotY() const { return rotY; }
 	float GetModelRotZ() const { return rotZ; }
-	void SetModelRotX(const float& x) { rotX = x; }
-	void SetModelRotY(const float& y) { rotY = y; }
-	void SetModelRotZ(const float& z) { rotZ = z; }
-	void SetModelRot(const float& x, const float& y, const float& z);
+	void SetModelRotX(float x) { rotX = x; }
+	void SetModelRotY(float y) { rotY = y; }
+	void SetModelRotZ(float z) { rotZ = z; }
+	void SetModelRot(float x, float y, float z);
 
 	const float3& GetModelScale() const { return model_scale; }
 	void SetModelScale(const float3& s) { model_scale = s; }
@@ -40,16 +40,16 @@ public:
 	void ResetModelMat();
 
 	float GetNearPlane() const { return frustum->NearPlaneDistance(); }
-	void SetNearPlane(const float& np) { frustum->SetViewPlaneDistances(np, frustum->FarPlaneDistance()); }
+	void SetNearPlane(float np) { frustum->SetViewPlaneDistances(np, frustum->FarPlaneDistance()); }
 	float GetFarPlane() const { return frustum->FarPlaneDistance(); }
-	void SetFarPlane(const float& fp) { frustum->SetViewPlaneDistances(frustum->NearPlaneDistance(), fp); }
+	void SetFarPlane(float fp) { frustum->SetViewPlaneDistances(frustum->NearPlaneDistance(), fp); }
 
 	float GetMoveSpeed() const { return move_speed; }
-	void SetMoveSpeed(const float& m) { move_speed = m; }
+	void SetMoveSpeed(float m) { move_speed = m; }
 	float GetRotSpeed() const { return rotate_speed; }
-	void SetRotSpeed(const float& r) { rotate_speed = r; }
+	void SetRotSpeed(float r) { rotate_speed = r; }
 	float GetZoomSpeed() const { return zoom_speed; }
-	void SetZoomSpeed(const float& z) { zoom_speed = z; }
+	void SetZoomSpeed(float z) { zoom_speed = z; }
 
 	void Focus(const Model* model);
 

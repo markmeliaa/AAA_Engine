@@ -60,7 +60,7 @@ void Model::Load(const char* file_name)
 	}
 }
 
-void Model::LoadMaterials(aiMaterial** materials, const unsigned int& numMaterials, const char* file_name)
+void Model::LoadMaterials(aiMaterial** materials, unsigned int numMaterials, const char* file_name)
 {
 	aiString file;
 	this->materials.reserve(numMaterials);
@@ -136,7 +136,7 @@ void Model::LoadMaterials(aiMaterial** materials, const unsigned int& numMateria
 	}
 }
 
-void Model::LoadMeshes(aiMesh** meshes, const unsigned int& numMeshes)
+void Model::LoadMeshes(aiMesh** meshes, unsigned int numMeshes)
 {
 	this->meshes.reserve(numMeshes);
 
@@ -148,7 +148,7 @@ void Model::LoadMeshes(aiMesh** meshes, const unsigned int& numMeshes)
 	}
 }
 
-void Model::CreateModelSphere(aiMesh** meshes, const unsigned int& numMeshes)
+void Model::CreateModelSphere(aiMesh** meshes, unsigned int numMeshes)
 {
 	for (int i = 0; i < this->meshes.size(); ++i)
 	{

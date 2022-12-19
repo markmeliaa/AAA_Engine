@@ -162,7 +162,7 @@ bool ModuleCamera::CleanUp()
 	return true;
 }
 
-void ModuleCamera::SetModelRot(const float& x, const float& y, const float& z)
+void ModuleCamera::SetModelRot(float x, float y, float z)
 {
 	model_rot = float4x4::RotateX(x) * float4x4::RotateY(y) * float4x4::RotateZ(z);
 }

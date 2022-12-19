@@ -15,7 +15,7 @@ public:
 
 private:
 	char* LoadShaderSource(const char* shader_file_name);
-	unsigned CompileShader(const unsigned& type, const char* source);
+	unsigned CompileShader(unsigned type, const char* source);
 	unsigned CreateProgram();
 
 	unsigned int program = 0;

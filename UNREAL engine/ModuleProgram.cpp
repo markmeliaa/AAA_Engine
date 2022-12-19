@@ -37,7 +37,7 @@ char* ModuleProgram::LoadShaderSource(const char* shader_file_name)
 	return data;
 }
 
-unsigned ModuleProgram::CompileShader(const unsigned& type, const char* source)
+unsigned ModuleProgram::CompileShader(unsigned type, const char* source)
 {
 	unsigned shader_id = glCreateShader(type);
 	glShaderSource(shader_id, 1, &source, 0);

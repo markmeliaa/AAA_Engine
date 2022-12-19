@@ -31,9 +31,9 @@ public:
 
 private:
 	void Load(const char* file_name);
-	void LoadMaterials(aiMaterial** materials, const unsigned int& numMaterials, const char* file_name);
-	void LoadMeshes(aiMesh** meshes, const unsigned int& numMeshes);
-	void CreateModelSphere(aiMesh** meshes, const unsigned int& numMeshes);
+	void LoadMaterials(aiMaterial** materials, unsigned int numMaterials, const char* file_name);
+	void LoadMeshes(aiMesh** meshes, unsigned int numMeshes);
+	void CreateModelSphere(aiMesh** meshes, unsigned int numMeshes);
 
 	std::vector<GLuint> materials;
 	std::vector<Mesh*> meshes;
