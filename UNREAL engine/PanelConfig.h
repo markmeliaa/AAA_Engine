@@ -7,7 +7,7 @@ class PanelConfig : public Panel
 {
 public:
 	PanelConfig();
-	~PanelConfig();
+	~PanelConfig() override;
 
 	void Draw() override;
 };

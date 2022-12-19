@@ -9,7 +9,7 @@ class ModuleRender : public Module
 {
 public:
 	ModuleRender();
-	~ModuleRender();
+	~ModuleRender() override;
 
 	bool Init() override;
 	bool Start() override;

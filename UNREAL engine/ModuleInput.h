@@ -19,7 +19,7 @@ class ModuleInput : public Module
 public:
 	
 	ModuleInput();
-	~ModuleInput();
+	~ModuleInput() override;
 
 	bool Init() override;
 	update_status PreUpdate() override;
@@ -27,12 +27,12 @@ public:
 
 	bool GetKey(const int& key) const { return keyboard[key]; }
 
-	bool GetMouseButton(const int& button) const { return mouseButtons[button] == MouseButtonStates::DOWN; }
+	bool GetMouseButton(int button) const { return mouseButtons[button] == MouseButtonStates::DOWN; }
 	const float2& GetMouseInput() const { return mouseCurrentPos; }
 	const float2& GetMouseWheelInput() const { return mouseWheel; }
 
 	bool GetMouseWheelMoving() const { return mouseWheelMoving; }
-	void SetMouseWheel(const bool& wheel) { mouseWheelMoving = wheel; }
+	void SetMouseWheel(bool wheel) { mouseWheelMoving = wheel; }
 
 private:
 	const uint8_t* keyboard = NULL;

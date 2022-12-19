@@ -9,7 +9,7 @@ class PanelProperties : public Panel
 {
 public:
 	PanelProperties();
-	~PanelProperties();
+	~PanelProperties() override;
 
 	void Draw() override;
 

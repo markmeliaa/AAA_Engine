@@ -7,7 +7,7 @@ class ModuleProgram : public Module
 {
 public:
 	ModuleProgram();
-	~ModuleProgram();
+	~ModuleProgram() override;
 
 	bool Start() override;
 

@@ -12,7 +12,7 @@ class ModuleCamera : public Module
 {
 public:
 	ModuleCamera();
-	~ModuleCamera();
+	~ModuleCamera() override;
 
 	bool Init() override;
 	bool Start() override;

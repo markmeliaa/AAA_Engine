@@ -7,7 +7,7 @@ class PanelAbout : public Panel
 {
 public:
 	PanelAbout();
-	~PanelAbout();
+	~PanelAbout() override;
 
 	void Draw() override;
 };
