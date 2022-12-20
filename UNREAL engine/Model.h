@@ -4,13 +4,14 @@
 #include "Globals.h"
 
 #include <GL/glew.h>
-#include <assimp/scene.h>
 #include <Geometry/Sphere.h>
 
 #include <vector>
 #include <string>
 
 class Mesh;
+struct aiMesh;
+struct aiMaterial;
 
 class Model
 {

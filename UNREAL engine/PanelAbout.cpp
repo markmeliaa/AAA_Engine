@@ -26,7 +26,7 @@ void PanelAbout::Draw()
 
 	ImGui::SetNextWindowSize(ImVec2(385, 265), ImGuiCond_Always);
 	ImGui::SetNextWindowPos(ImVec2(0, 18), ImGuiCond_Always);
-	ImGui::Begin("About...", &visible);
+	ImGui::Begin("About", &visible);
 
 	colors = ImGui::GetStyle().Colors;
 	colors[ImGuiCol_Text] = ImVec4(1, 1, 1, 1);

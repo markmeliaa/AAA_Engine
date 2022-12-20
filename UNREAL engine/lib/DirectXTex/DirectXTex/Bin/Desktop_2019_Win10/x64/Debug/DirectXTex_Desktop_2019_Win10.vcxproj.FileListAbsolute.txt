@@ -1,1 +1,2 @@
 C:\Users\marca\Desktop\Markk\Videojocs UPC\Motor C++\AAA_Engine\Source\lib\DirectXTex\DirectXTex\Bin\Desktop_2019_Win10\x64\Debug\DirectXTex.lib
+C:\Users\marca\Desktop\Markk\Videojocs UPC\My Engine C++\AAA_Engine\UNREAL Engine\lib\DirectXTex\DirectXTex\Bin\Desktop_2019_Win10\x64\Debug\DirectXTex.lib

@@ -1,10 +1,11 @@
 #ifndef __Mesh_H__
 #define __Mesh_H__
 
-#include <assimp/mesh.h>
 #include <GL/glew.h>
 
 #include <vector>
+
+struct aiMesh;
 
 class Mesh
 {

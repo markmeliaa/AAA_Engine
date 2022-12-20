@@ -4,14 +4,23 @@
 #include "ModuleTexture.h"
 #include "ModuleEditor.h"
 
+#include <assimp/scene.h>
 #include <assimp/cimport.h>
 #include <assimp/postprocess.h>
 #include <Math/float3.h>
 #include <string>
 #include <assert.h>
 
+void AssimpCallback(const char* info, char* data) {
+	D_LOG("[ASSIMP] %s", info);
+}
+
 Model::Model(const char* file_name)
 {
+	struct aiLogStream assimp_stream;
+	assimp_stream.callback = AssimpCallback;
+	aiAttachLogStream(&assimp_stream);
+
 	Load(file_name);
 }
 
@@ -24,11 +33,13 @@ Model::~Model()
 	{
 		glDeleteTextures(1, &materials[i]);
 	}
+	materials.clear();
 
 	for (int i = 0; i < meshes.size(); ++i) 
 	{
 		delete meshes[i];
 	}
+	meshes.clear();
 }
 
 void Model::Draw()

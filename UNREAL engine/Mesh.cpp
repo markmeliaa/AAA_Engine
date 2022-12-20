@@ -5,6 +5,7 @@
 
 #include <Math/float2.h>
 #include <assert.h>
+#include <assimp/mesh.h>
 
 Mesh::Mesh(const aiMesh* mesh)
 {
