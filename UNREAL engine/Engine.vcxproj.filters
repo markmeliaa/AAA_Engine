@@ -199,6 +199,9 @@
     <ClCompile Include="lib\ImGui\imgui_widgets.cpp">
       <Filter>Libs\ImGui</Filter>
     </ClCompile>
+    <ClCompile Include="ModuleTimer.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Module.h">
@@ -516,6 +519,9 @@
     <ClInclude Include="Dummy.h" />
     <ClInclude Include="resource.h">
       <Filter>Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleTimer.h">
+      <Filter>Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

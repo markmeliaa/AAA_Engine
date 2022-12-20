@@ -15,6 +15,7 @@ class ModuleDebugDraw;
 class ModuleEditor;
 class ModuleCamera;
 class ModuleTexture;
+class ModuleTimer;
 
 class Application
 {
@@ -36,16 +37,12 @@ public:
 	ModuleEditor* editor = nullptr;
 	ModuleCamera* camera = nullptr;
 	ModuleTexture* texture = nullptr;
+	ModuleTimer* timer = nullptr;
 
 	void RequestBrowser(const char* url);
 
-	float GetDeltaTime() const;
-
 private:
 	std::vector<Module*> modules = {};
-
-	unsigned previous_time = 0;
-	float delta_time = 0.0f;
 };
 
 extern Application* App;

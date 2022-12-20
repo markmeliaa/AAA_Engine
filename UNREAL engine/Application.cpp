@@ -9,6 +9,7 @@
 #include "ModuleCamera.h"
 #include "ModuleTexture.h"
 #include "ModuleRender.h"
+#include "ModuleTimer.h"
 
 #include <SDL_timer.h>
 #include <assert.h>
@@ -26,6 +27,7 @@ Application::Application()
 	modules.push_back(draw = new ModuleDebugDraw());
 	modules.push_back(texture = new ModuleTexture());
 	modules.push_back(editor = new ModuleEditor());
+	modules.push_back(timer = new ModuleTimer());
 
 	modules.push_back(renderer = new ModuleRender());
 }
@@ -58,12 +60,6 @@ update_status Application::Update()
 {
 	update_status ret = UPDATE_CONTINUE;
 
-	unsigned now_time = SDL_GetTicks();
-	if (SDL_TICKS_PASSED(now_time, previous_time))
-	{
-		unsigned delta_ms = now_time - previous_time;
-		delta_time = delta_ms / 1000.0f;
-
 		for (int i = 0; i < modules.size() && ret == UPDATE_CONTINUE; ++i)
 			ret = modules[i]->PreUpdate();
 
@@ -72,8 +68,6 @@ update_status Application::Update()
 
 		for (int i = 0; i < modules.size() && ret == UPDATE_CONTINUE; ++i)
 			ret = modules[i]->PostUpdate();
-	}
-	previous_time = now_time;
 
 	return ret;
 }
@@ -93,9 +87,4 @@ void Application::RequestBrowser(const char* url)
 	assert(url != nullptr);
 
 	ShellExecuteA(NULL, "open", url, NULL, NULL, SW_SHOWNORMAL);
-}
-
-float Application::GetDeltaTime() const
-{
-	return delta_time;
 }

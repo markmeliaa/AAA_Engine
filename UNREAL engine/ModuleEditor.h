@@ -31,11 +31,6 @@ public:
 	PanelConfig* config = nullptr;
 	PanelProperties* props = nullptr;
 
-	float fps_log[85] = {};
-	float milisec_log[85] = {};
-
-	void CalculateFpsPerFrame();
-	void CalculateMilisecPerFrame();
 	bool IsAnyWindowsFocused();
 
 private:

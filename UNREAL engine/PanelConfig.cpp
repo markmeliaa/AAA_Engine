@@ -1,10 +1,10 @@
 #include "Application.h"
 #include "PanelConfig.h"
 #include "ModuleWindow.h"
-#include "ModuleEditor.h"
 #include "ModuleRender.h"
 #include "ModuleCamera.h"
 #include "ModuleTexture.h"
+#include "ModuleTimer.h"
 
 #include <imgui.h>
 #include <imgui_impl_sdl.h>
@@ -46,8 +46,8 @@ void PanelConfig::Draw()
 		static char org_name[128] = "UPC Tech Talent";
 		ImGui::InputText("Organization", org_name, IM_ARRAYSIZE(org_name));
 
-		ImGui::PlotHistogram("##framerate", App->editor->fps_log, IM_ARRAYSIZE(App->editor->fps_log), 0, "Framerate", 0.0f, 100.0f, ImVec2(385.0f, 100.0f));
-		ImGui::PlotHistogram("##milliseconds", App->editor->milisec_log, IM_ARRAYSIZE(App->editor->milisec_log), 0, "Milliseconds", 0.0f, 40.0f, ImVec2(385.0f, 100.0f));
+		ImGui::PlotHistogram("##framerate", App->timer->fps_log, IM_ARRAYSIZE(App->timer->fps_log), 0, "Framerate", 0.0f, 100.0f, ImVec2(385.0f, 100.0f));
+		ImGui::PlotHistogram("##milliseconds", App->timer->milisec_log, IM_ARRAYSIZE(App->timer->milisec_log), 0, "Milliseconds", 0.0f, 40.0f, ImVec2(385.0f, 100.0f));
 		ImGui::Separator();
 
 		colors[ImGuiCol_Text] = ImVec4(0, 0, 0, 1);

@@ -62,9 +62,6 @@ update_status ModuleEditor::PreUpdate()
 	ImGui_ImplSDL2_NewFrame(App->window->window);
 	ImGui::NewFrame();
 
-	CalculateFpsPerFrame();
-	CalculateMilisecPerFrame();
-
 	return UPDATE_CONTINUE;
 }
 
@@ -103,58 +100,6 @@ bool ModuleEditor::CleanUp()
 		ret = panels[i]->CleanUp();
 
 	return ret;
-}
-
-void ModuleEditor::CalculateFpsPerFrame()
-{
-	int last_checked = 0;
-	for (int i = 0; i < sizeof(fps_log) / sizeof(float); ++i)
-	{
-		last_checked = i;
-		if (fps_log[last_checked] == NULL)
-		{
-			fps_log[last_checked] = ImGui::GetIO().Framerate;
-			break;
-		}
-
-		else if (fps_log[last_checked + 1] == NULL)
-		{
-			fps_log[last_checked + 1] = ImGui::GetIO().Framerate;
-			break;
-		}
-
-		else
-			fps_log[last_checked] = fps_log[last_checked + 1];
-	}
-
-	if (last_checked == sizeof(fps_log) / sizeof(float) - 1)
-		fps_log[last_checked] = ImGui::GetIO().Framerate;
-}
-
-void ModuleEditor::CalculateMilisecPerFrame()
-{
-	int last_checked = 0;
-	for (int i = 0; i < sizeof(milisec_log) / sizeof(float); ++i)
-	{
-		last_checked = i;
-		if (milisec_log[last_checked] == NULL)
-		{
-			milisec_log[last_checked] = ImGui::GetIO().DeltaTime * 1000;
-			break;
-		}
-
-		else if (milisec_log[last_checked + 1] == NULL)
-		{
-			milisec_log[last_checked + 1] = ImGui::GetIO().DeltaTime * 1000;
-			break;
-		}
-
-		else
-			milisec_log[last_checked] = milisec_log[last_checked + 1];
-	}
-
-	if (last_checked == sizeof(milisec_log) / sizeof(float) - 1)
-		milisec_log[last_checked] = ImGui::GetIO().DeltaTime * 1000;
 }
 
 bool ModuleEditor::IsAnyWindowsFocused()
