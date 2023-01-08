@@ -57,3 +57,7 @@ There are a some small changes made to the basic tasks required, and they are st
 Something else that was also developed but is not really "extra work" is that the **style of the engine** was changed to be more original and personal, as one of the acceptance criteria for the engine is that it should be original. Also the windows are locked to the positions they are because I prefered for them to be fixed (kind of like in Unity) than to be moved around and in the middle of the rendering view.
 
 Hope you like it! ~Mark
+
+---
+## - **Version 1.1**
+Corrected and added changes regarding some aspects of the engine that were wrong or incomplete.
